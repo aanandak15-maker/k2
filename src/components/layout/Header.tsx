@@ -1,6 +1,7 @@
 import React from 'react';
 import { Bell, ChevronDown, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useToast } from '../../hooks/useToast';
 
 interface HeaderProps {
   title: string;
@@ -14,6 +15,7 @@ interface HeaderProps {
 }
 
 export function Header({ title, subtitle, user, className }: HeaderProps) {
+  const { toast } = useToast();
   return (
     <header className={cn("sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-200 bg-white/80 px-6 backdrop-blur-sm transition-all", className)}>
       <div className="flex items-center gap-4">
@@ -33,14 +35,14 @@ export function Header({ title, subtitle, user, className }: HeaderProps) {
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="relative rounded-full p-2 text-slate-500 hover:bg-slate-100 transition-colors">
+        <button onClick={() => toast({ message: '3 new notifications', variant: 'info' })} className="relative rounded-full p-2 text-slate-500 hover:bg-slate-100 transition-colors">
           <Bell className="h-5 w-5" />
           <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
         </button>
-        
+
         <div className="h-8 w-px bg-slate-200 mx-1" />
 
-        <button className="flex items-center gap-2 rounded-full py-1 pl-1 pr-3 hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-200">
+        <button onClick={() => toast({ message: 'Profile settings coming in v2', variant: 'info' })} className="flex items-center gap-2 rounded-full py-1 pl-1 pr-3 hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-200">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-medium text-sm border border-emerald-200">
             {user?.name.charAt(0) || 'U'}
           </div>

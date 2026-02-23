@@ -4,6 +4,7 @@ import CEODashboardContent from './ceo/CEODashboardContent';
 import CEOFarmersContent from './ceo/CEOFarmersContent';
 import CEOOperationsContent from './ceo/CEOOperationsContent';
 import CEOFinanceContent from './ceo/CEOFinanceContent';
+import CEOMandiPricesContent from './ceo/CEOMandiPricesContent';
 import CEOAnalyticsContent from './ceo/CEOAnalyticsContent';
 import CEOComplianceContent from './ceo/CEOComplianceContent';
 import CEOReportsContent from './ceo/CEOReportsContent';
@@ -34,6 +35,7 @@ export default function CEODashboard({ onHome }: CEODashboardProps) {
       {activeSection === 'farmers' && <CEOFarmersContent />}
       {activeSection === 'operations' && <CEOOperationsContent />}
       {activeSection === 'finance' && <CEOFinanceContent />}
+      {activeSection === 'mandi' && <CEOMandiPricesContent />}
       {activeSection === 'analytics' && <CEOAnalyticsContent />}
       {activeSection === 'compliance' && <CEOComplianceContent />}
       {activeSection === 'reports' && <CEOReportsContent />}

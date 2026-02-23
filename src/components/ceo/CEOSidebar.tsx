@@ -7,7 +7,8 @@ import {
   Banknote,
   TrendingUp,
   ShieldCheck,
-  FileText
+  FileText,
+  LineChart
 } from 'lucide-react';
 
 interface CEOSidebarProps {
@@ -21,6 +22,7 @@ export default function CEOSidebar({ activeSection, setActiveSection }: CEOSideb
     { id: 'farmers', icon: Users, label: 'Farmers' },
     { id: 'operations', icon: Factory, label: 'Operations' },
     { id: 'finance', icon: Banknote, label: 'Finance' },
+    { id: 'mandi', icon: LineChart, label: 'Market Prices' },
     { id: 'analytics', icon: TrendingUp, label: 'Analytics' },
     { id: 'compliance', icon: ShieldCheck, label: 'Compliance' },
     { id: 'reports', icon: FileText, label: 'Reports' },

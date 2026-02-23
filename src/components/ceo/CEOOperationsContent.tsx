@@ -3,8 +3,15 @@ import { StatCard } from '../ui/StatCard';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { ShoppingCart, Truck, Package, CheckCircle } from 'lucide-react';
+import { useAdminStore } from '../../store/AdminStore';
 
 export default function CEOOperationsContent() {
+  const { state } = useAdminStore();
+
+  const totalOrdersValue = state.orders.reduce((acc, o) => acc + o.totalAmount, 0);
+  const fulfilledOrders = state.orders.filter(o => o.status === 'Fulfilled').length;
+  const inStockItems = state.inventory.filter(i => i.status === 'In Stock').length;
+  const inventoryValue = state.inventory.reduce((acc, i) => acc + (i.currentStock * i.averageCost), 0);
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -15,7 +22,7 @@ export default function CEOOperationsContent() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Total Demand Collected"
-          value="₹24.8L"
+          value={`₹${((totalOrdersValue * 1.2) / 100000).toFixed(1)}L`} // Mock multiplier for demand
           trend="↑ 12%"
           trendDirection="up"
           pulseColor="green"
@@ -23,24 +30,24 @@ export default function CEOOperationsContent() {
         />
         <StatCard
           title="POs Raised"
-          value="₹22.1L"
-          trend="89% of demand"
+          value={`₹${(totalOrdersValue / 100000).toFixed(2)}L`}
+          trend={`${fulfilledOrders} fulfilled`}
           trendDirection="neutral"
           pulseColor="green"
           icon={Truck}
         />
         <StatCard
           title="Received at Warehouse"
-          value="₹18.5L"
-          trend="Stock In"
+          value={`₹${(inventoryValue / 100000).toFixed(2)}L`}
+          trend={`${inStockItems} items in stock`}
           trendDirection="neutral"
           pulseColor="yellow"
           icon={Package}
         />
         <StatCard
-          title="Distributed to Farmers"
-          value="₹16.2L"
-          trend="87% fulfillment"
+          title="Gross Volume Distributed"
+          value={`₹${(totalOrdersValue * 0.8 / 100000).toFixed(2)}L`}
+          trend={`${state.orders.length} total orders`}
           trendDirection="up"
           pulseColor="green"
           icon={CheckCircle}
@@ -65,27 +72,21 @@ export default function CEOOperationsContent() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  <tr className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-slate-900">DAP Fertilizer (Iffco)</td>
-                    <td className="px-6 py-4 text-slate-600">₹6,75,000</td>
-                    <td className="px-6 py-4 text-slate-600">480 bags</td>
-                    <td className="px-6 py-4 text-red-600 font-medium">18 bags ⚠</td>
-                    <td className="px-6 py-4"><Badge variant="success">Active</Badge></td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-slate-900">Propiconazole (UPL)</td>
-                    <td className="px-6 py-4 text-slate-600">₹64,000</td>
-                    <td className="px-6 py-4 text-slate-600">145 L</td>
-                    <td className="px-6 py-4 text-slate-600">55 L</td>
-                    <td className="px-6 py-4"><Badge variant="success">Active</Badge></td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-slate-900">Wheat Seed HD-2967</td>
-                    <td className="px-6 py-4 text-slate-600">₹1,30,000</td>
-                    <td className="px-6 py-4 text-slate-600">0 kg</td>
-                    <td className="px-6 py-4 text-slate-600">2000 kg</td>
-                    <td className="px-6 py-4"><Badge variant="warning">In Transit</Badge></td>
-                  </tr>
+                  {state.inventory.slice(0, 3).map((item) => (
+                    <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
+                      <td className="px-6 py-4 font-medium text-slate-900">{item.name}</td>
+                      <td className="px-6 py-4 text-slate-600">₹{(item.currentStock * item.averageCost).toLocaleString()}</td>
+                      <td className="px-6 py-4 text-slate-600">{Math.floor(item.currentStock * 0.8)} {item.unit}</td>
+                      <td className={`px-6 py-4 font-medium ${item.currentStock <= item.minimumThreshold ? 'text-red-600' : 'text-slate-600'}`}>
+                        {item.currentStock} {item.unit} {item.currentStock <= item.minimumThreshold && '⚠'}
+                      </td>
+                      <td className="px-6 py-4">
+                        <Badge variant={item.status === 'In Stock' ? 'success' : item.status === 'Low Stock' ? 'warning' : 'danger'}>
+                          {item.status}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

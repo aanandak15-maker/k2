@@ -3,13 +3,32 @@ import { Bar } from 'react-chartjs-2';
 import { ChartData, ChartOptions } from 'chart.js';
 import { StatCard } from '../ui/StatCard';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
-import { AlertCircle, CheckCircle, Clock, TrendingUp, TrendingDown, DollarSign, Users, ShoppingCart, Activity } from 'lucide-react';
+import { AlertCircle, CheckCircle, Clock, TrendingUp, TrendingDown, DollarSign, Users, ShoppingCart, Activity, CloudSun, ShieldCheck } from 'lucide-react';
+import { useToast } from '../../hooks/useToast';
+import { useAdminStore } from '../../store/AdminStore';
+import { mockWeather } from '../../data/mock/weather';
 
 interface CEODashboardContentProps {
   setActiveSection: (section: string) => void;
 }
 
 export default function CEODashboardContent({ setActiveSection }: CEODashboardContentProps) {
+  const { toast } = useToast();
+  const { state } = useAdminStore();
+
+  // Computed KPIs from Store
+  const totalFarmers = state.farmers.length;
+  const activeFarmers = state.farmers.filter(f => f.status === 'Active').length;
+  // Count farmers onboarding this month (mock logic using arbitrary date)
+  const newFarmers = state.farmers.slice(-5).length;
+
+  const pendingOrders = state.orders.filter(o => o.status === 'Pending').length;
+  const completedOrders = state.orders.filter(o => o.status === 'Fulfilled').length;
+  const totalOrders = state.orders.length;
+
+  const totalRevenue = state.payments.filter(p => p.type === 'Inbound' && p.status === 'Completed').reduce((sum, p) => sum + p.amount, 0);
+  const totalBankBalance = totalRevenue - state.payments.filter(p => p.type === 'Outbound').reduce((sum, p) => sum + p.amount, 0);
+
   const cashflowData: ChartData<'bar'> = {
     labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8'],
     datasets: [
@@ -34,54 +53,54 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         <StatCard
           title="Farmer Strength"
-          value="847"
-          subValue="of 1,200 registered"
-          trend="↑ 23"
+          value={totalFarmers.toString()}
+          subValue={`of ${totalFarmers + 150} registered target`}
+          trend={`↑ ${newFarmers}`}
           trendDirection="up"
           pulseColor="green"
           icon={Users}
         />
         <StatCard
-          title="Crop Coverage"
-          value="1,240 Ha"
-          subValue="Wheat 520 · Mustard 380"
-          trend="↑ 8%"
+          title="Active Members"
+          value={activeFarmers.toString()}
+          subValue="Currently trading"
+          trend={`${Math.round((activeFarmers / totalFarmers) * 100)}% active`}
           trendDirection="up"
           pulseColor="green"
           icon={Activity}
         />
         <StatCard
           title="Input Orders"
-          value="34"
-          subValue="186 completed"
-          trend="18% pending"
-          trendDirection="down"
+          value={totalOrders.toString()}
+          subValue={`${completedOrders} completed`}
+          trend={`${pendingOrders} pending`}
+          trendDirection={pendingOrders > 0 ? "warning" : "neutral"}
           pulseColor="yellow"
           icon={ShoppingCart}
         />
         <StatCard
           title="Cash Position"
-          value="₹4.2L"
+          value={`₹${(totalBankBalance / 100000).toFixed(2)}L`}
           subValue="Bank Balance"
-          trend="+₹1.8L"
+          trend={totalBankBalance > 0 ? "Healthy" : "Low"}
           trendDirection="up"
           pulseColor="green"
           icon={DollarSign}
         />
         <StatCard
-          title="Revenue"
-          value="₹18L"
-          subValue="Target: ₹24L"
-          trend="75%"
+          title="Recorded Revenue"
+          value={`₹${(totalRevenue / 100000).toFixed(2)}L`}
+          subValue="All Inbound Payments"
+          trend="Live data"
           trendDirection="up"
           pulseColor="green"
           icon={TrendingUp}
         />
         <StatCard
           title="New Farmers"
-          value="15"
-          subValue="Onboarded This Month"
-          trend="↑ 5"
+          value={newFarmers.toString()}
+          subValue="Recent additions"
+          trend="↑"
           trendDirection="up"
           pulseColor="green"
           icon={Users}
@@ -111,7 +130,12 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
                   <div className="text-xs text-red-700 mt-1">Collections at risk. Moderator Suresh assigned to Sikandrabad cluster needs to prioritize collection visits.</div>
                   <div className="flex gap-2 mt-3">
                     <button onClick={() => setActiveSection('farmers')} className="bg-red-600 text-white text-xs px-3 py-1.5 rounded-md font-medium hover:bg-red-700 transition-colors shadow-sm">View Defaulters</button>
-                    <button className="bg-white border border-red-200 text-red-700 text-xs px-3 py-1.5 rounded-md font-medium hover:bg-red-50 transition-colors">Send SMS Reminder</button>
+                    <button
+                      onClick={() => toast({ message: 'SMS reminders sent to defaulters', variant: 'success' })}
+                      className="bg-white border border-red-200 text-red-700 text-xs px-3 py-1.5 rounded-md font-medium hover:bg-red-50 transition-colors"
+                    >
+                      Send SMS Reminder
+                    </button>
                   </div>
                 </div>
                 <span className="text-red-400 text-xs shrink-0 font-medium">10:42 AM</span>
@@ -125,7 +149,12 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
                   <div className="text-xs text-amber-700 mt-1">Companies Act compliance requires AGM within 6 months of financial year end. Board notice required 21 days in advance.</div>
                   <div className="flex gap-2 mt-3">
                     <button onClick={() => setActiveSection('compliance')} className="bg-amber-500 text-white text-xs px-3 py-1.5 rounded-md font-medium hover:bg-amber-600 transition-colors shadow-sm">Generate Agenda Template</button>
-                    <button className="bg-white border border-amber-200 text-amber-700 text-xs px-3 py-1.5 rounded-md font-medium hover:bg-amber-50 transition-colors">Set Date</button>
+                    <button
+                      onClick={() => toast({ message: 'AGM date updated', variant: 'success' })}
+                      className="bg-white border border-amber-200 text-amber-700 text-xs px-3 py-1.5 rounded-md font-medium hover:bg-amber-50 transition-colors"
+                    >
+                      Set Date
+                    </button>
                   </div>
                 </div>
                 <span className="text-amber-400 text-xs shrink-0 font-medium">9:15 AM</span>
@@ -136,16 +165,77 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
               <div className="font-semibold text-emerald-900 text-sm">Buyer Agri Corp placed new bid: ₹2,400/qtl for 200 qtl wheat</div>
               <div className="text-xs text-emerald-700 mt-1">Price is ₹120 above current Agra mandi rate (₹2,280). FPO margin = 5.3%. Recommended: Accept for confirmed lot.</div>
               <div className="flex gap-2 mt-3">
-                <button className="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-md font-medium hover:bg-emerald-700 transition-colors shadow-sm">Accept</button>
-                <button className="bg-white border border-emerald-200 text-emerald-700 text-xs px-3 py-1.5 rounded-md font-medium hover:bg-emerald-50 transition-colors">Counter</button>
-                <button className="bg-white border border-slate-200 text-slate-600 text-xs px-3 py-1.5 rounded-md font-medium hover:bg-slate-50 transition-colors">Reject</button>
+                <button
+                  onClick={() => toast({ message: 'Buyer offer accepted', variant: 'success' })}
+                  className="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-md font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                >
+                  Accept
+                </button>
+                <button
+                  onClick={() => toast({ message: 'Counter-offer sent', variant: 'info' })}
+                  className="bg-white border border-emerald-200 text-emerald-700 text-xs px-3 py-1.5 rounded-md font-medium hover:bg-emerald-50 transition-colors"
+                >
+                  Counter
+                </button>
+                <button
+                  onClick={() => toast({ message: 'Offer rejected', variant: 'warning' })}
+                  className="bg-white border border-slate-200 text-slate-600 text-xs px-3 py-1.5 rounded-md font-medium hover:bg-slate-50 transition-colors"
+                >
+                  Reject
+                </button>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Right: Compliance + Mandi Ticker */}
+        {/* Right: Weather, Credit Score, Compliance + Mandi Ticker */}
         <div className="space-y-6">
+          {/* Weather Widget */}
+          <Card>
+            <CardHeader className="pb-3">
+              <div className="flex items-center gap-2">
+                <CloudSun className="h-4 w-4 text-sky-500" />
+                <CardTitle className="text-sm">Local Weather (Agra)</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-3xl font-bold text-slate-800">{mockWeather[0].tempMax}°</div>
+                  <div className="text-sm text-slate-500">{mockWeather[0].condition}</div>
+                </div>
+                <div className="text-right text-xs text-slate-500 space-y-1">
+                  <div>Humidity: {mockWeather[0].humidity}%</div>
+                  <div>Wind: {mockWeather[0].windSpeed} km/h</div>
+                </div>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 grid grid-cols-3 gap-2 text-center text-xs">
+                {mockWeather.slice(1, 4).map((day, i) => (
+                  <div key={i}>
+                    <div className="text-slate-500 mb-1">{new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' })}</div>
+                    <div className="font-semibold">{day.tempMax}°</div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* FPO Credit Score */}
+          <Card className="bg-gradient-to-br from-indigo-50 to-white border-indigo-100">
+            <CardContent className="p-5 flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-1.5 text-indigo-800 font-medium text-sm mb-1">
+                  <ShieldCheck size={16} /> K2 Credit Score
+                </div>
+                <div className="text-xs text-slate-600">Based on transaction history</div>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-indigo-700">785</div>
+                <div className="text-[10px] font-medium text-emerald-600">Excellent risk profile</div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Mandi Ticker */}
           <Card>
             <CardHeader className="pb-3">
@@ -190,16 +280,14 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
               ].map((item, i) => (
                 <div key={i} className="flex items-center justify-between text-sm">
                   <span className="flex items-center gap-2 text-slate-600">
-                    <item.icon className={`h-3.5 w-3.5 ${
-                      item.color === 'green' ? 'text-emerald-500' :
+                    <item.icon className={`h-3.5 w-3.5 ${item.color === 'green' ? 'text-emerald-500' :
                       item.color === 'yellow' ? 'text-amber-500' : 'text-red-500'
-                    }`} />
+                      }`} />
                     {item.label}
                   </span>
-                  <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                    item.color === 'green' ? 'bg-emerald-50 text-emerald-700' :
+                  <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${item.color === 'green' ? 'bg-emerald-50 text-emerald-700' :
                     item.color === 'yellow' ? 'bg-amber-50 text-amber-700' : 'bg-red-50 text-red-700'
-                  }`}>
+                    }`}>
                     {item.status}
                   </span>
                 </div>

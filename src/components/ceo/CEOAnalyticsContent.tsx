@@ -4,21 +4,35 @@ import { ChartData, ChartOptions } from 'chart.js';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { StatCard } from '../ui/StatCard';
 import { TrendingUp, Users, Sprout, CreditCard, ShoppingBag } from 'lucide-react';
+import { useAdminStore } from '../../store/AdminStore';
 
 export default function CEOAnalyticsContent() {
+  const { state } = useAdminStore();
+
   const farmerGrowthData: ChartData<'bar'> = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [{ label: 'New Farmers', data: [12, 19, 15, 25, 32, 28, 45, 52, 48, 60, 65, 72], backgroundColor: '#10b981', borderRadius: 4 }]
   };
 
+  // Compute live revenue
+  const inputSales = state.payments.filter(p => p.purpose === 'Input Sales' && p.status === 'Completed').reduce((acc, p) => acc + p.amount, 0) / 100000;
+  const cropSales = state.payments.filter(p => p.purpose === 'Crop Procurement' && p.status === 'Completed').reduce((acc, p) => acc + p.amount, 0) / 100000;
+
   const revenueSourceData: ChartData<'bar'> = {
-    labels: ['Wheat', 'Mustard', 'Potato', 'Inputs', 'Services'],
-    datasets: [{ label: 'Revenue (₹L)', data: [12.5, 8.2, 4.5, 14.2, 3.1], backgroundColor: ['#f59e0b', '#eab308', '#84cc16', '#10b981', '#3b82f6'], borderRadius: 4 }]
+    labels: ['Outputs (Crop)', 'Inputs', 'Share Capital', 'Services'],
+    datasets: [{ label: 'Revenue (₹L)', data: [cropSales, inputSales, 0.45, 0.25], backgroundColor: ['#f59e0b', '#10b981', '#3b82f6', '#84cc16'], borderRadius: 4 }]
   };
 
+  // Compute live crop distribution
+  const wheatCount = state.farmers.filter(f => f.crops.includes('Wheat')).length;
+  const mustardCount = state.farmers.filter(f => f.crops.includes('Mustard')).length;
+  const paddyCount = state.farmers.filter(f => f.crops.includes('Paddy')).length;
+  const vegCount = state.farmers.filter(f => f.crops.includes('Vegetables')).length;
+  const otherCount = state.farmers.length - (wheatCount + mustardCount + paddyCount + vegCount);
+
   const cropDistributionData: ChartData<'doughnut'> = {
-    labels: ['Wheat', 'Mustard', 'Potato', 'Vegetables', 'Others'],
-    datasets: [{ data: [45, 30, 15, 7, 3], backgroundColor: ['#f59e0b', '#eab308', '#84cc16', '#10b981', '#cbd5e1'], borderWidth: 0 }]
+    labels: ['Wheat', 'Mustard', 'Paddy', 'Vegetables', 'Others'],
+    datasets: [{ data: [wheatCount, mustardCount, paddyCount, vegCount, Math.max(0, otherCount)], backgroundColor: ['#f59e0b', '#eab308', '#84cc16', '#10b981', '#cbd5e1'], borderWidth: 0 }]
   };
 
   const creditScoreData: ChartData<'radar'> = {

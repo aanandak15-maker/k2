@@ -5,8 +5,15 @@ import { StatCard } from '../ui/StatCard';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { DollarSign, TrendingUp, TrendingDown, PieChart } from 'lucide-react';
+import { useAdminStore } from '../../store/AdminStore';
 
 export default function CEOFinanceContent() {
+  const { state } = useAdminStore();
+
+  const totalRevenue = state.payments.filter(p => p.type === 'Inbound' && p.status === 'Completed').reduce((sum, p) => sum + p.amount, 0);
+  const totalExpenses = state.payments.filter(p => p.type === 'Outbound').reduce((sum, p) => sum + p.amount, 0);
+  const netSurplus = totalRevenue - totalExpenses;
+
   const financeData: ChartData<'line'> = {
     labels: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'],
     datasets: [
@@ -34,25 +41,25 @@ export default function CEOFinanceContent() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Total Revenue (YTD)"
-          value="₹42.5L"
-          trend="↑ 18% vs last year"
+          value={`₹${(totalRevenue / 100000).toFixed(2)}L`}
+          trend="Recorded Inbound"
           trendDirection="up"
           pulseColor="green"
           icon={DollarSign}
         />
         <StatCard
           title="Total Expenses (YTD)"
-          value="₹32.1L"
-          trend="Within budget"
+          value={`₹${(totalExpenses / 100000).toFixed(2)}L`}
+          trend="Recorded Outbound"
           trendDirection="neutral"
-          pulseColor="green"
+          pulseColor="yellow"
           icon={TrendingDown}
         />
         <StatCard
           title="Net Surplus"
-          value="₹10.4L"
-          trend="24.4% Margin"
-          trendDirection="up"
+          value={`₹${(netSurplus / 100000).toFixed(2)}L`}
+          trend={totalRevenue ? `${((netSurplus / totalRevenue) * 100).toFixed(1)}% Margin` : '0% Margin'}
+          trendDirection={netSurplus >= 0 ? "up" : "down"}
           pulseColor="green"
           icon={TrendingUp}
         />

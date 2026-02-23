@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { Search, Download, MessageSquare, ArrowLeft, Phone, MapPin, Calendar, Sprout, ChevronRight, Filter, ArrowUpDown, Plus, X, Check } from 'lucide-react';
+import { useToast } from '../../hooks/useToast';
 
 interface Transaction {
   id: string;
@@ -50,119 +51,38 @@ interface Farmer {
   plots?: Plot[];
 }
 
-const initialFarmersData: Farmer[] = [
-  { 
-    id: '1', 
-    name: 'Raju Yadav', 
-    mobile: '98XXXXXX12', 
-    village: 'Pilkhana', 
-    cluster: 'Sikandrabad', 
-    moderator: 'Suresh Kumar', 
-    landArea: 1.2, 
-    primaryCrop: 'Wheat HD-2967', 
-    shareCapital: '₹1,000', 
-    outstanding: '₹1,800', 
-    status: 'Active', 
-    avatarColor: 'bg-emerald-100 text-emerald-700', 
-    joinedDate: '2023-10-15',
-    notes: [
-      { id: 'n1', text: 'Requested information about solar pump subsidy.', date: '2024-01-15T10:30:00Z' },
-      { id: 'n2', text: 'Promised to clear outstanding dues by next month.', date: '2023-12-20T14:15:00Z' }
-    ],
-    transactions: [
-      { id: 't1', date: '2025-01-15', type: 'Input Purchase', description: 'Urea (2 Bags)', amount: '₹532', status: 'Paid' },
-      { id: 't2', date: '2024-12-10', type: 'Credit', description: 'DAP Fertilizer', amount: '₹1,350', status: 'Pending' },
-      { id: 't3', date: '2024-11-05', type: 'Crop Sale', description: 'Paddy (25 Qtl)', amount: '+₹52,500', status: 'Completed' }
-    ],
-    cropHistory: [
-      { season: 'Rabi 2024-25', crop: 'Wheat HD-2967', area: 1.2, yield: 'Harvest expected Apr 15', status: 'Active', icon: '🌾' },
-      { season: 'Kharif 2024', crop: 'Paddy Basmati', area: 1.2, yield: '52 Qtl', status: 'Sold to FPO', icon: '🍚' }
-    ],
-    plots: [
-      { id: 'p1', location: 'Pilkhana', area: 0.8, soilType: 'Loamy Soil', currentCrop: 'Wheat HD-2967', status: 'Active' },
-      { id: 'p2', location: 'Pilkhana', area: 0.4, soilType: 'Sandy Loam', currentCrop: 'Fallow', status: 'Fallow' }
-    ]
-  },
-  { 
-    id: '2', 
-    name: 'Seema Devi', 
-    mobile: '97XXXXXX88', 
-    village: 'Rampur', 
-    cluster: 'Sikandrabad', 
-    moderator: 'Suresh Kumar', 
-    landArea: 0.8, 
-    primaryCrop: 'Wheat HD-2967', 
-    shareCapital: '₹500 partial', 
-    outstanding: '₹4,100', 
-    status: 'Dormant', 
-    avatarColor: 'bg-amber-100 text-amber-700', 
-    joinedDate: '2023-11-02', 
-    notes: [],
-    transactions: [],
-    cropHistory: [],
-    plots: []
-  },
-  { 
-    id: '3', 
-    name: 'Mohan Singh', 
-    mobile: '96XXXXXX45', 
-    village: 'Hasanpur', 
-    cluster: 'Sikandrabad', 
-    moderator: 'Suresh Kumar', 
-    landArea: 2.0, 
-    primaryCrop: 'Wheat HD-2967', 
-    shareCapital: '₹2,000', 
-    outstanding: '₹0', 
-    status: 'Inactive', 
-    avatarColor: 'bg-red-100 text-red-700', 
-    joinedDate: '2023-09-10', 
-    notes: [],
-    transactions: [],
-    cropHistory: [],
-    plots: []
-  },
-  { 
-    id: '4', 
-    name: 'Prabhati Devi', 
-    mobile: '95XXXXXX21', 
-    village: 'Araniya', 
-    cluster: 'Bulandshahr', 
-    moderator: 'Priya Singh', 
-    landArea: 1.5, 
-    primaryCrop: 'Mustard Pusa Bold', 
-    shareCapital: '₹1,000', 
-    outstanding: '₹2,300', 
-    status: 'Active', 
-    avatarColor: 'bg-blue-100 text-blue-700', 
-    joinedDate: '2023-12-05', 
-    notes: [],
-    transactions: [],
-    cropHistory: [],
-    plots: []
-  },
-  { 
-    id: '5', 
-    name: 'Vikram Thakur', 
-    mobile: '94XXXXXX67', 
-    village: 'Gulaothi', 
-    cluster: 'Gulaothi', 
-    moderator: 'Rajesh Pal', 
-    landArea: 3.2, 
-    primaryCrop: 'Potato', 
-    shareCapital: '₹3,000', 
-    outstanding: '₹0', 
-    status: 'Active', 
-    avatarColor: 'bg-purple-100 text-purple-700', 
-    joinedDate: '2024-01-20', 
-    notes: [],
-    transactions: [],
-    cropHistory: [],
-    plots: []
-  },
-];
+import { useAdminStore } from '../../store/AdminStore';
 
 export default function CEOFarmersContent() {
-  const [farmers, setFarmers] = useState<Farmer[]>(initialFarmersData);
+  const { toast } = useToast();
+  const { state, addFarmer } = useAdminStore();
+
+  const mapAdminFarmerToCEO = (f: any): Farmer => ({
+    id: f.id,
+    name: f.name,
+    mobile: f.phone,
+    village: f.village,
+    cluster: f.cluster,
+    moderator: 'Agri Saathi',
+    landArea: f.landSizeDb,
+    primaryCrop: f.crops[0] || 'Mixed',
+    shareCapital: `₹${f.shareCapital.toLocaleString()}`,
+    outstanding: `₹${f.outstandingDues.toLocaleString()}`,
+    status: f.status as any,
+    avatarColor: 'bg-emerald-100 text-emerald-700',
+    joinedDate: f.membershipDate,
+    notes: [],
+    transactions: [],
+    cropHistory: [],
+    plots: []
+  });
+
+  const [farmers, setFarmers] = useState<Farmer[]>([]);
+
+  React.useEffect(() => {
+    setFarmers(state.farmers.map(mapAdminFarmerToCEO));
+  }, [state.farmers]);
+
   const [selectedFarmer, setSelectedFarmer] = useState<Farmer | null>(null);
   const [nameQuery, setNameQuery] = useState('');
   const [mobileQuery, setMobileQuery] = useState('');
@@ -172,11 +92,11 @@ export default function CEOFarmersContent() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [noteInput, setNoteInput] = useState('');
   const [noteSearchQuery, setNoteSearchQuery] = useState('');
-  
+
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  
+
   const [isAddFarmerOpen, setIsAddFarmerOpen] = useState(false);
   const [isConfirmSaveOpen, setIsConfirmSaveOpen] = useState(false);
   const [newFarmer, setNewFarmer] = useState<Partial<Farmer>>({
@@ -195,25 +115,24 @@ export default function CEOFarmersContent() {
 
   const handleAddFarmer = () => {
     if (!newFarmer.name || !newFarmer.mobile) return;
-    
-    const farmer: Farmer = {
-      id: (farmers.length + 1).toString(),
-      name: newFarmer.name || '',
-      mobile: newFarmer.mobile || '',
-      village: newFarmer.village || '',
-      cluster: newFarmer.cluster || '',
-      moderator: newFarmer.moderator || '',
-      landArea: newFarmer.landArea || 0,
-      primaryCrop: newFarmer.primaryCrop || '',
-      shareCapital: newFarmer.shareCapital || '₹0',
-      outstanding: newFarmer.outstanding || '₹0',
-      status: (newFarmer.status as 'Active' | 'Dormant' | 'Inactive') || 'Active',
-      avatarColor: newFarmer.avatarColor || 'bg-emerald-100 text-emerald-700',
-      joinedDate: new Date().toISOString().split('T')[0],
-      notes: []
-    };
 
-    setFarmers([...farmers, farmer]);
+    const id = `F-${String(state.farmers.length + 1001).padStart(4, '0')}`;
+    addFarmer({
+      id,
+      name: newFarmer.name,
+      phone: newFarmer.mobile,
+      village: newFarmer.village || 'Unknown',
+      cluster: newFarmer.cluster || 'Unassigned',
+      landSizeDb: newFarmer.landArea || 0,
+      status: newFarmer.status === 'Dormant' ? 'Dormant' : 'Active',
+      membershipDate: new Date().toISOString().split('T')[0],
+      outstandingDues: parseInt(newFarmer.outstanding?.replace(/[^0-9]/g, '') || '0'),
+      shareCapital: parseInt(newFarmer.shareCapital?.replace(/[^0-9]/g, '') || '0'),
+      crops: newFarmer.primaryCrop ? [newFarmer.primaryCrop] : [],
+      lastVisit: '',
+      riskScore: 'Low'
+    });
+
     setIsAddFarmerOpen(false);
     setIsConfirmSaveOpen(false);
     setNewFarmer({
@@ -229,11 +148,12 @@ export default function CEOFarmersContent() {
       status: 'Active',
       avatarColor: 'bg-emerald-100 text-emerald-700'
     });
+    toast({ message: 'Farmer recorded successfully', variant: 'success' });
   };
 
   const handleAddNote = () => {
     if (!selectedFarmer || !noteInput.trim()) return;
-
+    toast({ message: 'Note added (CEO view only)', variant: 'success' });
     const newNote = {
       id: Date.now().toString(),
       text: noteInput,
@@ -304,6 +224,7 @@ export default function CEOFarmersContent() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      toast({ message: 'Farmers data exported to CSV', variant: 'success' });
     }
   };
 
@@ -318,9 +239,9 @@ export default function CEOFarmersContent() {
       link.setAttribute('href', url);
       link.setAttribute('download', `farmers_data_${date}.json`);
       link.style.visibility = 'hidden';
-      document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      toast({ message: 'Farmers data exported to JSON', variant: 'success' });
     }
   };
 
@@ -328,7 +249,7 @@ export default function CEOFarmersContent() {
     return (
       <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
         <div className="flex items-center gap-4">
-          <button 
+          <button
             onClick={() => setSelectedFarmer(null)}
             className="p-2 hover:bg-slate-100 rounded-full transition-colors"
           >
@@ -339,20 +260,19 @@ export default function CEOFarmersContent() {
             <div className="flex items-center gap-2 text-sm text-slate-500">
               <span>FPO-SKD-{selectedFarmer.id.padStart(4, '0')}</span>
               <span>•</span>
-              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
-                selectedFarmer.status === 'Active' ? 'bg-emerald-50 text-emerald-700' :
+              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${selectedFarmer.status === 'Active' ? 'bg-emerald-50 text-emerald-700' :
                 selectedFarmer.status === 'Dormant' ? 'bg-amber-50 text-amber-700' : 'bg-red-50 text-red-700'
-              }`}>
+                }`}>
                 {selectedFarmer.status}
               </span>
             </div>
           </div>
           <div className="ml-auto flex gap-2">
-            <button className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">
+            <button onClick={() => toast({ message: `Opening message to ${selectedFarmer.name}...`, variant: 'info' })} className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">
               <MessageSquare className="h-4 w-4" />
               Message
             </button>
-            <button className="inline-flex items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700">
+            <button onClick={() => toast({ message: 'Profile editor coming in v2', variant: 'info' })} className="inline-flex items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700">
               Edit Profile
             </button>
           </div>
@@ -370,7 +290,7 @@ export default function CEOFarmersContent() {
                   <h3 className="font-semibold text-slate-900">{selectedFarmer.name}</h3>
                   <p className="text-sm text-slate-500">{selectedFarmer.village}, {selectedFarmer.cluster}</p>
                 </div>
-                
+
                 <div className="space-y-4 border-t border-slate-100 pt-4">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-slate-50 rounded-lg"><Phone className="h-4 w-4 text-slate-500" /></div>
@@ -400,15 +320,15 @@ export default function CEOFarmersContent() {
                       <div className="text-sm font-medium text-slate-900">Oct 2023</div>
                     </div>
                   </div>
-                  
+
                   <div className="mt-4 rounded-lg overflow-hidden border border-slate-200 h-48 bg-slate-50 relative group">
-                    <iframe 
-                      width="100%" 
-                      height="100%" 
-                      frameBorder="0" 
-                      scrolling="no" 
-                      marginHeight={0} 
-                      marginWidth={0} 
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      frameBorder="0"
+                      scrolling="no"
+                      marginHeight={0}
+                      marginWidth={0}
                       src={`https://maps.google.com/maps?q=${encodeURIComponent(selectedFarmer.village + ', ' + selectedFarmer.cluster + ', India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
                       className="opacity-90 group-hover:opacity-100 transition-opacity"
                     ></iframe>
@@ -434,7 +354,7 @@ export default function CEOFarmersContent() {
                     {selectedFarmer.plots ? selectedFarmer.plots.length : 0} Plots Registered
                   </div>
                 </div>
-                
+
                 <div className="space-y-3">
                   {selectedFarmer.plots && selectedFarmer.plots.length > 0 ? (
                     selectedFarmer.plots.map((plot) => (
@@ -443,9 +363,8 @@ export default function CEOFarmersContent() {
                         <div className="flex-1">
                           <div className="text-sm font-medium text-slate-900">Plot #{plot.id} - {plot.location}</div>
                           <div className="text-xs text-slate-500">{plot.area} Ha • {plot.soilType}</div>
-                          <div className={`mt-1 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                            plot.status === 'Active' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
-                          }`}>
+                          <div className={`mt-1 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${plot.status === 'Active' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+                            }`}>
                             Current: {plot.currentCrop}
                           </div>
                         </div>
@@ -511,10 +430,9 @@ export default function CEOFarmersContent() {
                               <Badge variant="outline">{transaction.type}</Badge>
                             </td>
                             <td className="px-6 py-4 text-slate-900">{transaction.description}</td>
-                            <td className={`px-6 py-4 text-right font-medium ${
-                              transaction.type === 'Crop Sale' ? 'text-emerald-600' : 
+                            <td className={`px-6 py-4 text-right font-medium ${transaction.type === 'Crop Sale' ? 'text-emerald-600' :
                               transaction.type === 'Credit' ? 'text-red-600' : 'text-slate-900'
-                            }`}>
+                              }`}>
                               {transaction.amount}
                             </td>
                             <td className="px-6 py-4">
@@ -549,9 +467,8 @@ export default function CEOFarmersContent() {
                     selectedFarmer.cropHistory.map((history, index) => (
                       <div key={index} className="flex items-center justify-between p-3 border border-slate-100 rounded-lg hover:bg-slate-50 transition-colors">
                         <div className="flex items-center gap-3">
-                          <div className={`h-10 w-10 rounded-lg flex items-center justify-center text-lg ${
-                            history.icon === '🌾' ? 'bg-amber-100' : 'bg-emerald-100'
-                          }`}>
+                          <div className={`h-10 w-10 rounded-lg flex items-center justify-center text-lg ${history.icon === '🌾' ? 'bg-amber-100' : 'bg-emerald-100'
+                            }`}>
                             {history.icon}
                           </div>
                           <div>
@@ -561,9 +478,8 @@ export default function CEOFarmersContent() {
                         </div>
                         <div className="text-right">
                           <div className="text-sm font-medium text-slate-900">{history.yield}</div>
-                          <div className={`text-xs ${
-                            history.status === 'Active' ? 'text-emerald-600' : 'text-slate-500'
-                          }`}>
+                          <div className={`text-xs ${history.status === 'Active' ? 'text-emerald-600' : 'text-slate-500'
+                            }`}>
                             {history.status}
                           </div>
                         </div>
@@ -612,24 +528,24 @@ export default function CEOFarmersContent() {
                       Add Note
                     </button>
                   </div>
-                  
+
                   <div className="space-y-3 max-h-60 overflow-y-auto pr-2">
                     {selectedFarmer.notes && selectedFarmer.notes.length > 0 ? (
                       selectedFarmer.notes
                         .filter(note => note.text.toLowerCase().includes(noteSearchQuery.toLowerCase()))
                         .map((note) => (
-                        <div key={note.id} className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                          <p className="text-sm text-slate-700">{note.text}</p>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Calendar className="h-3 w-3 text-slate-400" />
-                            <p className="text-xs text-slate-400">
-                              {new Date(note.date).toLocaleDateString('en-IN', { 
-                                day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' 
-                              })}
-                            </p>
+                          <div key={note.id} className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                            <p className="text-sm text-slate-700">{note.text}</p>
+                            <div className="flex items-center gap-2 mt-1">
+                              <Calendar className="h-3 w-3 text-slate-400" />
+                              <p className="text-xs text-slate-400">
+                                {new Date(note.date).toLocaleDateString('en-IN', {
+                                  day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                                })}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      ))
+                        ))
                     ) : (
                       <div className="text-center py-8 border-2 border-dashed border-slate-100 rounded-lg">
                         <MessageSquare className="h-8 w-8 text-slate-300 mx-auto mb-2" />
@@ -676,25 +592,25 @@ export default function CEOFarmersContent() {
               className="h-9 w-48 rounded-md border border-slate-200 bg-white pl-9 pr-4 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
             />
           </div>
-          <button 
+          <button
             onClick={handleExportCSV}
             className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
           >
             <Download className="h-4 w-4" />
             Export CSV
           </button>
-          <button 
+          <button
             onClick={handleExportJSON}
             className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
           >
             <Download className="h-4 w-4" />
             Export JSON
           </button>
-          <button className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2">
+          <button onClick={() => toast({ message: 'Bulk SMS sent to all farmers', variant: 'success' })} className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2">
             <MessageSquare className="h-4 w-4" />
             Send SMS
           </button>
-          <button 
+          <button
             onClick={() => setIsAddFarmerOpen(true)}
             className="inline-flex items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
           >
@@ -710,7 +626,7 @@ export default function CEOFarmersContent() {
             <Filter className="h-4 w-4" />
             <span>Filter by:</span>
           </div>
-          <select 
+          <select
             value={statusFilter}
             onChange={(e) => { setStatusFilter(e.target.value as 'All' | 'Active' | 'Dormant' | 'Inactive'); setCurrentPage(1); }}
             className="h-8 rounded-md border border-slate-200 bg-white px-2 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
@@ -727,7 +643,7 @@ export default function CEOFarmersContent() {
             <Sprout className="h-4 w-4" />
             <span>Crop:</span>
           </div>
-          <select 
+          <select
             value={cropFilter}
             onChange={(e) => { setCropFilter(e.target.value); setCurrentPage(1); }}
             className="h-8 rounded-md border border-slate-200 bg-white px-2 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
@@ -744,7 +660,7 @@ export default function CEOFarmersContent() {
             <ArrowUpDown className="h-4 w-4" />
             <span>Sort by:</span>
           </div>
-          <select 
+          <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as 'name' | 'mobile' | 'joinedDate')}
             className="h-8 rounded-md border border-slate-200 bg-white px-2 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
@@ -753,7 +669,7 @@ export default function CEOFarmersContent() {
             <option value="mobile">Mobile</option>
             <option value="joinedDate">Registration Date</option>
           </select>
-          <button 
+          <button
             onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')}
             className="h-8 w-8 flex items-center justify-center rounded-md border border-slate-200 bg-white hover:bg-slate-50"
             title={sortOrder === 'asc' ? 'Ascending' : 'Descending'}
@@ -783,8 +699,8 @@ export default function CEOFarmersContent() {
             <tbody className="divide-y divide-slate-100">
               {currentFarmers.length > 0 ? (
                 currentFarmers.map((farmer) => (
-                  <tr 
-                    key={farmer.id} 
+                  <tr
+                    key={farmer.id}
                     onClick={() => setSelectedFarmer(farmer)}
                     className="hover:bg-slate-50/80 transition-colors cursor-pointer group"
                   >
@@ -812,7 +728,7 @@ export default function CEOFarmersContent() {
                       </Badge>
                     </td>
                     <td className="px-6 py-4">
-                      <button 
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           setSelectedFarmer(farmer);
@@ -839,20 +755,20 @@ export default function CEOFarmersContent() {
           </table>
         </div>
       </Card>
-      
+
       <div className="flex items-center justify-between text-sm text-slate-500">
         <span>
           Showing {filteredFarmers.length > 0 ? indexOfFirstItem + 1 : 0} to {Math.min(indexOfLastItem, filteredFarmers.length)} of {filteredFarmers.length} farmers
         </span>
         <div className="flex gap-2">
-          <button 
+          <button
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
             className="rounded-md border border-slate-200 px-3 py-1 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Previous
           </button>
-          
+
           {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
             // Logic to show a window of pages around current page could be added here
             // For simplicity, just showing first 5 or all if less than 5
@@ -866,23 +782,22 @@ export default function CEOFarmersContent() {
                 pageNum = totalPages - (4 - i);
               }
             }
-            
+
             return (
-              <button 
+              <button
                 key={pageNum}
                 onClick={() => setCurrentPage(pageNum)}
-                className={`rounded-md border px-3 py-1 font-medium ${
-                  currentPage === pageNum 
-                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
-                    : 'border-slate-200 hover:bg-slate-50 text-slate-600'
-                }`}
+                className={`rounded-md border px-3 py-1 font-medium ${currentPage === pageNum
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                  : 'border-slate-200 hover:bg-slate-50 text-slate-600'
+                  }`}
               >
                 {pageNum}
               </button>
             );
           })}
-          
-          <button 
+
+          <button
             onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages || totalPages === 0}
             className="rounded-md border border-slate-200 px-3 py-1 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -898,32 +813,32 @@ export default function CEOFarmersContent() {
           <div className="w-full max-w-2xl bg-white rounded-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 relative">
             <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
               <h3 className="text-lg font-semibold text-slate-900">Add New Farmer</h3>
-              <button 
+              <button
                 onClick={() => setIsAddFarmerOpen(false)}
                 className="text-slate-400 hover:text-slate-600 transition-colors"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
-            
+
             <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700">Full Name *</label>
                 <input
                   type="text"
                   value={newFarmer.name}
-                  onChange={(e) => setNewFarmer({...newFarmer, name: e.target.value})}
+                  onChange={(e) => setNewFarmer({ ...newFarmer, name: e.target.value })}
                   className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                   placeholder="e.g. Rajesh Kumar"
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700">Mobile Number *</label>
                 <input
                   type="text"
                   value={newFarmer.mobile}
-                  onChange={(e) => setNewFarmer({...newFarmer, mobile: e.target.value})}
+                  onChange={(e) => setNewFarmer({ ...newFarmer, mobile: e.target.value })}
                   className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                   placeholder="e.g. 9876543210"
                 />
@@ -934,7 +849,7 @@ export default function CEOFarmersContent() {
                 <input
                   type="text"
                   value={newFarmer.village}
-                  onChange={(e) => setNewFarmer({...newFarmer, village: e.target.value})}
+                  onChange={(e) => setNewFarmer({ ...newFarmer, village: e.target.value })}
                   className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                   placeholder="e.g. Rampur"
                 />
@@ -945,7 +860,7 @@ export default function CEOFarmersContent() {
                 <input
                   type="text"
                   value={newFarmer.cluster}
-                  onChange={(e) => setNewFarmer({...newFarmer, cluster: e.target.value})}
+                  onChange={(e) => setNewFarmer({ ...newFarmer, cluster: e.target.value })}
                   className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                   placeholder="e.g. Sikandrabad"
                 />
@@ -956,7 +871,7 @@ export default function CEOFarmersContent() {
                 <input
                   type="text"
                   value={newFarmer.moderator}
-                  onChange={(e) => setNewFarmer({...newFarmer, moderator: e.target.value})}
+                  onChange={(e) => setNewFarmer({ ...newFarmer, moderator: e.target.value })}
                   className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                   placeholder="e.g. Suresh Kumar"
                 />
@@ -968,7 +883,7 @@ export default function CEOFarmersContent() {
                   type="number"
                   step="0.1"
                   value={newFarmer.landArea}
-                  onChange={(e) => setNewFarmer({...newFarmer, landArea: parseFloat(e.target.value) || 0})}
+                  onChange={(e) => setNewFarmer({ ...newFarmer, landArea: parseFloat(e.target.value) || 0 })}
                   className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                   placeholder="0.0"
                 />
@@ -979,7 +894,7 @@ export default function CEOFarmersContent() {
                 <input
                   type="text"
                   value={newFarmer.primaryCrop}
-                  onChange={(e) => setNewFarmer({...newFarmer, primaryCrop: e.target.value})}
+                  onChange={(e) => setNewFarmer({ ...newFarmer, primaryCrop: e.target.value })}
                   className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                   placeholder="e.g. Wheat"
                 />
@@ -990,7 +905,7 @@ export default function CEOFarmersContent() {
                 <input
                   type="text"
                   value={newFarmer.shareCapital}
-                  onChange={(e) => setNewFarmer({...newFarmer, shareCapital: e.target.value})}
+                  onChange={(e) => setNewFarmer({ ...newFarmer, shareCapital: e.target.value })}
                   className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                   placeholder="e.g. ₹1,000"
                 />
@@ -1001,7 +916,7 @@ export default function CEOFarmersContent() {
                 <input
                   type="text"
                   value={newFarmer.outstanding}
-                  onChange={(e) => setNewFarmer({...newFarmer, outstanding: e.target.value})}
+                  onChange={(e) => setNewFarmer({ ...newFarmer, outstanding: e.target.value })}
                   className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                   placeholder="e.g. ₹0"
                 />
@@ -1011,7 +926,7 @@ export default function CEOFarmersContent() {
                 <label className="text-sm font-medium text-slate-700">Status</label>
                 <select
                   value={newFarmer.status}
-                  onChange={(e) => setNewFarmer({...newFarmer, status: e.target.value as any})}
+                  onChange={(e) => setNewFarmer({ ...newFarmer, status: e.target.value as any })}
                   className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                 >
                   <option value="Active">Active</option>
@@ -1033,10 +948,9 @@ export default function CEOFarmersContent() {
                   ].map((color) => (
                     <button
                       key={color}
-                      onClick={() => setNewFarmer({...newFarmer, avatarColor: color})}
-                      className={`h-10 w-10 rounded-full flex items-center justify-center border-2 transition-all ${color} ${
-                        newFarmer.avatarColor === color ? 'border-slate-900 ring-2 ring-slate-200 ring-offset-2' : 'border-transparent hover:scale-110'
-                      }`}
+                      onClick={() => setNewFarmer({ ...newFarmer, avatarColor: color })}
+                      className={`h-10 w-10 rounded-full flex items-center justify-center border-2 transition-all ${color} ${newFarmer.avatarColor === color ? 'border-slate-900 ring-2 ring-slate-200 ring-offset-2' : 'border-transparent hover:scale-110'
+                        }`}
                     >
                       <span className="text-xs font-bold">A</span>
                     </button>
@@ -1060,7 +974,7 @@ export default function CEOFarmersContent() {
                 Save Farmer
               </button>
             </div>
-            
+
             {/* Confirmation Overlay */}
             {isConfirmSaveOpen && (
               <div className="absolute inset-0 z-50 bg-white/90 backdrop-blur-sm flex items-center justify-center p-6 animate-in fade-in duration-200">
