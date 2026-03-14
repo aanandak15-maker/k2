@@ -24,7 +24,7 @@ export function ModeratorAdvisoryPush({ clusterName, onBack }: { clusterName: st
     if (isSuccess) {
         return (
             <div className="h-full flex flex-col items-center justify-center p-6 animate-in zoom-in duration-300">
-                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
+                <div className="w-16 h-16 bg-[var(--brand-pale)] text-[var(--brand)] rounded-full flex items-center justify-center mb-4">
                     <Check size={32} />
                 </div>
                 <h2 className="text-xl font-bold text-slate-800 mb-2">Advisory Broadcasted</h2>
@@ -71,7 +71,7 @@ export function ModeratorAdvisoryPush({ clusterName, onBack }: { clusterName: st
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1.5">Target Crop</label>
                                     <select
-                                        className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                         value={selectedCrop}
                                         onChange={(e) => setSelectedCrop(e.target.value)}
                                     >
@@ -84,7 +84,7 @@ export function ModeratorAdvisoryPush({ clusterName, onBack }: { clusterName: st
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1.5">Topic</label>
                                     <select
-                                        className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                         value={selectedTopic}
                                         onChange={(e) => setSelectedTopic(e.target.value)}
                                     >
@@ -102,14 +102,14 @@ export function ModeratorAdvisoryPush({ clusterName, onBack }: { clusterName: st
                                     SMS Message Content
                                 </label>
                                 <textarea
-                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 leading-relaxed"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] leading-relaxed"
                                     rows={4}
                                     value={message}
                                     onChange={(e) => setMessage(e.target.value)}
                                     required
                                 ></textarea>
                                 <div className="flex justify-between mt-1.5 text-xs text-slate-500">
-                                    <span>Language: <button type="button" onClick={() => toast({ message: 'Translating to Hindi...', variant: 'info' })} className="text-emerald-600 font-medium hover:underline">Translate to Hindi</button></span>
+                                    <span>Language: <button type="button" onClick={() => toast({ message: 'Translating to Hindi...', variant: 'info' })} className="text-[var(--brand)] font-medium hover:underline">Translate to Hindi</button></span>
                                     <span>{message.length}/160 chars (1 SMS)</span>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@ export function ModeratorAdvisoryPush({ clusterName, onBack }: { clusterName: st
                     <button
                         type="submit"
                         disabled={isSubmitting || !message}
-                        className="w-full bg-emerald-600 text-white font-bold py-3.5 rounded-xl shadow-sm shadow-emerald-600/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:active:scale-100"
+                        className="w-full bg-[var(--brand)] text-white font-bold py-3.5 rounded-xl shadow-sm shadow-emerald-600/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:active:scale-100"
                     >
                         {isSubmitting ? 'Trasmitting...' : (
                             <>

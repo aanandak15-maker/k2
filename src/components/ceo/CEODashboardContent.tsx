@@ -1,12 +1,14 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
-import { ChartData, ChartOptions } from 'chart.js';
+import { Bar, Doughnut } from 'react-chartjs-2';
+import { ChartData, ChartOptions, Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { StatCard } from '../ui/StatCard';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
-import { AlertCircle, CheckCircle, Clock, TrendingUp, TrendingDown, DollarSign, Users, ShoppingCart, Activity, CloudSun, ShieldCheck } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/Card';
+import { AlertCircle, CheckCircle, Clock, TrendingUp, TrendingDown, DollarSign, Users, ShoppingCart, Activity, CloudSun, ShieldCheck, PieChart, BarChart3, Truck, Package, Banknote, Landmark } from 'lucide-react';
 import { useToast } from '../../hooks/useToast';
 import { useAdminStore } from '../../store/AdminStore';
 import { mockWeather } from '../../data/mock/weather';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 interface CEODashboardContentProps {
   setActiveSection: (section: string) => void;
@@ -43,8 +45,58 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
     plugins: { legend: { display: false } },
     scales: {
       x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#64748b' } },
-      y: { ticks: { font: { size: 10 }, color: '#64748b' }, grid: { color: '#f1f5f9' } }
+      y: { ticks: { font: { size: 10 }, color: '#64748b' }, grid: { color: '#f1f5f9' }, beginAtZero: true }
     }
+  };
+
+  // Farmer Distribution Data
+  const clusterCounts = state.farmers.reduce((acc, f) => {
+    acc[f.cluster] = (acc[f.cluster] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const clusterData: ChartData<'bar'> = {
+    labels: Object.keys(clusterCounts),
+    datasets: [{
+      label: 'Farmers by Cluster',
+      data: Object.values(clusterCounts),
+      backgroundColor: 'rgba(59, 130, 246, 0.7)',
+      borderRadius: 4
+    }]
+  };
+
+  const barOptions: ChartOptions<'bar'> = {
+    indexAxis: 'y' as const,
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { padding: 10 } },
+    scales: {
+      x: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 } } },
+      y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  };
+
+  const wheatCount = state.farmers.filter(f => f.crops.includes('Wheat')).length;
+  const mustardCount = state.farmers.filter(f => f.crops.includes('Mustard')).length;
+  const paddyCount = state.farmers.filter(f => f.crops.includes('Paddy')).length;
+  const vegCount = state.farmers.filter(f => f.crops.includes('Vegetables') || f.crops.includes('Potato') || f.crops.includes('Tomato')).length;
+  const otherCount = state.farmers.length - (wheatCount + mustardCount + paddyCount + vegCount);
+
+  const cropData: ChartData<'doughnut'> = {
+    labels: ['Wheat', 'Mustard', 'Paddy', 'Vegetables', 'Others'],
+    datasets: [{
+      data: [wheatCount, mustardCount, paddyCount, vegCount, Math.max(0, otherCount)],
+      backgroundColor: ['#f59e0b', '#eab308', '#84cc16', '#10b981', '#cbd5e1'],
+      borderWidth: 0,
+      hoverOffset: 4
+    }]
+  };
+
+  const doughnutOptions: ChartOptions<'doughnut'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '70%',
+    plugins: { legend: { position: 'right', labels: { boxWidth: 10, usePointStyle: true, font: { size: 11 } } } }
   };
 
   return (
@@ -118,7 +170,7 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
                 7 Active
               </span>
             </div>
-            <select className="text-xs border border-slate-200 rounded-lg px-2 py-1 text-slate-500 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20">
+            <select className="text-xs border border-slate-200 rounded-lg px-2 py-1 text-slate-500 bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20">
               <option>All Alerts</option><option>Critical</option><option>Financial</option>
             </select>
           </CardHeader>
@@ -161,19 +213,19 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
               </div>
             </div>
 
-            <div className="rounded-lg border-l-4 border-emerald-500 bg-emerald-50 p-4">
+            <div className="rounded-lg border-l-4 border-[var(--brand)] bg-[var(--brand-wash)] p-4">
               <div className="font-semibold text-emerald-900 text-sm">Buyer Agri Corp placed new bid: ₹2,400/qtl for 200 qtl wheat</div>
-              <div className="text-xs text-emerald-700 mt-1">Price is ₹120 above current Agra mandi rate (₹2,280). FPO margin = 5.3%. Recommended: Accept for confirmed lot.</div>
+              <div className="text-xs text-[var(--brand)] mt-1">Price is ₹120 above current Agra mandi rate (₹2,280). FPO margin = 5.3%. Recommended: Accept for confirmed lot.</div>
               <div className="flex gap-2 mt-3">
                 <button
                   onClick={() => toast({ message: 'Buyer offer accepted', variant: 'success' })}
-                  className="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-md font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                  className="bg-[var(--brand)] text-white text-xs px-3 py-1.5 rounded-md font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                 >
                   Accept
                 </button>
                 <button
                   onClick={() => toast({ message: 'Counter-offer sent', variant: 'info' })}
-                  className="bg-white border border-emerald-200 text-emerald-700 text-xs px-3 py-1.5 rounded-md font-medium hover:bg-emerald-50 transition-colors"
+                  className="bg-white border border-[var(--brand-muted)] text-[var(--brand)] text-xs px-3 py-1.5 rounded-md font-medium hover:bg-[var(--brand-wash)] transition-colors"
                 >
                   Counter
                 </button>
@@ -231,7 +283,7 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
               </div>
               <div className="text-right">
                 <div className="text-2xl font-bold text-indigo-700">785</div>
-                <div className="text-[10px] font-medium text-emerald-600">Excellent risk profile</div>
+                <div className="text-[10px] font-medium text-[var(--brand)]">Excellent risk profile</div>
               </div>
             </CardContent>
           </Card>
@@ -241,10 +293,10 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2 text-sm">
-                  <TrendingUp className="h-4 w-4 text-emerald-600" />
+                  <TrendingUp className="h-4 w-4 text-[var(--brand)]" />
                   Live Mandi Prices
                 </CardTitle>
-                <span className="text-[10px] text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded-full">Updated 7:30 AM</span>
+                <span className="text-[10px] text-[var(--brand)] font-medium bg-[var(--brand-wash)] px-2 py-0.5 rounded-full">Updated 7:30 AM</span>
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -258,7 +310,7 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
                   <span className="text-slate-600 font-medium">{item.name}</span>
                   <div className="text-right">
                     <div className="font-bold text-slate-900">{item.price}</div>
-                    <div className={`text-[10px] font-medium ${item.trendUp ? 'text-emerald-600' : 'text-red-500'}`}>{item.trend}</div>
+                    <div className={`text-[10px] font-medium ${item.trendUp ? 'text-[var(--brand)]' : 'text-red-500'}`}>{item.trend}</div>
                   </div>
                 </div>
               ))}
@@ -280,12 +332,12 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
               ].map((item, i) => (
                 <div key={i} className="flex items-center justify-between text-sm">
                   <span className="flex items-center gap-2 text-slate-600">
-                    <item.icon className={`h-3.5 w-3.5 ${item.color === 'green' ? 'text-emerald-500' :
+                    <item.icon className={`h-3.5 w-3.5 ${item.color === 'green' ? 'text-[var(--brand)]' :
                       item.color === 'yellow' ? 'text-amber-500' : 'text-red-500'
                       }`} />
                     {item.label}
                   </span>
-                  <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${item.color === 'green' ? 'bg-emerald-50 text-emerald-700' :
+                  <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${item.color === 'green' ? 'bg-[var(--brand-wash)] text-[var(--brand)]' :
                     item.color === 'yellow' ? 'bg-amber-50 text-amber-700' : 'bg-red-50 text-red-700'
                     }`}>
                     {item.status}
@@ -294,89 +346,147 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
               ))}
             </CardContent>
           </Card>
+
+          {/* Scheme Tracker */}
+          <Card>
+            <CardHeader className="pb-3">
+              <div className="flex items-center gap-2">
+                <Landmark className="h-4 w-4 text-indigo-500" />
+                <CardTitle className="text-sm">Govt. Scheme Saturation</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {[
+                { name: 'PM-KISAN Samman Nidhi', eligible: 840, enrolled: 795, color: 'bg-[var(--brand)]' },
+                { name: 'Soil Health Card', eligible: 1200, enrolled: 450, color: 'bg-amber-500' },
+                { name: 'PMFBY (Crop Insurance)', eligible: 950, enrolled: 320, color: 'bg-indigo-500' }
+              ].map((scheme, i) => {
+                const percent = Math.round((scheme.enrolled / scheme.eligible) * 100);
+                return (
+                  <div key={i}>
+                    <div className="flex justify-between items-end mb-1">
+                      <span className="text-xs font-medium text-slate-700">{scheme.name}</span>
+                      <span className="text-[10px] font-bold text-slate-900">{percent}%</span>
+                    </div>
+                    <div className="w-full bg-slate-100 rounded-full h-1.5">
+                      <div className={`h-1.5 rounded-full ${scheme.color}`} style={{ width: `${percent}%` }}></div>
+                    </div>
+                    <div className="text-[9px] text-slate-500 mt-1 flex justify-between">
+                      <span>{scheme.enrolled} Enrolled</span>
+                      <span>Target: {scheme.eligible}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </CardContent>
+          </Card>
         </div>
       </div>
 
-      {/* Farmer Pipeline + Financial Strip */}
+      {/* Row 4: Operations Snapshot Visual Pipelines */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Input Supply Pipeline */}
         <Card>
-          <CardHeader>
-            <CardTitle>Farmer Pipeline</CardTitle>
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2"><ShoppingCart className="h-5 w-5 text-indigo-600" /> Input Supply Pipeline</CardTitle>
+            <CardDescription>Flow of fertilizer, seeds, and pesticides</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-between gap-1 mb-6 overflow-x-auto pb-2">
+            <div className="flex flex-col gap-3">
               {[
-                { label: 'Registered', value: '1,200', active: false },
-                { label: 'KYC Done', value: '1,050', active: false },
-                { label: 'Active', value: '847', active: true },
-                { label: 'Transacting', value: '623', active: false },
+                { label: 'Demand Collected', count: 312, meta: '₹14.2L', active: false },
+                { label: 'POs Raised', count: 8, meta: '₹12.5L', active: false },
+                { label: 'In Transit', count: 3, meta: 'Expected by Friday', active: true, highlight: 'indigo' },
+                { label: 'At Warehouse', count: 1250, meta: 'Items in Stock', active: false },
+                { label: 'Distributed', count: 480, meta: 'To 145 farmers', active: false },
               ].map((stage, i, arr) => (
-                <React.Fragment key={i}>
-                  <div className={`flex-1 min-w-[80px] text-center p-3 rounded-lg border ${stage.active ? 'bg-emerald-50 border-emerald-200' : 'bg-slate-50 border-slate-100'}`}>
-                    <div className={`text-lg font-bold ${stage.active ? 'text-emerald-700' : 'text-slate-700'}`}>{stage.value}</div>
-                    <div className="text-[10px] text-slate-500 uppercase tracking-wide mt-1">{stage.label}</div>
+                <div key={i} className="flex items-center gap-3">
+                  <div className={`w-36 text-right text-xs font-semibold ${stage.active ? 'text-indigo-700' : 'text-slate-600'}`}>
+                    {stage.label}
                   </div>
-                  {i < arr.length - 1 && <div className="text-slate-300">→</div>}
-                </React.Fragment>
+                  <div className="relative flex items-center justify-center h-8 w-8 shrink-0">
+                    {i !== arr.length - 1 && (
+                      <div className="absolute top-8 left-1/2 -translate-x-1/2 w-0.5 h-6 bg-slate-200"></div>
+                    )}
+                    <div className={`h-4 w-4 rounded-full border-2 z-10 ${stage.active ? 'border-indigo-600 bg-indigo-100 ring-4 ring-indigo-50' : 'border-slate-300 bg-white'}`}></div>
+                  </div>
+                  <div className={`flex-1 flex justify-between items-center p-3 rounded-lg border ${stage.active ? 'bg-indigo-50/50 border-indigo-100 shadow-sm' : 'bg-slate-50/50 border-slate-100'}`}>
+                    <span className="font-bold text-slate-800">{stage.count}</span>
+                    <span className="text-[11px] text-slate-500 font-medium">{stage.meta}</span>
+                  </div>
+                </div>
               ))}
-            </div>
-            <div className="grid grid-cols-3 gap-4 border-t border-slate-100 pt-4">
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
-                  <span className="font-bold text-slate-900">623</span>
-                </div>
-                <div className="text-xs text-slate-500 mt-1">Active</div>
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-amber-500"></span>
-                  <span className="font-bold text-slate-900">142</span>
-                </div>
-                <div className="text-xs text-slate-500 mt-1">Dormant</div>
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-red-500"></span>
-                  <span className="font-bold text-slate-900">82</span>
-                </div>
-                <div className="text-xs text-slate-500 mt-1">Inactive</div>
-              </div>
             </div>
           </CardContent>
         </Card>
 
+        {/* Output/Sales Pipeline */}
         <Card>
-          <CardHeader>
-            <CardTitle>Financial Health</CardTitle>
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2"><Truck className="h-5 w-5 text-amber-600" /> Output Sales Pipeline</CardTitle>
+            <CardDescription>Flow of procured harvest to buyers</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              <div className="p-3 rounded-lg border border-emerald-100 bg-emerald-50/30 text-center">
-                <div className="text-xs text-slate-500 mb-1">Receivables</div>
-                <div className="font-bold text-slate-900">₹8.4L</div>
-                <div className="text-[10px] text-red-600 mt-1 font-medium">₹1.2L overdue</div>
-              </div>
-              <div className="p-3 rounded-lg border border-amber-100 bg-amber-50/30 text-center">
-                <div className="text-xs text-slate-500 mb-1">Payables</div>
-                <div className="font-bold text-slate-900">₹5.1L</div>
-                <div className="text-[10px] text-amber-600 mt-1 font-medium">₹0.4L overdue</div>
-              </div>
-              <div className="p-3 rounded-lg border border-emerald-100 bg-emerald-50/30 text-center">
-                <div className="text-xs text-slate-500 mb-1">Net Working Capital</div>
-                <div className="font-bold text-emerald-700">₹3.3L</div>
-                <div className="text-[10px] text-emerald-600 mt-1 font-medium">↑ 12% MoM</div>
-              </div>
-            </div>
-            <div className="h-24 w-full">
-              <Bar data={cashflowData} options={chartOptions} />
+            <div className="flex flex-col gap-3">
+              {[
+                { label: 'Committed', count: '4,200 Qtl', meta: 'Wheat & Mustard', active: false },
+                { label: 'QC Passed', count: '3,850 Qtl', meta: 'Grade A & B', active: false },
+                { label: 'Buyer Matched', count: '3 Contracts', meta: 'Avg: ₹2,350/Qtl', active: true, highlight: 'amber' },
+                { label: 'Dispatched', count: '1,200 Qtl', meta: '2 Trucks active', active: false },
+                { label: 'Paid', count: '₹12.4L', meta: 'Received this week', active: false },
+              ].map((stage, i, arr) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className={`w-36 text-right text-xs font-semibold ${stage.active ? 'text-amber-700' : 'text-slate-600'}`}>
+                    {stage.label}
+                  </div>
+                  <div className="relative flex items-center justify-center h-8 w-8 shrink-0">
+                    {i !== arr.length - 1 && (
+                      <div className="absolute top-8 left-1/2 -translate-x-1/2 w-0.5 h-6 bg-slate-200"></div>
+                    )}
+                    <div className={`h-4 w-4 rounded-full border-2 z-10 ${stage.active ? 'border-amber-600 bg-amber-100 ring-4 ring-amber-50' : 'border-slate-300 bg-white'}`}></div>
+                  </div>
+                  <div className={`flex-1 flex justify-between items-center p-3 rounded-lg border ${stage.active ? 'bg-amber-50/50 border-amber-100 shadow-sm' : 'bg-slate-50/50 border-slate-100'}`}>
+                    <span className="font-bold text-slate-800">{stage.count}</span>
+                    <span className="text-[11px] text-slate-500 font-medium">{stage.meta}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Moderator Performance */}
+      {/* Row 5: Financial Strip */}
       <Card>
+        <CardHeader>
+          <CardTitle>Cash Flow - Last 8 Weeks</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="p-3 rounded-lg border border-[var(--brand-pale)] bg-[var(--brand-wash)]/30 text-center">
+              <div className="text-xs text-slate-500 mb-1 flex items-center justify-center gap-1"><Banknote className="h-3 w-3" /> Receivables</div>
+              <div className="text-xl font-bold text-slate-900">₹8.4L</div>
+              <div className="text-[10px] text-red-600 mt-1 font-medium">₹1.2L overdue</div>
+            </div>
+            <div className="p-3 rounded-lg border border-amber-100 bg-amber-50/30 text-center">
+              <div className="text-xs text-slate-500 mb-1 flex items-center justify-center gap-1"><Package className="h-3 w-3" /> Payables</div>
+              <div className="text-xl font-bold text-slate-900">₹5.1L</div>
+              <div className="text-[10px] text-amber-600 mt-1 font-medium">₹0.4L overdue</div>
+            </div>
+            <div className="p-3 rounded-lg border border-indigo-100 bg-indigo-50/30 text-center">
+              <div className="text-xs text-slate-500 mb-1 flex items-center justify-center gap-1"><Activity className="h-3 w-3" /> Net Working Capital</div>
+              <div className="text-xl font-bold text-indigo-700">₹3.3L</div>
+              <div className="text-[10px] text-indigo-600 mt-1 font-medium">↑ 12% MoM</div>
+            </div>
+          </div>
+          <div className="h-48 w-full mt-4">
+            <Bar data={cashflowData} options={chartOptions} />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Moderator Performance */}
+      < Card >
         <CardHeader>
           <CardTitle>Moderator Performance — January 2025</CardTitle>
         </CardHeader>
@@ -400,7 +510,7 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
                   <td className="px-6 py-4 text-slate-600">32</td>
                   <td className="px-6 py-4 text-slate-600">18</td>
                   <td className="px-6 py-4 text-slate-600">₹42,000</td>
-                  <td className="px-6 py-4"><span className="inline-flex items-center rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20">85/100</span></td>
+                  <td className="px-6 py-4"><span className="inline-flex items-center rounded-full bg-[var(--brand-wash)] px-2 py-1 text-xs font-medium text-[var(--brand)] ring-1 ring-inset ring-emerald-600/20">85/100</span></td>
                 </tr>
                 <tr className="hover:bg-slate-50/50 transition-colors">
                   <td className="px-6 py-4 font-medium text-slate-900">Priya Singh</td>
@@ -408,7 +518,7 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
                   <td className="px-6 py-4 text-slate-600">28</td>
                   <td className="px-6 py-4 text-slate-600">22</td>
                   <td className="px-6 py-4 text-slate-600">₹38,000</td>
-                  <td className="px-6 py-4"><span className="inline-flex items-center rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20">78/100</span></td>
+                  <td className="px-6 py-4"><span className="inline-flex items-center rounded-full bg-[var(--brand-wash)] px-2 py-1 text-xs font-medium text-[var(--brand)] ring-1 ring-inset ring-emerald-600/20">78/100</span></td>
                 </tr>
                 <tr className="hover:bg-slate-50/50 transition-colors">
                   <td className="px-6 py-4 font-medium text-slate-900 flex items-center gap-2">Rajesh Pal <AlertCircle className="h-3 w-3 text-amber-500" /></td>
@@ -422,7 +532,7 @@ export default function CEODashboardContent({ setActiveSection }: CEODashboardCo
             </table>
           </div>
         </CardContent>
-      </Card>
-    </div>
+      </Card >
+    </div >
   );
 }

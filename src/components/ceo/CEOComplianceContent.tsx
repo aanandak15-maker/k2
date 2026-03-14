@@ -33,31 +33,31 @@ export default function CEOComplianceContent() {
                     <td className="px-6 py-4 font-medium text-slate-900">AGM 2024</td>
                     <td className="px-6 py-4 text-slate-600">30 Sep 2024</td>
                     <td className="px-6 py-4"><Badge variant="success">Completed</Badge></td>
-                    <td className="px-6 py-4"><button onClick={() => toast({ message: 'Opening AGM minutes...', variant: 'info' })} className="text-emerald-600 hover:text-emerald-700 font-medium text-xs">View Minutes</button></td>
+                    <td className="px-6 py-4"><button onClick={() => toast({ message: 'Opening AGM minutes...', variant: 'info' })} className="text-[var(--brand)] hover:text-[var(--brand)] font-medium text-xs">View Minutes</button></td>
                   </tr>
                   <tr className="hover:bg-slate-50/50 transition-colors">
                     <td className="px-6 py-4 font-medium text-slate-900">GST Return (GSTR-3B)</td>
                     <td className="px-6 py-4 text-slate-600">20 Feb 2025</td>
                     <td className="px-6 py-4"><Badge variant="warning">Due in 8 days</Badge></td>
-                    <td className="px-6 py-4"><button onClick={() => toast({ message: 'GST filing initiated', variant: 'success' })} className="text-emerald-600 hover:text-emerald-700 font-medium text-xs">File Now</button></td>
+                    <td className="px-6 py-4"><button onClick={() => toast({ message: 'GST filing initiated', variant: 'success' })} className="text-[var(--brand)] hover:text-[var(--brand)] font-medium text-xs">File Now</button></td>
                   </tr>
                   <tr className="hover:bg-slate-50/50 transition-colors">
                     <td className="px-6 py-4 font-medium text-slate-900">ROC Annual Filing (MGT-7)</td>
                     <td className="px-6 py-4 text-slate-600">30 Nov 2024</td>
                     <td className="px-6 py-4"><Badge variant="success">Filed</Badge></td>
-                    <td className="px-6 py-4"><button onClick={() => toast({ message: 'Downloading ROC receipt...', variant: 'info' })} className="text-emerald-600 hover:text-emerald-700 font-medium text-xs">Download Receipt</button></td>
+                    <td className="px-6 py-4"><button onClick={() => toast({ message: 'Downloading ROC receipt...', variant: 'info' })} className="text-[var(--brand)] hover:text-[var(--brand)] font-medium text-xs">Download Receipt</button></td>
                   </tr>
                   <tr className="hover:bg-slate-50/50 transition-colors">
                     <td className="px-6 py-4 font-medium text-slate-900">Statutory Audit</td>
                     <td className="px-6 py-4 text-slate-600">31 Mar 2025</td>
                     <td className="px-6 py-4"><Badge variant="warning">Pending</Badge></td>
-                    <td className="px-6 py-4"><button onClick={() => toast({ message: 'Auditor appointment form opened', variant: 'info' })} className="text-emerald-600 hover:text-emerald-700 font-medium text-xs">Appoint Auditor</button></td>
+                    <td className="px-6 py-4"><button onClick={() => toast({ message: 'Auditor appointment form opened', variant: 'info' })} className="text-[var(--brand)] hover:text-[var(--brand)] font-medium text-xs">Appoint Auditor</button></td>
                   </tr>
                   <tr className="hover:bg-slate-50/50 transition-colors">
                     <td className="px-6 py-4 font-medium text-slate-900">Director KYC</td>
                     <td className="px-6 py-4 text-slate-600">30 Apr 2025</td>
                     <td className="px-6 py-4"><Badge variant="success">Up to date</Badge></td>
-                    <td className="px-6 py-4"><button onClick={() => toast({ message: 'Checking FSSAI status...', variant: 'info' })} className="text-emerald-600 hover:text-emerald-700 font-medium text-xs">Check Status</button></td>
+                    <td className="px-6 py-4"><button onClick={() => toast({ message: 'Checking FSSAI status...', variant: 'info' })} className="text-[var(--brand)] hover:text-[var(--brand)] font-medium text-xs">Check Status</button></td>
                   </tr>
                 </tbody>
               </table>
@@ -80,10 +80,10 @@ export default function CEOComplianceContent() {
               </div>
               <div className="text-sm text-slate-600 mb-2">Amount: ₹15,00,000</div>
               <div className="flex items-center gap-2 text-xs text-slate-500">
-                <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />
+                <CheckCircle className="h-3.5 w-3.5 text-[var(--brand)]" />
                 <span>Application Approved</span>
                 <span className="text-slate-300">•</span>
-                <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />
+                <CheckCircle className="h-3.5 w-3.5 text-[var(--brand)]" />
                 <span>Agreement Signed</span>
                 <span className="text-slate-300">•</span>
                 <Clock className="h-3.5 w-3.5 text-amber-500" />
@@ -101,7 +101,7 @@ export default function CEOComplianceContent() {
               </div>
               <div className="text-sm text-slate-600 mb-2">Amount: ₹25,00,000</div>
               <div className="flex items-center gap-2 text-xs text-slate-500">
-                <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />
+                <CheckCircle className="h-3.5 w-3.5 text-[var(--brand)]" />
                 <span>DPR Submitted</span>
                 <span className="text-slate-300">•</span>
                 <Clock className="h-3.5 w-3.5 text-amber-500" />
@@ -122,7 +122,7 @@ export default function CEOComplianceContent() {
                 <FileText className="h-3.5 w-3.5 text-slate-400" />
                 <span>Application in Draft</span>
               </div>
-              <button onClick={() => toast({ message: 'Resuming MSME application...', variant: 'info' })} className="mt-2 text-emerald-600 hover:text-emerald-700 font-medium text-xs">Resume Application</button>
+              <button onClick={() => toast({ message: 'Resuming MSME application...', variant: 'info' })} className="mt-2 text-[var(--brand)] hover:text-[var(--brand)] font-medium text-xs">Resume Application</button>
             </div>
           </CardContent>
         </Card>

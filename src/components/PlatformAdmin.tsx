@@ -9,6 +9,7 @@ import SubscriptionManagement from './platformAdmin/SubscriptionManagement';
 import SupportTickets from './platformAdmin/SupportTickets';
 import KnowledgeBase from './platformAdmin/KnowledgeBase';
 import PlatformSettings from './platformAdmin/PlatformSettings';
+import AuditLogViewer from './platformAdmin/AuditLogViewer';
 import { EmptyState } from './ui/EmptyState';
 import { Building2 } from 'lucide-react';
 
@@ -52,6 +53,7 @@ export default function PlatformAdmin({ onHome }: PlatformAdminProps) {
             {activeSection === 'onboarding' && 'FPO Onboarding'}
             {activeSection === 'subscriptions' && 'Subscription Management'}
             {activeSection === 'health' && 'System Health'}
+            {activeSection === 'audit' && 'Global Audit & Security Logs'}
             {activeSection === 'support' && 'Support Tickets'}
             {activeSection === 'kb' && 'Knowledge Base'}
             {activeSection === 'settings' && 'Platform Settings'}
@@ -75,6 +77,7 @@ export default function PlatformAdmin({ onHome }: PlatformAdminProps) {
       {activeSection === 'onboarding' && <FPOOnboardingWizard setActiveSection={setActiveSection} />}
       {activeSection === 'subscriptions' && <SubscriptionManagement />}
       {activeSection === 'health' && <SystemHealthDashboard />}
+      {activeSection === 'audit' && <AuditLogViewer />}
       {activeSection === 'support' && <SupportTickets />}
       {activeSection === 'kb' && <KnowledgeBase />}
       {activeSection === 'settings' && <PlatformSettings />}

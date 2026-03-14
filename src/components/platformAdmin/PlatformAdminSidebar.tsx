@@ -8,7 +8,8 @@ import {
     Activity,
     Ticket,
     BookOpen,
-    Settings
+    Settings,
+    ShieldCheck
 } from 'lucide-react';
 
 interface PlatformAdminSidebarProps {
@@ -58,6 +59,12 @@ export default function PlatformAdminSidebar({ activeSection, setActiveSection }
                         active={activeSection === 'health'}
                         onClick={() => setActiveSection('health')}
                         badge="99.9%"
+                    />
+                    <SidebarItem
+                        icon={ShieldCheck}
+                        label="Audit Logs"
+                        active={activeSection === 'audit'}
+                        onClick={() => setActiveSection('audit')}
                     />
                     <SidebarItem
                         icon={Ticket}

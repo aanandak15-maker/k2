@@ -23,11 +23,11 @@ export function ModeratorPaymentCollection({ farmerId, farmerName, outstandingAm
     if (isSuccess) {
         return (
             <div className="h-full flex flex-col items-center justify-center p-6 animate-in zoom-in duration-300">
-                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
+                <div className="w-16 h-16 bg-[var(--brand-pale)] text-[var(--brand)] rounded-full flex items-center justify-center mb-4">
                     <Check size={32} />
                 </div>
                 <h2 className="text-xl font-bold text-slate-800 mb-2">Payment Collected</h2>
-                <div className="text-3xl font-bold text-emerald-600 mb-2">₹{amount}</div>
+                <div className="text-3xl font-bold text-[var(--brand)] mb-2">₹{amount}</div>
                 <p className="text-center text-slate-500 text-sm">Receipt sent to {farmerName} via SMS.</p>
             </div>
         );
@@ -63,7 +63,7 @@ export function ModeratorPaymentCollection({ farmerId, farmerName, outstandingAm
                                     </div>
                                     <input
                                         type="number"
-                                        className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-10 pr-3 py-3 text-lg font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-10 pr-3 py-3 text-lg font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                         placeholder="0.00"
                                         value={amount}
                                         onChange={(e) => setAmount(e.target.value)}
@@ -79,21 +79,21 @@ export function ModeratorPaymentCollection({ farmerId, farmerName, outstandingAm
                                 <div className="grid grid-cols-3 gap-2">
                                     <button
                                         type="button"
-                                        className={`flex flex-col items-center justify-center gap-2 py-3 rounded-lg border text-sm font-medium transition-colors ${mode === 'Cash' ? 'bg-emerald-50 border-emerald-500 text-emerald-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                                        className={`flex flex-col items-center justify-center gap-2 py-3 rounded-lg border text-sm font-medium transition-colors ${mode === 'Cash' ? 'bg-[var(--brand-wash)] border-[var(--brand)] text-[var(--brand)]' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
                                         onClick={() => setMode('Cash')}
                                     >
                                         <Wallet size={20} /> Cash
                                     </button>
                                     <button
                                         type="button"
-                                        className={`flex flex-col items-center justify-center gap-2 py-3 rounded-lg border text-sm font-medium transition-colors ${mode === 'UPI' ? 'bg-emerald-50 border-emerald-500 text-emerald-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                                        className={`flex flex-col items-center justify-center gap-2 py-3 rounded-lg border text-sm font-medium transition-colors ${mode === 'UPI' ? 'bg-[var(--brand-wash)] border-[var(--brand)] text-[var(--brand)]' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
                                         onClick={() => setMode('UPI')}
                                     >
                                         <QrCode size={20} /> UPI
                                     </button>
                                     <button
                                         type="button"
-                                        className={`flex flex-col items-center justify-center gap-2 py-3 rounded-lg border text-sm font-medium transition-colors ${mode === 'Bank' ? 'bg-emerald-50 border-emerald-500 text-emerald-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                                        className={`flex flex-col items-center justify-center gap-2 py-3 rounded-lg border text-sm font-medium transition-colors ${mode === 'Bank' ? 'bg-[var(--brand-wash)] border-[var(--brand)] text-[var(--brand)]' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
                                         onClick={() => setMode('Bank')}
                                     >
                                         <Building size={20} /> Bank
@@ -106,7 +106,7 @@ export function ModeratorPaymentCollection({ farmerId, farmerName, outstandingAm
                                     <label className="block text-sm font-medium text-slate-700 mb-1.5">Reference / UTR Number</label>
                                     <input
                                         type="text"
-                                        className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                         placeholder="Enter transaction ID"
                                         value={refNo}
                                         onChange={(e) => setRefNo(e.target.value)}
@@ -121,7 +121,7 @@ export function ModeratorPaymentCollection({ farmerId, farmerName, outstandingAm
                     <button
                         type="submit"
                         disabled={isSubmitting || !amount || parseFloat(amount) <= 0 || (mode !== 'Cash' && !refNo)}
-                        className="w-full bg-emerald-600 text-white font-bold py-3.5 rounded-xl shadow-sm shadow-emerald-600/20 active:scale-[0.98] transition-all disabled:opacity-70 disabled:active:scale-100 flex items-center justify-center gap-2"
+                        className="w-full bg-[var(--brand)] text-white font-bold py-3.5 rounded-xl shadow-sm shadow-emerald-600/20 active:scale-[0.98] transition-all disabled:opacity-70 disabled:active:scale-100 flex items-center justify-center gap-2"
                     >
                         {isSubmitting ? 'Processing...' : `Confirm Record ₹${amount}`}
                     </button>

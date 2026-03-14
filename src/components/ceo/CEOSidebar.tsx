@@ -42,13 +42,13 @@ export default function CEOSidebar({ activeSection, setActiveSection }: CEOSideb
         ))}
       </div>
       <div className="mt-auto pt-6">
-        <div className="bg-emerald-50 rounded-xl p-4 text-center border border-emerald-100">
-          <div className="text-3xl font-bold text-emerald-700 tracking-tight">82</div>
-          <div className="text-xs text-emerald-800 font-semibold uppercase tracking-wide mt-1">FPO Credit Score</div>
-          <div className="h-1.5 w-full bg-emerald-200 rounded-full mt-3 overflow-hidden">
-            <div className="h-full bg-emerald-600 rounded-full" style={{ width: '82%' }}></div>
+        <div className="bg-[var(--brand-wash)] rounded-xl p-4 text-center border border-[var(--brand-pale)]">
+          <div className="text-3xl font-bold text-[var(--brand)] tracking-tight">82</div>
+          <div className="text-xs text-[var(--brand)] font-semibold uppercase tracking-wide mt-1">FPO Credit Score</div>
+          <div className="h-1.5 w-full bg-[var(--brand-muted)] rounded-full mt-3 overflow-hidden">
+            <div className="h-full bg-[var(--brand)] rounded-full" style={{ width: '82%' }}></div>
           </div>
-          <div className="text-xs text-emerald-600 mt-2 font-medium">+3 pts this month</div>
+          <div className="text-xs text-[var(--brand)] mt-2 font-medium opacity-80">+3 pts this month</div>
         </div>
       </div>
     </div>

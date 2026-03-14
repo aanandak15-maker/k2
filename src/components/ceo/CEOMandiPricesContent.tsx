@@ -23,7 +23,7 @@ export default function CEOMandiPricesContent() {
         { key: 'minPrice' as const, header: 'Min-Max Price', render: (item: any) => <span className="text-xs text-slate-500">₹{item.minPrice} - ₹{item.maxPrice}</span> },
         {
             key: 'trend' as const, header: 'Trend', render: (item: any) => (
-                <div className={`flex items-center gap-1.5 text-xs font-semibold px-2 py-1 rounded-full w-fit ${item.trend === 'Up' ? 'text-emerald-700 bg-emerald-50' :
+                <div className={`flex items-center gap-1.5 text-xs font-semibold px-2 py-1 rounded-full w-fit ${item.trend === 'Up' ? 'text-[var(--brand)] bg-[var(--brand-wash)]' :
                     item.trend === 'Down' ? 'text-red-700 bg-red-50' : 'text-slate-600 bg-slate-100'
                     }`}>
                     {item.trend === 'Up' ? <TrendingUp size={14} /> : item.trend === 'Down' ? <TrendingDown size={14} /> : <Minus size={14} />}
@@ -80,7 +80,7 @@ export default function CEOMandiPricesContent() {
                     </button>
                     <button
                         onClick={() => toast({ message: 'Mandi price report exported', variant: 'success' })}
-                        className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Download size={16} /> Export Report
                     </button>
@@ -100,13 +100,13 @@ export default function CEOMandiPricesContent() {
                 </Card>
 
                 <div className="space-y-6">
-                    <Card className="bg-emerald-50 border-emerald-100">
+                    <Card className="bg-[var(--brand-wash)] border-[var(--brand-pale)]">
                         <CardContent className="p-6">
-                            <div className="text-sm font-semibold text-emerald-800 mb-2">Market Intelligence Alert</div>
-                            <p className="text-sm text-emerald-700 mb-4">Wheat prices in Agra mandi are trending <strong>5% higher</strong> than last month. Consider liquidating 30% of stored inventory within the next 7 days to capture peak pricing.</p>
+                            <div className="text-sm font-semibold text-[var(--brand-light)] mb-2">Market Intelligence Alert</div>
+                            <p className="text-sm text-[var(--brand)] mb-4">Wheat prices in Agra mandi are trending <strong>5% higher</strong> than last month. Consider liquidating 30% of stored inventory within the next 7 days to capture peak pricing.</p>
                             <button
                                 onClick={() => toast({ message: 'Sale order initiated', variant: 'success' })}
-                                className="w-full bg-emerald-600 text-white text-sm font-medium py-2 rounded-lg hover:bg-emerald-700 transition-colors"
+                                className="w-full bg-[var(--brand)] text-white text-sm font-medium py-2 rounded-lg hover:bg-[var(--brand-light)] transition-colors"
                             >
                                 Initiate Sale Order
                             </button>
@@ -123,7 +123,7 @@ export default function CEOMandiPricesContent() {
                                     <div className="font-semibold text-slate-900">Tomato (Agra)</div>
                                     <div className="text-xs text-slate-500">₹3,200/Qtl</div>
                                 </div>
-                                <div className="flex items-center gap-1 text-emerald-600 font-bold text-sm bg-emerald-50 px-2.5 py-1 rounded-md">
+                                <div className="flex items-center gap-1 text-[var(--brand)] font-bold text-sm bg-[var(--brand-wash)] px-2.5 py-1 rounded-md">
                                     <TrendingUp size={16} /> +18.2%
                                 </div>
                             </div>
@@ -132,7 +132,7 @@ export default function CEOMandiPricesContent() {
                                     <div className="font-semibold text-slate-900">Potato (Agra)</div>
                                     <div className="text-xs text-slate-500">₹1,420/Qtl</div>
                                 </div>
-                                <div className="flex items-center gap-1 text-emerald-600 font-bold text-sm bg-emerald-50 px-2.5 py-1 rounded-md">
+                                <div className="flex items-center gap-1 text-[var(--brand)] font-bold text-sm bg-[var(--brand-wash)] px-2.5 py-1 rounded-md">
                                     <TrendingUp size={16} /> +8.5%
                                 </div>
                             </div>
@@ -158,7 +158,7 @@ export default function CEOMandiPricesContent() {
                         <input
                             type="text"
                             placeholder="Search commodity or mandi..."
-                            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />

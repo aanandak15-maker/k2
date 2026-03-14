@@ -68,7 +68,7 @@ export default function AdminBankingContent() {
                 <div className="flex gap-3">
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Plus size={16} /> Add Bank Transaction
                     </button>
@@ -90,7 +90,7 @@ export default function AdminBankingContent() {
                         <div className="text-3xl font-bold mb-4">₹{availableBalance.toLocaleString()}</div>
                         <div className="flex justify-between items-end">
                             <div className="text-sm font-mono text-indigo-200">**** **** **** 4022</div>
-                            <Badge variant="success" className="bg-emerald-500/20 text-emerald-100 border-0">Connected 🟢</Badge>
+                            <Badge variant="success" className="bg-[var(--brand)]/20 text-emerald-100 border-0">Connected 🟢</Badge>
                         </div>
                     </CardContent>
                 </Card>
@@ -109,7 +109,7 @@ export default function AdminBankingContent() {
                         <div className="text-3xl font-bold mb-4">₹8,10,500</div>
                         <div className="flex justify-between items-end">
                             <div className="text-sm font-mono text-slate-400">**** **** **** 9102</div>
-                            <Badge variant="success" className="bg-emerald-500/20 text-emerald-100 border-0">Connected 🟢</Badge>
+                            <Badge variant="success" className="bg-[var(--brand)]/20 text-emerald-100 border-0">Connected 🟢</Badge>
                         </div>
                     </CardContent>
                 </Card>
@@ -172,7 +172,7 @@ export default function AdminBankingContent() {
                                 <h3 className="font-semibold text-slate-800 text-sm">Pending Exceptions (Action Required)</h3>
                                 <button
                                     onClick={() => toast({ message: 'Auto-matching transactions...', variant: 'success' })}
-                                    className="text-xs flex items-center gap-1 text-emerald-600 font-medium hover:text-emerald-700"
+                                    className="text-xs flex items-center gap-1 text-[var(--brand)] font-medium hover:text-[var(--brand)]"
                                 >
                                     <RefreshCw size={14} /> Re-run Auto Match
                                 </button>
@@ -203,7 +203,7 @@ export default function AdminBankingContent() {
                                                 </div>
                                                 <button
                                                     onClick={() => handleReconcile(txn.id)}
-                                                    className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:border-emerald-200 transition-colors shadow-sm"
+                                                    className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-[var(--brand)] hover:border-[var(--brand-muted)] transition-colors shadow-sm"
                                                 >
                                                     <Check size={16} />
                                                 </button>
@@ -282,7 +282,7 @@ export default function AdminBankingContent() {
 
                             <div className="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-6">
                                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-lg border border-slate-200">Cancel</button>
-                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm">Save Record</button>
+                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg shadow-sm">Save Record</button>
                             </div>
                         </form>
                     </div>

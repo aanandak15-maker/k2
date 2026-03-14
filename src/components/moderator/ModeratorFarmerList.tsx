@@ -19,7 +19,7 @@ export function ModeratorFarmerList({ onSelectFarmer }: { onSelectFarmer: (id: s
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20 mt-4">
             <div className="flex justify-between items-center">
                 <h2 className="font-bold text-slate-800 text-sm">Directory</h2>
-                <button onClick={() => toast({ message: 'Farmer registration form coming in v2', variant: 'info' })} className="text-emerald-600 hover:bg-emerald-50 p-1.5 rounded-full flex items-center gap-1 text-xs font-medium">
+                <button onClick={() => toast({ message: 'Farmer registration form coming in v2', variant: 'info' })} className="text-[var(--brand)] hover:bg-[var(--brand-wash)] p-1.5 rounded-full flex items-center gap-1 text-xs font-medium">
                     <UserPlus size={14} /> Add New
                 </button>
             </div>
@@ -30,7 +30,7 @@ export function ModeratorFarmerList({ onSelectFarmer }: { onSelectFarmer: (id: s
                 </div>
                 <input
                     type="text"
-                    className="block w-full pl-9 pr-3 py-2 border border-slate-200 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 sm:text-sm"
+                    className="block w-full pl-9 pr-3 py-2 border border-slate-200 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] sm:text-sm"
                     placeholder="Search by name or mobile..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -41,7 +41,7 @@ export function ModeratorFarmerList({ onSelectFarmer }: { onSelectFarmer: (id: s
                 {farmersList.map((farmer) => (
                     <Card
                         key={farmer.id}
-                        className="border border-slate-100 shadow-sm hover:border-emerald-200 hover:shadow-md transition-all cursor-pointer active:scale-[0.98]"
+                        className="border border-slate-100 shadow-sm hover:border-[var(--brand-muted)] hover:shadow-md transition-all cursor-pointer active:scale-[0.98]"
                         onClick={() => onSelectFarmer(farmer.id)}
                     >
                         <CardContent className="p-3 flex items-center gap-3">
@@ -50,7 +50,7 @@ export function ModeratorFarmerList({ onSelectFarmer }: { onSelectFarmer: (id: s
                                     {farmer.name.split(' ').map(n => n[0]).join('')}
                                 </div>
                                 {farmer.status === 'Active' && (
-                                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></div>
+                                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-[var(--brand)] border-2 border-white rounded-full"></div>
                                 )}
                             </div>
 

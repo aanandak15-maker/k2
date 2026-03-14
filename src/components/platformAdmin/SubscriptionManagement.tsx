@@ -84,7 +84,7 @@ export default function SubscriptionManagement() {
                     value="₹23.4M"
                     trend="+15% y/y"
                     trendDirection="up"
-                    icon={<TrendingUp size={24} className="text-emerald-600" />}
+                    icon={<TrendingUp size={24} className="text-[var(--brand)]" />}
                 />
                 <StatCard
                     title="Monthly Recurring Rev (MRR)"
@@ -137,7 +137,7 @@ export default function SubscriptionManagement() {
                     <CardContent className="p-4">
                         <div className="space-y-4">
                             {[
-                                { name: 'Enterprise', count: 42, pct: 30, color: 'bg-emerald-500' },
+                                { name: 'Enterprise', count: 42, pct: 30, color: 'bg-[var(--brand)]' },
                                 { name: 'Growth', count: 75, pct: 53, color: 'bg-blue-500' },
                                 { name: 'Starter', count: 25, pct: 17, color: 'bg-slate-400' },
                             ].map(plan => (
@@ -170,7 +170,7 @@ export default function SubscriptionManagement() {
                     <CardTitle className="text-lg">Subscription Roster</CardTitle>
                     <div className="flex gap-2">
                         <select
-                            className="border border-slate-200 rounded-lg text-sm px-3 py-1.5 bg-white text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                            className="border border-slate-200 rounded-lg text-sm px-3 py-1.5 bg-white text-slate-600 focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20"
                             value={statusFilter}
                             onChange={e => setStatusFilter(e.target.value)}
                         >
@@ -180,7 +180,7 @@ export default function SubscriptionManagement() {
                             <option>Cancelled</option>
                         </select>
                         <select
-                            className="border border-slate-200 rounded-lg text-sm px-3 py-1.5 bg-white text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                            className="border border-slate-200 rounded-lg text-sm px-3 py-1.5 bg-white text-slate-600 focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20"
                             value={planFilter}
                             onChange={e => setPlanFilter(e.target.value)}
                         >

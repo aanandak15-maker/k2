@@ -10,7 +10,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ sidebarContent, headerProps, children }: DashboardLayoutProps) {
   return (
-    <div className="flex min-h-screen bg-slate-50 font-sans text-slate-900 antialiased selection:bg-emerald-100 selection:text-emerald-900">
+    <div className="flex min-h-screen bg-[var(--bg-app)] font-sans text-slate-900 antialiased selection:bg-[var(--brand-pale)] selection:text-[var(--brand)]">
       <Sidebar>
         {sidebarContent}
       </Sidebar>

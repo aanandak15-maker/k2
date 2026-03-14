@@ -69,7 +69,7 @@ export default function AdminBuyerContent() {
                 <div className="flex gap-3">
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Plus size={16} /> Onboard Buyer
                     </button>
@@ -86,18 +86,18 @@ export default function AdminBuyerContent() {
                 <Card>
                     <CardContent className="p-5">
                         <div className="text-slate-500 text-sm font-medium mb-1">Active Contracts</div>
-                        <div className="text-2xl font-bold text-emerald-600">{activeContracts}</div>
+                        <div className="text-2xl font-bold text-[var(--brand)]">{activeContracts}</div>
                     </CardContent>
                 </Card>
-                <Card className="md:col-span-2 bg-emerald-50 border-emerald-100">
+                <Card className="md:col-span-2 bg-[var(--brand-wash)] border-[var(--brand-pale)]">
                     <CardContent className="p-5 flex justify-between items-center">
                         <div>
-                            <div className="text-emerald-800 text-sm font-medium mb-1">Total Outstanding Receivables</div>
+                            <div className="text-[var(--brand-light)] text-sm font-medium mb-1">Total Outstanding Receivables</div>
                             <div className="text-2xl font-bold text-emerald-900">₹{totalReceivables.toLocaleString()}</div>
                         </div>
                         <button
                             onClick={() => setIsReceiptOpen(true)}
-                            className="bg-white text-emerald-700 border border-emerald-200 px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-50 shadow-sm"
+                            className="bg-white text-[var(--brand)] border border-[var(--brand-muted)] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-wash)] shadow-sm"
                         >
                             Record Receipt
                         </button>
@@ -114,7 +114,7 @@ export default function AdminBuyerContent() {
                             <input
                                 type="text"
                                 placeholder="Search buyer name or firm type..."
-                                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -151,8 +151,8 @@ export default function AdminBuyerContent() {
                                         <td className="px-6 py-4">
                                             <div className="font-medium text-slate-700">{buyer.contactPerson}</div>
                                             <div className="flex items-center gap-3 mt-1">
-                                                <a href={`tel:${buyer.phone}`} className="text-slate-400 hover:text-emerald-600 hint--top" aria-label="Call"><Phone size={14} /></a>
-                                                <a href={`mailto:${buyer.email}`} className="text-slate-400 hover:text-emerald-600 hint--top" aria-label="Email"><Mail size={14} /></a>
+                                                <a href={`tel:${buyer.phone}`} className="text-slate-400 hover:text-[var(--brand)] hint--top" aria-label="Call"><Phone size={14} /></a>
+                                                <a href={`mailto:${buyer.email}`} className="text-slate-400 hover:text-[var(--brand)] hint--top" aria-label="Email"><Mail size={14} /></a>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 text-right">
@@ -283,7 +283,7 @@ export default function AdminBuyerContent() {
 
                             <div className="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-6">
                                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-lg border border-slate-200">Cancel</button>
-                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm">Onboard Buyer</button>
+                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg shadow-sm">Onboard Buyer</button>
                             </div>
                         </form>
                     </div>
@@ -315,7 +315,7 @@ export default function AdminBuyerContent() {
                                         setIsStatementOpen(false);
                                         setIsReceiptOpen(true);
                                     }}
-                                    className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors"
+                                    className="bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors"
                                 >
                                     Record Receipt
                                 </button>
@@ -339,7 +339,7 @@ export default function AdminBuyerContent() {
                                         <tr>
                                             <td className="px-4 py-3">2025-02-10</td>
                                             <td className="px-4 py-3"><Badge variant="success">Receipt (Payment Received)</Badge></td>
-                                            <td className="px-4 py-3 text-right font-medium text-emerald-600">₹50,000</td>
+                                            <td className="px-4 py-3 text-right font-medium text-[var(--brand)]">₹50,000</td>
                                         </tr>
                                         <tr>
                                             <td className="px-4 py-3">2025-01-05</td>
@@ -368,7 +368,7 @@ export default function AdminBuyerContent() {
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Select Buyer</label>
                                 <select
-                                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm transition-all focus:ring-2 focus:ring-emerald-500 outline-none"
+                                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm transition-all focus:ring-2 focus:ring-[var(--brand)] outline-none"
                                 >
                                     <option value="">-- Choose Buyer --</option>
                                     {state.buyers.map(b => (
@@ -378,14 +378,14 @@ export default function AdminBuyerContent() {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Amount Received (₹)</label>
-                                <input type="number" min="1" className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm transition-all focus:ring-2 focus:ring-emerald-500 outline-none" />
+                                <input type="number" min="1" className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm transition-all focus:ring-2 focus:ring-[var(--brand)] outline-none" />
                             </div>
                             <button
                                 onClick={() => {
                                     toast({ message: 'Receipt recorded successfully.', variant: 'success' });
                                     setIsReceiptOpen(false);
                                 }}
-                                className="w-full bg-emerald-600 text-white p-2.5 rounded-lg font-semibold hover:bg-emerald-700 transition-colors mt-4"
+                                className="w-full bg-[var(--brand)] text-white p-2.5 rounded-lg font-semibold hover:bg-[var(--brand-light)] transition-colors mt-4"
                             >
                                 Confirm Receipt
                             </button>

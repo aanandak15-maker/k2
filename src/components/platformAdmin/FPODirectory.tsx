@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Search, Plus, Filter, Download } from 'lucide-react';
+import { Search, Plus, Filter, Download, ExternalLink } from 'lucide-react';
 import { DataTable } from '../ui/DataTable';
 import { StatusBadge } from '../ui/StatusBadge';
 import { useToast } from '../../hooks/useToast';
+import FPODetailView from './FPODetailView';
 
 export default function FPODirectory({ setActiveSection }: { setActiveSection?: (s: string) => void }) {
     const [searchTerm, setSearchTerm] = useState('');
@@ -10,6 +11,7 @@ export default function FPODirectory({ setActiveSection }: { setActiveSection?: 
     const [planFilter, setPlanFilter] = useState('All Plans');
     const [page, setPage] = useState(1);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [selectedFPO, setSelectedFPO] = useState<{ id: string, name: string } | null>(null);
     const { toast } = useToast();
 
     const mockFPOs = [
@@ -37,13 +39,25 @@ export default function FPODirectory({ setActiveSection }: { setActiveSection?: 
     };
 
     const columns = [
-        { key: 'name' as const, header: 'FPO Name', render: (fpo: any) => <span className="font-semibold text-slate-800">{fpo.name}</span> },
+        {
+            key: 'name' as const,
+            header: 'FPO Name',
+            render: (fpo: any) => (
+                <button
+                    onClick={() => setSelectedFPO({ id: fpo.id, name: fpo.name })}
+                    className="font-semibold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 group text-left"
+                >
+                    {fpo.name}
+                    <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                </button>
+            )
+        },
         { key: 'state' as const, header: 'State' },
         { key: 'ceo' as const, header: 'CEO' },
         { key: 'farmers' as const, header: 'Farmers', render: (fpo: any) => fpo.farmers.toLocaleString() },
         {
             key: 'score' as const, header: 'Health Score', render: (fpo: any) => (
-                <span className={`font-bold ${fpo.score >= 70 ? 'text-emerald-600' : fpo.score >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
+                <span className={`font-bold ${fpo.score >= 70 ? 'text-[var(--brand)]' : fpo.score >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
                     {fpo.score}/100
                 </span>
             )
@@ -51,6 +65,16 @@ export default function FPODirectory({ setActiveSection }: { setActiveSection?: 
         { key: 'plan' as const, header: 'Plan', render: (fpo: any) => <span className="text-sm font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">{fpo.plan}</span> },
         { key: 'status' as const, header: 'Status', render: (fpo: any) => <StatusBadge status={fpo.status} /> }
     ];
+
+    if (selectedFPO) {
+        return (
+            <FPODetailView
+                fpoId={selectedFPO.id}
+                fpoName={selectedFPO.name}
+                onBack={() => setSelectedFPO(null)}
+            />
+        );
+    }
 
     return (
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full min-h-[60vh]">
@@ -60,7 +84,7 @@ export default function FPODirectory({ setActiveSection }: { setActiveSection?: 
                     <input
                         type="text"
                         placeholder="Search FPOs by name or state..."
-                        className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                        className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] transition-all"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -69,7 +93,7 @@ export default function FPODirectory({ setActiveSection }: { setActiveSection?: 
                 <div className="flex items-center gap-3 w-full sm:w-auto relative">
                     <button
                         onClick={() => setIsFilterOpen(!isFilterOpen)}
-                        className={`flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors border rounded-lg ${isFilterOpen ? 'bg-slate-50 border-emerald-500 text-emerald-700' : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'}`}
+                        className={`flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors border rounded-lg ${isFilterOpen ? 'bg-slate-50 border-[var(--brand)] text-[var(--brand)]' : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'}`}
                     >
                         <Filter size={16} /> Filters
                     </button>
@@ -81,7 +105,7 @@ export default function FPODirectory({ setActiveSection }: { setActiveSection?: 
                                 <div>
                                     <label className="text-xs font-medium text-slate-500 mb-1 block">Health Status</label>
                                     <select
-                                        className="w-full text-sm border-slate-200 rounded-md focus:ring-emerald-500"
+                                        className="w-full text-sm border-slate-200 rounded-md focus:ring-[var(--brand)]"
                                         value={statusFilter}
                                         onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
                                     >
@@ -94,7 +118,7 @@ export default function FPODirectory({ setActiveSection }: { setActiveSection?: 
                                 <div>
                                     <label className="text-xs font-medium text-slate-500 mb-1 block">Subscription Plan</label>
                                     <select
-                                        className="w-full text-sm border-slate-200 rounded-md focus:ring-emerald-500"
+                                        className="w-full text-sm border-slate-200 rounded-md focus:ring-[var(--brand)]"
                                         value={planFilter}
                                         onChange={(e) => { setPlanFilter(e.target.value); setPage(1); }}
                                     >
@@ -116,7 +140,7 @@ export default function FPODirectory({ setActiveSection }: { setActiveSection?: 
                     </button>
                     <button
                         onClick={() => setActiveSection?.('onboarding')}
-                        className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[var(--brand)] rounded-lg hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Plus size={16} /> Onboard FPO
                     </button>
@@ -141,7 +165,7 @@ export default function FPODirectory({ setActiveSection }: { setActiveSection?: 
                         <button
                             key={i}
                             onClick={() => setPage(i + 1)}
-                            className={`px-3 py-1 rounded transition-colors ${page === i + 1 ? 'bg-emerald-600 text-white' : 'border border-slate-200 hover:bg-white'}`}
+                            className={`px-3 py-1 rounded transition-colors ${page === i + 1 ? 'bg-[var(--brand)] text-white' : 'border border-slate-200 hover:bg-white'}`}
                         >
                             {i + 1}
                         </button>

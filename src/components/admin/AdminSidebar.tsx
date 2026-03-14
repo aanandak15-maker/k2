@@ -13,7 +13,10 @@ import {
     Receipt,
     Landmark,
     FileText,
-    Settings
+    Settings,
+    MapPin,
+    Leaf,
+    ShieldCheck
 } from 'lucide-react';
 
 interface AdminSidebarProps {
@@ -24,6 +27,8 @@ interface AdminSidebarProps {
 export default function AdminSidebar({ activeSection, setActiveSection }: AdminSidebarProps) {
     const menuItems = [
         { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+        { id: 'clusters', icon: MapPin, label: 'Geography & Clusters' },
+        { id: 'crops', icon: Leaf, label: 'Crop Master' },
         { id: 'membership', icon: Users, label: 'Membership CRM' },
         { id: 'share-capital', icon: IndianRupee, label: 'Share Capital' },
         { id: 'input-sales', icon: ShoppingCart, label: 'Input Sales', badge: 12 },
@@ -36,6 +41,7 @@ export default function AdminSidebar({ activeSection, setActiveSection }: AdminS
         { id: 'documents', icon: FileText, label: 'Document Vault' },
         { id: 'staff', icon: Briefcase, label: 'Staff Management' },
         { id: 'settings', icon: Settings, label: 'FPO Settings' },
+        { id: 'data-privacy', icon: ShieldCheck, label: 'Data Privacy & Trust' },
     ];
 
     return (

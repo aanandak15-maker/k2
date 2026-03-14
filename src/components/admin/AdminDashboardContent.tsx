@@ -39,7 +39,7 @@ export default function AdminDashboardContent() {
             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                 <button
                     onClick={() => toast({ message: 'Use the Membership tab to add farmers.', variant: 'info' })}
-                    className="shrink-0 flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-emerald-700 shadow-sm transition-colors"
+                    className="shrink-0 flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-[var(--brand-light)] shadow-sm transition-colors"
                 >
                     + Add Farmer
                 </button>
@@ -199,8 +199,8 @@ export default function AdminDashboardContent() {
                         <div className="pt-2 border-t border-slate-100">
                             <div className="text-sm font-semibold text-slate-900 mb-3">Share Capital Summary</div>
                             <div className="grid grid-cols-2 gap-3">
-                                <div className="bg-emerald-50 rounded-lg p-3 border border-emerald-100">
-                                    <div className="text-xs text-emerald-800 mb-1">Total Paid-Up</div>
+                                <div className="bg-[var(--brand-wash)] rounded-lg p-3 border border-[var(--brand-pale)]">
+                                    <div className="text-xs text-[var(--brand-light)] mb-1">Total Paid-Up</div>
                                     <div className="text-lg font-bold text-emerald-900">₹{totalPaidUp.toLocaleString()}</div>
                                 </div>
                                 <div className="bg-red-50 rounded-lg p-3 border border-red-100">

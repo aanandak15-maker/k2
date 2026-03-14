@@ -105,7 +105,7 @@ export default function CEOFinanceContent() {
                   <span>85%</span>
                 </div>
                 <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-emerald-500 rounded-full" style={{ width: '85%' }}></div>
+                  <div className="h-full bg-[var(--brand)] rounded-full" style={{ width: '85%' }}></div>
                 </div>
                 <div className="text-xs text-slate-400 mt-1">Next Tranche: Pending UC submission</div>
               </div>

@@ -91,7 +91,7 @@ export default function AdminBillingContent() {
                     </button>
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Plus size={16} /> New Transaction
                     </button>
@@ -99,9 +99,9 @@ export default function AdminBillingContent() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <Card className="bg-emerald-50 border-emerald-100">
+                <Card className="bg-[var(--brand-wash)] border-[var(--brand-pale)]">
                     <CardContent className="p-5">
-                        <div className="text-emerald-800 text-sm font-medium mb-1">Inbound (Collected) YTD</div>
+                        <div className="text-[var(--brand-light)] text-sm font-medium mb-1">Inbound (Collected) YTD</div>
                         <div className="text-2xl font-bold text-emerald-900">₹{totalInbound.toLocaleString()}</div>
                     </CardContent>
                 </Card>
@@ -114,7 +114,7 @@ export default function AdminBillingContent() {
                 <Card>
                     <CardContent className="p-5">
                         <div className="text-slate-500 text-sm font-medium mb-1">Net Cash Flow</div>
-                        <div className={`text-2xl font-bold ${(totalInbound - totalOutbound) > 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                        <div className={`text-2xl font-bold ${(totalInbound - totalOutbound) > 0 ? 'text-[var(--brand)]' : 'text-red-600'}`}>
                             ₹{(totalInbound - totalOutbound).toLocaleString()}
                         </div>
                     </CardContent>
@@ -136,7 +136,7 @@ export default function AdminBillingContent() {
                             <input
                                 type="text"
                                 placeholder="Search transaction ID or entity..."
-                                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -172,7 +172,7 @@ export default function AdminBillingContent() {
                                             <div className="text-xs text-slate-500 mt-0.5">Mode: {payment.paymentMode} ({payment.referenceNumber})</div>
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <div className={`font-bold ${payment.type === 'Inbound' ? 'text-emerald-600' : 'text-slate-900'}`}>
+                                            <div className={`font-bold ${payment.type === 'Inbound' ? 'text-[var(--brand)]' : 'text-slate-900'}`}>
                                                 {payment.type === 'Inbound' ? '+' : '-'} {payment.amount.toLocaleString()}
                                             </div>
                                         </td>
@@ -314,7 +314,7 @@ export default function AdminBillingContent() {
 
                             <div className="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-6">
                                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-lg border border-slate-200">Cancel</button>
-                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm">Record Transaction</button>
+                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg shadow-sm">Record Transaction</button>
                             </div>
                         </form>
                     </div>

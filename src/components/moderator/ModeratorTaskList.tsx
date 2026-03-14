@@ -30,7 +30,7 @@ export function ModeratorTaskList() {
                 {['All', 'Pending', 'Completed'].map((tab) => (
                     <button
                         key={tab}
-                        className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-colors ${filter === tab ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+                        className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-colors ${filter === tab ? 'bg-white text-[var(--brand)] shadow-sm' : 'text-slate-500 hover:text-slate-700'
                             }`}
                         onClick={() => setFilter(tab as any)}
                     >
@@ -44,7 +44,7 @@ export function ModeratorTaskList() {
                 <h2 className="font-bold text-slate-800 text-sm">
                     {filter === 'All' ? 'All Assignments' : filter === 'Pending' ? 'To Do' : 'Completed'}
                 </h2>
-                <button onClick={() => toast({ message: 'Advanced filters coming in v2', variant: 'info' })} className="text-slate-500 hover:text-emerald-600">
+                <button onClick={() => toast({ message: 'Advanced filters coming in v2', variant: 'info' })} className="text-slate-500 hover:text-[var(--brand)]">
                     <Filter size={16} />
                 </button>
             </div>
@@ -65,7 +65,7 @@ export function ModeratorTaskList() {
                                 <div className="flex justify-between items-start mb-2">
                                     <div className="flex items-center gap-2">
                                         {task.status === 'Completed' ? (
-                                            <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+                                            <CheckCircle2 size={16} className="text-[var(--brand)] shrink-0" />
                                         ) : task.status === 'Overdue' ? (
                                             <AlertCircle size={16} className="text-red-500 shrink-0" />
                                         ) : (
@@ -106,7 +106,7 @@ export function ModeratorTaskList() {
                                         Due: {task.dueDate}
                                     </div>
                                     {task.status !== 'Completed' && (
-                                        <button onClick={() => toast({ message: `Taking action on: ${task.title}`, variant: 'success' })} className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-md hover:bg-emerald-100">
+                                        <button onClick={() => toast({ message: `Taking action on: ${task.title}`, variant: 'success' })} className="bg-[var(--brand-wash)] text-[var(--brand)] text-xs font-semibold px-3 py-1 rounded-md hover:bg-[var(--brand-pale)]">
                                             Take Action
                                         </button>
                                     )}

@@ -94,7 +94,7 @@ export default function AdminProcurementContent() {
                 <div className="flex gap-3">
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Plus size={16} /> New Receipt
                     </button>
@@ -102,11 +102,11 @@ export default function AdminProcurementContent() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="bg-emerald-50 border-emerald-100">
+                <Card className="bg-[var(--brand-wash)] border-[var(--brand-pale)]">
                     <CardContent className="p-6">
-                        <div className="text-sm font-medium text-emerald-800 mb-1">Today's Procurement Volume</div>
+                        <div className="text-sm font-medium text-[var(--brand-light)] mb-1">Today's Procurement Volume</div>
                         <div className="text-2xl font-bold text-emerald-900">{todayVolume} Qtl</div>
-                        <div className="text-xs text-emerald-700 mt-1 flex items-center gap-1">Receipts recorded today</div>
+                        <div className="text-xs text-[var(--brand)] mt-1 flex items-center gap-1">Receipts recorded today</div>
                     </CardContent>
                 </Card>
                 <Card className="bg-amber-50 border-amber-100">
@@ -133,7 +133,7 @@ export default function AdminProcurementContent() {
                         <input
                             type="text"
                             placeholder="Search ID or Farmer..."
-                            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -266,7 +266,7 @@ export default function AdminProcurementContent() {
 
                             <div className="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-6">
                                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-lg border border-slate-200">Cancel</button>
-                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm">Generate Receipt</button>
+                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg shadow-sm">Generate Receipt</button>
                             </div>
                         </form>
                     </div>

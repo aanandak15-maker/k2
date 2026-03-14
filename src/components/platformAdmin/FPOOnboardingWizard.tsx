@@ -44,8 +44,8 @@ export default function FPOOnboardingWizard({ setActiveSection }: { setActiveSec
 
     if (isSuccess) {
         return (
-            <div className="flex flex-col items-center justify-center p-12 bg-white rounded-xl border border-emerald-100 shadow-sm animate-in zoom-in duration-500">
-                <div className="w-20 h-20 bg-emerald-100 text-emerald-600 flex items-center justify-center rounded-full mb-6">
+            <div className="flex flex-col items-center justify-center p-12 bg-white rounded-xl border border-[var(--brand-pale)] shadow-sm animate-in zoom-in duration-500">
+                <div className="w-20 h-20 bg-[var(--brand-pale)] text-[var(--brand)] flex items-center justify-center rounded-full mb-6">
                     <CheckCircle2 size={40} />
                 </div>
                 <h2 className="text-3xl font-bold text-slate-900 mb-2">FPO Onboarded Successfully!</h2>
@@ -61,7 +61,7 @@ export default function FPOOnboardingWizard({ setActiveSection }: { setActiveSec
                     </button>
                     <button
                         onClick={() => setActiveSection?.('directory')}
-                        className="px-6 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 shadow-sm shadow-emerald-600/20 transition-all"
+                        className="px-6 py-2 bg-[var(--brand)] text-white rounded-lg font-medium hover:bg-[var(--brand-light)] shadow-sm shadow-emerald-600/20 transition-all"
                     >
                         Go to FPO Directory
                     </button>
@@ -77,7 +77,7 @@ export default function FPOOnboardingWizard({ setActiveSection }: { setActiveSec
                 <div className="flex justify-between items-center relative">
                     <div className="absolute top-1/2 left-0 w-full h-1 bg-slate-100 -z-10 -translate-y-1/2 rounded-full"></div>
                     <div
-                        className="absolute top-1/2 left-0 h-1 bg-emerald-500 -z-10 -translate-y-1/2 rounded-full transition-all duration-500"
+                        className="absolute top-1/2 left-0 h-1 bg-[var(--brand)] -z-10 -translate-y-1/2 rounded-full transition-all duration-500"
                         style={{ width: `${((currentStep - 1) / 4) * 100}%` }}
                     ></div>
 
@@ -87,13 +87,13 @@ export default function FPOOnboardingWizard({ setActiveSection }: { setActiveSec
 
                         return (
                             <div key={step.id} className="flex flex-col items-center gap-2 bg-white px-2">
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors ${isPast ? 'bg-emerald-500 border-emerald-500 text-white' :
-                                    isCurrent ? 'bg-white border-emerald-600 text-emerald-600' :
+                                <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors ${isPast ? 'bg-[var(--brand)] border-[var(--brand)] text-white' :
+                                    isCurrent ? 'bg-white border-[var(--brand)] text-[var(--brand)]' :
                                         'bg-slate-50 border-slate-200 text-slate-400'
                                     }`}>
                                     {isPast ? <CheckCircle2 size={18} /> : <step.icon size={18} />}
                                 </div>
-                                <span className={`text-xs font-semibold ${isCurrent ? 'text-emerald-700' : isPast ? 'text-slate-700' : 'text-slate-400'}`}>
+                                <span className={`text-xs font-semibold ${isCurrent ? 'text-[var(--brand)]' : isPast ? 'text-slate-700' : 'text-slate-400'}`}>
                                     {step.label}
                                 </span>
                             </div>
@@ -114,23 +114,23 @@ export default function FPOOnboardingWizard({ setActiveSection }: { setActiveSec
                         <div className="grid grid-cols-2 gap-6 animate-in fade-in slide-in-from-right-4 duration-300">
                             <div className="col-span-2">
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Legal FPO Name *</label>
-                                <input type="text" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="e.g., Kissan Agro Producer Company Ltd" />
+                                <input type="text" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]" placeholder="e.g., Kissan Agro Producer Company Ltd" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Registration/CIN Number</label>
-                                <input type="text" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="U01100XX202XPTCXXXXXX" />
+                                <input type="text" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]" placeholder="U01100XX202XPTCXXXXXX" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Date of Incorporation</label>
-                                <input type="date" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+                                <input type="date" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]" />
                             </div>
                             <div className="col-span-2">
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Registered Address</label>
-                                <textarea rows={3} className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Full address..."></textarea>
+                                <textarea rows={3} className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]" placeholder="Full address..."></textarea>
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">State</label>
-                                <select className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <select className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]">
                                     <option>Select State</option>
                                     <option>Maharashtra</option>
                                     <option>Madhya Pradesh</option>
@@ -139,7 +139,7 @@ export default function FPOOnboardingWizard({ setActiveSection }: { setActiveSec
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">District</label>
-                                <input type="text" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="District name" />
+                                <input type="text" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]" placeholder="District name" />
                             </div>
                         </div>
                     )}
@@ -155,19 +155,19 @@ export default function FPOOnboardingWizard({ setActiveSection }: { setActiveSec
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">First Name *</label>
-                                <input type="text" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="John" />
+                                <input type="text" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]" placeholder="John" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Last Name *</label>
-                                <input type="text" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Doe" />
+                                <input type="text" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]" placeholder="Doe" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Official Email Address *</label>
-                                <input type="email" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="ceo@fpo.com" />
+                                <input type="email" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]" placeholder="ceo@fpo.com" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Mobile Number *</label>
-                                <input type="tel" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="+91 XXXXX XXXXX" />
+                                <input type="tel" className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]" placeholder="+91 XXXXX XXXXX" />
                             </div>
                         </div>
                     )}
@@ -185,17 +185,17 @@ export default function FPOOnboardingWizard({ setActiveSection }: { setActiveSec
                                         <div
                                             key={idx}
                                             onClick={() => setSelectedPlan(plan.name)}
-                                            className={`border rounded-xl p-5 cursor-pointer transition-all ${isSelected ? 'border-emerald-500 bg-emerald-50/30 shadow-md transform scale-105' : 'border-slate-200 hover:border-emerald-300'}`}
+                                            className={`border rounded-xl p-5 cursor-pointer transition-all ${isSelected ? 'border-[var(--brand)] bg-[var(--brand-wash)]/30 shadow-md transform scale-105' : 'border-slate-200 hover:border-emerald-300'}`}
                                         >
                                             {isSelected && <Badge variant="success" className="mb-2 text-[10px]">Selected</Badge>}
                                             {!isSelected && plan.name === 'Growth' && <Badge variant="warning" className="mb-2 text-[10px]">Most Popular</Badge>}
                                             <h3 className="font-bold text-lg text-slate-900">{plan.name}</h3>
-                                            <div className="text-2xl font-bold text-emerald-600 mt-2 mb-1">{plan.price}<span className="text-xs text-slate-500 font-normal">/mo</span></div>
+                                            <div className="text-2xl font-bold text-[var(--brand)] mt-2 mb-1">{plan.price}<span className="text-xs text-slate-500 font-normal">/mo</span></div>
                                             <p className="text-sm font-medium text-slate-700 border-b border-slate-100 pb-3 mb-3">{plan.limit}</p>
                                             <ul className="space-y-2">
                                                 {plan.features.map((f, i) => (
                                                     <li key={i} className="text-xs text-slate-600 flex items-center gap-2">
-                                                        <CheckCircle2 size={12} className={isSelected ? "text-emerald-500" : "text-slate-400"} /> {f}
+                                                        <CheckCircle2 size={12} className={isSelected ? "text-[var(--brand)]" : "text-slate-400"} /> {f}
                                                     </li>
                                                 ))}
                                             </ul>
@@ -208,7 +208,7 @@ export default function FPOOnboardingWizard({ setActiveSection }: { setActiveSec
                                     <h4 className="font-bold text-sm text-slate-800">Billing Cycle</h4>
                                     <p className="text-xs text-slate-500">Choose preferred billing frequency</p>
                                 </div>
-                                <select className="border border-slate-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <select className="border border-slate-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]">
                                     {selectedPlan === 'Starter' && <option>Monthly (₹2,500/mo)</option>}
                                     {selectedPlan === 'Starter' && <option>Annual (₹25,000/yr - 2 months free)</option>}
                                     {selectedPlan === 'Growth' && <option>Monthly (₹5,000/mo)</option>}
@@ -226,7 +226,7 @@ export default function FPOOnboardingWizard({ setActiveSection }: { setActiveSec
                                 <div className="grid grid-cols-2 gap-3">
                                     {['Farmer App (Mobile)', 'Procurement & Grain Bank', 'Input Sales (Shop)', 'Loan & Credit Management', 'Yield Prediction AI', 'Machine Custom Hiring'].map((mod, i) => (
                                         <label key={i} className="flex items-center gap-3 p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
-                                            <input type="checkbox" className="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-600" defaultChecked={i < 3} />
+                                            <input type="checkbox" className="w-4 h-4 text-[var(--brand)] rounded border-slate-300 focus:ring-emerald-600" defaultChecked={i < 3} />
                                             <span className="text-sm font-medium text-slate-700">{mod}</span>
                                         </label>
                                     ))}
@@ -234,7 +234,7 @@ export default function FPOOnboardingWizard({ setActiveSection }: { setActiveSec
                             </div>
                             <div>
                                 <h3 className="text-sm font-bold text-slate-800 mb-3">Database Instance Region</h3>
-                                <select className="w-full max-w-md border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <select className="w-full max-w-md border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]">
                                     <option>ap-south-1 (Mumbai, India)</option>
                                     <option>ap-south-2 (Hyderabad, India)</option>
                                 </select>
@@ -287,7 +287,7 @@ export default function FPOOnboardingWizard({ setActiveSection }: { setActiveSec
                     <button
                         onClick={handleNext}
                         disabled={isSubmitting}
-                        className="flex items-center gap-2 px-8 py-2.5 bg-emerald-600 text-white font-bold rounded-lg shadow-sm shadow-emerald-600/20 hover:bg-emerald-700 disabled:opacity-70 transition-all"
+                        className="flex items-center gap-2 px-8 py-2.5 bg-[var(--brand)] text-white font-bold rounded-lg shadow-sm shadow-emerald-600/20 hover:bg-[var(--brand-light)] disabled:opacity-70 transition-all"
                     >
                         {isSubmitting ? (
                             'Processing...'

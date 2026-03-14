@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { Badge } from '../ui/Badge';
-import { Search, Download, MessageSquare, ArrowLeft, Phone, MapPin, Calendar, Sprout, ChevronRight, Filter, ArrowUpDown, Plus, X, Check } from 'lucide-react';
+import { Search, Download, MessageSquare, ArrowLeft, Phone, MapPin, Calendar, Sprout, ChevronRight, Filter, ArrowUpDown, Plus, X, Check, Package, AlertCircle } from 'lucide-react';
 import { useToast } from '../../hooks/useToast';
 
 interface Transaction {
@@ -69,7 +69,7 @@ export default function CEOFarmersContent() {
     shareCapital: `₹${f.shareCapital.toLocaleString()}`,
     outstanding: `₹${f.outstandingDues.toLocaleString()}`,
     status: f.status as any,
-    avatarColor: 'bg-emerald-100 text-emerald-700',
+    avatarColor: 'bg-[var(--brand-pale)] text-[var(--brand)]',
     joinedDate: f.membershipDate,
     notes: [],
     transactions: [],
@@ -92,6 +92,7 @@ export default function CEOFarmersContent() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [noteInput, setNoteInput] = useState('');
   const [noteSearchQuery, setNoteSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState<'overview' | 'land' | 'finance' | 'orders' | 'advisory' | 'schemes'>('overview');
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
@@ -110,7 +111,7 @@ export default function CEOFarmersContent() {
     shareCapital: '',
     outstanding: '',
     status: 'Active',
-    avatarColor: 'bg-emerald-100 text-emerald-700'
+    avatarColor: 'bg-[var(--brand-pale)] text-[var(--brand)]'
   });
 
   const handleAddFarmer = () => {
@@ -146,7 +147,7 @@ export default function CEOFarmersContent() {
       shareCapital: '',
       outstanding: '',
       status: 'Active',
-      avatarColor: 'bg-emerald-100 text-emerald-700'
+      avatarColor: 'bg-[var(--brand-pale)] text-[var(--brand)]'
     });
     toast({ message: 'Farmer recorded successfully', variant: 'success' });
   };
@@ -248,320 +249,357 @@ export default function CEOFarmersContent() {
   if (selectedFarmer) {
     return (
       <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
           <button
             onClick={() => setSelectedFarmer(null)}
             className="p-2 hover:bg-slate-100 rounded-full transition-colors"
           >
             <ArrowLeft className="h-5 w-5 text-slate-600" />
           </button>
+          <div className={`h-12 w-12 rounded-full flex items-center justify-center text-xl font-bold ${selectedFarmer.avatarColor}`}>
+            {selectedFarmer.name.charAt(0)}
+          </div>
           <div>
             <h2 className="text-xl font-bold text-slate-900">{selectedFarmer.name}</h2>
             <div className="flex items-center gap-2 text-sm text-slate-500">
               <span>FPO-SKD-{selectedFarmer.id.padStart(4, '0')}</span>
               <span>•</span>
-              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${selectedFarmer.status === 'Active' ? 'bg-emerald-50 text-emerald-700' :
+              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${selectedFarmer.status === 'Active' ? 'bg-[var(--brand-wash)] text-[var(--brand)]' :
                 selectedFarmer.status === 'Dormant' ? 'bg-amber-50 text-amber-700' : 'bg-red-50 text-red-700'
                 }`}>
                 {selectedFarmer.status}
               </span>
+              <span>•</span>
+              <span>Joined {new Date(selectedFarmer.joinedDate).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}</span>
             </div>
           </div>
           <div className="ml-auto flex gap-2">
-            <button onClick={() => toast({ message: `Opening message to ${selectedFarmer.name}...`, variant: 'info' })} className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">
+            <button onClick={() => toast({ message: `Calling ${selectedFarmer.mobile} via Cloud Telephony...`, variant: 'info' })} className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-[var(--brand-wash)] hover:text-[var(--brand)] hover:border-[var(--brand-muted)] transition-colors">
+              <Phone className="h-4 w-4" />
+              Call
+            </button>
+            <button onClick={() => toast({ message: `Opening message to ${selectedFarmer.name}...`, variant: 'info' })} className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-[var(--brand-wash)] hover:text-[var(--brand)] hover:border-[var(--brand-muted)] transition-colors">
               <MessageSquare className="h-4 w-4" />
               Message
-            </button>
-            <button onClick={() => toast({ message: 'Profile editor coming in v2', variant: 'info' })} className="inline-flex items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700">
-              Edit Profile
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column: Profile & Land */}
-          <div className="space-y-6">
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex flex-col items-center text-center mb-6">
-                  <div className={`h-20 w-20 rounded-full flex items-center justify-center text-2xl font-bold mb-3 ${selectedFarmer.avatarColor}`}>
-                    {selectedFarmer.name.charAt(0)}
+        {/* 6-Tab Navigation */}
+        <div className="flex space-x-1 border-b border-slate-200 scrollbar-hide overflow-x-auto">
+          {[
+            { id: 'overview', label: 'Overview' },
+            { id: 'land', label: 'Land & Crop' },
+            { id: 'finance', label: 'Financial Summary' },
+            { id: 'orders', label: 'Input Orders' },
+            { id: 'advisory', label: 'Advisory History' },
+            { id: 'schemes', label: 'Govt. Schemes' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`px-4 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${activeTab === tab.id
+                ? 'border-[var(--brand)] text-[var(--brand-light)] bg-[var(--brand-wash)]/50'
+                : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-6">
+          {activeTab === 'overview' && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Left Column: Key Stats & Location */}
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm text-slate-500 uppercase tracking-wider">Contact & Location</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-slate-50 rounded-lg"><Phone className="h-4 w-4 text-slate-500" /></div>
+                      <div>
+                        <div className="text-xs text-slate-500">Mobile Number</div>
+                        <div className="text-sm font-medium text-slate-900">{selectedFarmer.mobile}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-slate-50 rounded-lg"><MapPin className="h-4 w-4 text-slate-500" /></div>
+                      <div>
+                        <div className="text-xs text-slate-500">Location</div>
+                        <div className="text-sm font-medium text-slate-900">{selectedFarmer.village}, {selectedFarmer.cluster}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-slate-50 rounded-lg"><Check className="h-4 w-4 text-slate-500" /></div>
+                      <div>
+                        <div className="text-xs text-slate-500">Moderator</div>
+                        <div className="text-sm font-medium text-slate-900">{selectedFarmer.moderator}</div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 rounded-lg overflow-hidden border border-slate-200 h-48 bg-slate-50 relative group">
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        frameBorder="0"
+                        scrolling="no"
+                        marginHeight={0}
+                        marginWidth={0}
+                        src={`https://maps.google.com/maps?q=${encodeURIComponent(selectedFarmer.village + ', ' + selectedFarmer.cluster + ', India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                        className="opacity-90 group-hover:opacity-100 transition-opacity"
+                      ></iframe>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Right Column: History & Quick Glance */}
+              <div className="lg:col-span-2 space-y-6">
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="bg-[var(--brand-wash)] rounded-xl p-4 border border-[var(--brand-pale)]">
+                    <div className="text-xs text-[var(--brand-light)] font-medium mb-1">Total Land Size</div>
+                    <div className="text-2xl font-bold text-[var(--brand)]">{selectedFarmer.landArea} Ha</div>
                   </div>
-                  <h3 className="font-semibold text-slate-900">{selectedFarmer.name}</h3>
-                  <p className="text-sm text-slate-500">{selectedFarmer.village}, {selectedFarmer.cluster}</p>
+                  <div className="bg-indigo-50 rounded-xl p-4 border border-indigo-100">
+                    <div className="text-xs text-indigo-800 font-medium mb-1">Lifetime Value</div>
+                    <div className="text-2xl font-bold text-indigo-700">₹{((selectedFarmer.landArea || 1) * 45000).toLocaleString()}</div>
+                  </div>
+                  <div className="bg-rose-50 rounded-xl p-4 border border-rose-100">
+                    <div className="text-xs text-rose-800 font-medium mb-1">Outstanding Dues</div>
+                    <div className="text-2xl font-bold text-rose-700">{selectedFarmer.outstanding}</div>
+                  </div>
                 </div>
 
-                <div className="space-y-4 border-t border-slate-100 pt-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-slate-50 rounded-lg"><Phone className="h-4 w-4 text-slate-500" /></div>
-                    <div>
-                      <div className="text-xs text-slate-500">Mobile Number</div>
-                      <div className="text-sm font-medium text-slate-900">{selectedFarmer.mobile}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-slate-50 rounded-lg"><MapPin className="h-4 w-4 text-slate-500" /></div>
-                    <div>
-                      <div className="text-xs text-slate-500">Location</div>
-                      <div className="text-sm font-medium text-slate-900">{selectedFarmer.village}, {selectedFarmer.cluster}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-slate-50 rounded-lg"><Check className="h-4 w-4 text-slate-500" /></div>
-                    <div>
-                      <div className="text-xs text-slate-500">Moderator</div>
-                      <div className="text-sm font-medium text-slate-900">{selectedFarmer.moderator}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-slate-50 rounded-lg"><Calendar className="h-4 w-4 text-slate-500" /></div>
-                    <div>
-                      <div className="text-xs text-slate-500">Member Since</div>
-                      <div className="text-sm font-medium text-slate-900">Oct 2023</div>
-                    </div>
-                  </div>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">Internal Notes & History</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={noteInput}
+                          onChange={(e) => setNoteInput(e.target.value)}
+                          placeholder="Add a log entry or note..."
+                          className="flex-1 h-9 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
+                          onKeyDown={(e) => e.key === 'Enter' && handleAddNote()}
+                        />
+                        <button
+                          onClick={handleAddNote}
+                          className="h-9 px-4 rounded-md bg-slate-800 text-white text-sm font-medium hover:bg-slate-900 transition-colors"
+                        >
+                          Log Note
+                        </button>
+                      </div>
 
-                  <div className="mt-4 rounded-lg overflow-hidden border border-slate-200 h-48 bg-slate-50 relative group">
-                    <iframe
-                      width="100%"
-                      height="100%"
-                      frameBorder="0"
-                      scrolling="no"
-                      marginHeight={0}
-                      marginWidth={0}
-                      src={`https://maps.google.com/maps?q=${encodeURIComponent(selectedFarmer.village + ', ' + selectedFarmer.cluster + ', India')}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                      className="opacity-90 group-hover:opacity-100 transition-opacity"
-                    ></iframe>
-                    <div className="absolute bottom-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded text-[10px] font-medium text-slate-600 border border-slate-200 shadow-sm pointer-events-none">
-                      {selectedFarmer.village}
+                      <div className="space-y-3 max-h-60 overflow-y-auto pr-2">
+                        {selectedFarmer.notes && selectedFarmer.notes.length > 0 ? (
+                          selectedFarmer.notes.map((note) => (
+                            <div key={note.id} className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                              <p className="text-sm text-slate-700">{note.text}</p>
+                              <div className="flex items-center gap-2 mt-1">
+                                <Calendar className="h-3 w-3 text-slate-400" />
+                                <p className="text-xs text-slate-400">
+                                  {new Date(note.date).toLocaleDateString('en-IN', {
+                                    day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                                  })}
+                                </p>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-center py-6 border border-dashed border-slate-200 rounded-lg">
+                            <p className="text-sm text-slate-500">No history logged yet.</p>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
 
+          {activeTab === 'land' && (
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Land Holdings</CardTitle>
+                <CardTitle>Land Holdings & Current Crops</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="p-3 border border-slate-200 rounded-lg bg-slate-50">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="text-sm font-medium text-slate-900">Total Land</span>
-                    <span className="text-sm font-bold text-emerald-700">{selectedFarmer.landArea} Ha</span>
-                  </div>
-                  <div className="text-xs text-slate-500">
-                    {selectedFarmer.plots ? selectedFarmer.plots.length : 0} Plots Registered
-                  </div>
-                </div>
-
-                <div className="space-y-3">
+              <CardContent>
+                <div className="space-y-4">
                   {selectedFarmer.plots && selectedFarmer.plots.length > 0 ? (
                     selectedFarmer.plots.map((plot) => (
-                      <div key={plot.id} className="flex items-start gap-3 p-3 hover:bg-slate-50 rounded-lg transition-colors border border-transparent hover:border-slate-100">
-                        <Sprout className="h-5 w-5 text-emerald-600 mt-0.5" />
-                        <div className="flex-1">
-                          <div className="text-sm font-medium text-slate-900">Plot #{plot.id} - {plot.location}</div>
-                          <div className="text-xs text-slate-500">{plot.area} Ha • {plot.soilType}</div>
-                          <div className={`mt-1 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${plot.status === 'Active' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
-                            }`}>
-                            Current: {plot.currentCrop}
+                      <div key={plot.id} className="flex items-start justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+                        <div className="flex gap-4">
+                          <div className="p-3 bg-[var(--brand-pale)] rounded-lg text-[var(--brand)]">
+                            <Sprout className="h-6 w-6" />
                           </div>
+                          <div>
+                            <div className="font-bold text-slate-900">Plot #{plot.id} — {plot.location}</div>
+                            <div className="text-sm text-slate-500 mt-1 flex gap-4">
+                              <span><strong className="text-slate-700">Area:</strong> {plot.area} Ha</span>
+                              <span><strong className="text-slate-700">Soil:</strong> {plot.soilType}</span>
+                              <span><strong className="text-slate-700">Irrigation:</strong> Tubewell</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Current Crop</div>
+                          <Badge variant={plot.status === 'Active' ? 'success' : 'warning'} className="text-sm px-3 py-1 text-[var(--brand-light)] bg-[var(--brand-pale)] border-[var(--brand-muted)]">
+                            {plot.currentCrop}
+                          </Badge>
                         </div>
                       </div>
                     ))
                   ) : (
-                    <div className="text-center py-4 text-slate-500 text-sm">
-                      No plot details available
+                    <div className="p-4 bg-amber-50 rounded-xl border border-amber-100 text-amber-800 text-sm flex items-center gap-2">
+                      <AlertCircle className="h-4 w-4" />
+                      No detailed land records found for this farmer.
                     </div>
                   )}
                 </div>
               </CardContent>
             </Card>
-          </div>
+          )}
 
-          {/* Right Column: History & Transactions */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="grid grid-cols-3 gap-4">
-              <Card>
-                <CardContent className="p-4">
-                  <div className="text-xs text-slate-500 mb-1">Wallet Balance</div>
-                  <div className="text-xl font-bold text-slate-900">₹450</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-4">
-                  <div className="text-xs text-slate-500 mb-1">Outstanding Credit</div>
-                  <div className="text-xl font-bold text-red-600">{selectedFarmer.outstanding}</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-4">
-                  <div className="text-xs text-slate-500 mb-1">Share Capital</div>
-                  <div className="text-xl font-bold text-emerald-600">{selectedFarmer.shareCapital}</div>
-                </CardContent>
-              </Card>
-            </div>
-
+          {activeTab === 'finance' && (
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Recent Transactions</CardTitle>
+                <CardTitle>Financial Summary & Ledger</CardTitle>
               </CardHeader>
-              <CardContent className="p-0">
-                <div className="overflow-x-auto">
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                  <div className="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                    <div className="text-xs text-slate-500 mb-1">Total Purchases</div>
+                    <div className="font-bold text-slate-900">₹{((selectedFarmer.landArea || 1) * 12000).toLocaleString()}</div>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                    <div className="text-xs text-slate-500 mb-1">Total Payments via Crop</div>
+                    <div className="font-bold text-[var(--brand)]">₹{((selectedFarmer.landArea || 1) * 8000).toLocaleString()}</div>
+                  </div>
+                  <div className="p-4 bg-rose-50 rounded-lg border border-rose-100">
+                    <div className="text-xs text-rose-800 mb-1 font-medium">Net Outstanding</div>
+                    <div className="font-bold text-rose-700">{selectedFarmer.outstanding}</div>
+                  </div>
+                  <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-100">
+                    <div className="text-xs text-indigo-800 mb-1 font-medium">Share Capital Held</div>
+                    <div className="font-bold text-indigo-700">{selectedFarmer.shareCapital}</div>
+                  </div>
+                </div>
+
+                <h3 className="font-semibold text-slate-800 mb-3">Recent Ledger Activity</h3>
+                <div className="border border-slate-200 rounded-lg overflow-hidden">
                   <table className="w-full text-left text-sm">
                     <thead className="bg-slate-50 border-b border-slate-200">
                       <tr>
-                        <th className="px-6 py-3 font-medium text-slate-500">Date</th>
-                        <th className="px-6 py-3 font-medium text-slate-500">Type</th>
-                        <th className="px-6 py-3 font-medium text-slate-500">Description</th>
-                        <th className="px-6 py-3 font-medium text-slate-500 text-right">Amount</th>
-                        <th className="px-6 py-3 font-medium text-slate-500">Status</th>
+                        <th className="px-4 py-3 font-medium text-slate-500">Date</th>
+                        <th className="px-4 py-3 font-medium text-slate-500">Particulars</th>
+                        <th className="px-4 py-3 font-medium text-slate-500 text-right">Debit (Dr)</th>
+                        <th className="px-4 py-3 font-medium text-slate-500 text-right">Credit (Cr)</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                      {selectedFarmer.transactions && selectedFarmer.transactions.length > 0 ? (
-                        selectedFarmer.transactions.map((transaction) => (
-                          <tr key={transaction.id} className="hover:bg-slate-50/50">
-                            <td className="px-6 py-4 text-slate-600">
-                              {new Date(transaction.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                            </td>
-                            <td className="px-6 py-4">
-                              <Badge variant="outline">{transaction.type}</Badge>
-                            </td>
-                            <td className="px-6 py-4 text-slate-900">{transaction.description}</td>
-                            <td className={`px-6 py-4 text-right font-medium ${transaction.type === 'Crop Sale' ? 'text-emerald-600' :
-                              transaction.type === 'Credit' ? 'text-red-600' : 'text-slate-900'
-                              }`}>
-                              {transaction.amount}
-                            </td>
-                            <td className="px-6 py-4">
-                              <Badge variant={
-                                transaction.status === 'Paid' || transaction.status === 'Completed' ? 'success' : 'warning'
-                              }>
-                                {transaction.status}
-                              </Badge>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={5} className="px-6 py-8 text-center text-slate-500">
-                            No recent transactions found
-                          </td>
-                        </tr>
-                      )}
+                      <tr>
+                        <td className="px-4 py-3 text-slate-600">12 Oct 2024</td>
+                        <td className="px-4 py-3 font-medium">Purchase: DAP & Urea</td>
+                        <td className="px-4 py-3 text-right text-rose-600">₹4,500</td>
+                        <td className="px-4 py-3 text-right text-slate-400">-</td>
+                      </tr>
+                      <tr>
+                        <td className="px-4 py-3 text-slate-600">05 Nov 2024</td>
+                        <td className="px-4 py-3 font-medium">Harvest Sale: Wheat (20 Qtl)</td>
+                        <td className="px-4 py-3 text-right text-slate-400">-</td>
+                        <td className="px-4 py-3 text-right text-[var(--brand)]">₹44,000</td>
+                      </tr>
+                      <tr>
+                        <td className="px-4 py-3 text-slate-600">05 Nov 2024</td>
+                        <td className="px-4 py-3 font-medium text-slate-500">↳ Auto-Deduction for Dues</td>
+                        <td className="px-4 py-3 text-right text-slate-400">-</td>
+                        <td className="px-4 py-3 text-right font-bold text-[var(--brand)]">₹4,500</td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
               </CardContent>
             </Card>
+          )}
 
+          {activeTab === 'orders' && (
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Crop History</CardTitle>
+                <CardTitle>Input Orders & Demand</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {selectedFarmer.cropHistory && selectedFarmer.cropHistory.length > 0 ? (
-                    selectedFarmer.cropHistory.map((history, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 border border-slate-100 rounded-lg hover:bg-slate-50 transition-colors">
-                        <div className="flex items-center gap-3">
-                          <div className={`h-10 w-10 rounded-lg flex items-center justify-center text-lg ${history.icon === '🌾' ? 'bg-amber-100' : 'bg-emerald-100'
-                            }`}>
-                            {history.icon}
-                          </div>
-                          <div>
-                            <div className="text-sm font-medium text-slate-900">{history.season}</div>
-                            <div className="text-xs text-slate-500">{history.crop} • {history.area} Ha</div>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-sm font-medium text-slate-900">{history.yield}</div>
-                          <div className={`text-xs ${history.status === 'Active' ? 'text-emerald-600' : 'text-slate-500'
-                            }`}>
-                            {history.status}
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-center py-8 text-slate-500">
-                      <Sprout className="h-8 w-8 text-slate-300 mx-auto mb-2" />
-                      <p>No crop history available</p>
-                    </div>
-                  )}
+                <div className="p-8 text-center text-slate-500 border-2 border-dashed border-slate-200 rounded-xl">
+                  <Package className="h-10 w-10 text-slate-300 mx-auto mb-3" />
+                  <p className="font-medium text-slate-900 mb-1">No Orders Found</p>
+                  <p className="text-sm">Farmer has not placed any formal input orders this season.</p>
                 </div>
               </CardContent>
             </Card>
+          )}
 
+          {activeTab === 'advisory' && (
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Farmer Notes</CardTitle>
+                <CardTitle>Advisory & Interventions Sent</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className="border-l-2 border-slate-200 ml-4 pl-6 space-y-6">
                   <div className="relative">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
-                    <input
-                      type="text"
-                      placeholder="Search notes..."
-                      value={noteSearchQuery}
-                      onChange={(e) => setNoteSearchQuery(e.target.value)}
-                      className="w-full h-9 rounded-md border border-slate-200 bg-white pl-9 pr-4 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-                    />
+                    <div className="absolute -left-[35px] top-1 h-4 w-4 rounded-full border-2 border-[var(--brand)] bg-white"></div>
+                    <div className="text-xs text-slate-500 mb-1">10 Feb 2024 • Sent via SMS & WhatsApp</div>
+                    <div className="font-medium text-slate-800">Weather Alert: Unseasonal Rain Expected</div>
+                    <p className="text-sm text-slate-600 mt-1">Please protect harvested crops and delay irrigation for next 48 hours.</p>
                   </div>
-
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={noteInput}
-                      onChange={(e) => setNoteInput(e.target.value)}
-                      placeholder="Add a note..."
-                      className="flex-1 h-9 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-                      onKeyDown={(e) => e.key === 'Enter' && handleAddNote()}
-                    />
-                    <button
-                      onClick={handleAddNote}
-                      className="h-9 px-4 rounded-md bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition-colors"
-                    >
-                      Add Note
-                    </button>
-                  </div>
-
-                  <div className="space-y-3 max-h-60 overflow-y-auto pr-2">
-                    {selectedFarmer.notes && selectedFarmer.notes.length > 0 ? (
-                      selectedFarmer.notes
-                        .filter(note => note.text.toLowerCase().includes(noteSearchQuery.toLowerCase()))
-                        .map((note) => (
-                          <div key={note.id} className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                            <p className="text-sm text-slate-700">{note.text}</p>
-                            <div className="flex items-center gap-2 mt-1">
-                              <Calendar className="h-3 w-3 text-slate-400" />
-                              <p className="text-xs text-slate-400">
-                                {new Date(note.date).toLocaleDateString('en-IN', {
-                                  day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
-                                })}
-                              </p>
-                            </div>
-                          </div>
-                        ))
-                    ) : (
-                      <div className="text-center py-8 border-2 border-dashed border-slate-100 rounded-lg">
-                        <MessageSquare className="h-8 w-8 text-slate-300 mx-auto mb-2" />
-                        <p className="text-sm text-slate-500">No notes added yet</p>
-                      </div>
-                    )}
-                    {selectedFarmer.notes && selectedFarmer.notes.length > 0 && selectedFarmer.notes.filter(note => note.text.toLowerCase().includes(noteSearchQuery.toLowerCase())).length === 0 && (
-                      <div className="text-center py-4">
-                        <p className="text-sm text-slate-500">No notes found matching "{noteSearchQuery}"</p>
-                      </div>
-                    )}
+                  <div className="relative">
+                    <div className="absolute -left-[35px] top-1 h-4 w-4 rounded-full border-2 border-slate-300 bg-white"></div>
+                    <div className="text-xs text-slate-500 mb-1">15 Jan 2024 • Field Visit by Rajesh</div>
+                    <div className="font-medium text-slate-800">Disease Identified: Yellow Rust</div>
+                    <p className="text-sm text-slate-600 mt-1">Recommended immediate spray of Propiconazole 25% EC at 1ml/liter.</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-          </div>
+          )}
+
+          {activeTab === 'schemes' && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Govt. Scheme Saturation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 rounded-xl border shadow-sm border-[var(--brand-muted)] bg-[var(--brand-wash)]">
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="font-bold text-emerald-900">PM-KISAN</div>
+                      <Badge variant="success">Active</Badge>
+                    </div>
+                    <div className="text-sm text-[var(--brand-light)]">Installments received regularly. Last check confirmed on Jan 2024.</div>
+                  </div>
+                  <div className="p-4 rounded-xl border shadow-sm border-amber-200 bg-amber-50">
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="font-bold text-amber-900">Soil Health Card</div>
+                      <Badge variant="warning">Expired</Badge>
+                    </div>
+                    <div className="text-sm text-amber-800">Last test done in 2021. Due for renewal.</div>
+                    <button onClick={() => toast({ message: 'Initiated renewal protocol', variant: 'success' })} className="mt-3 text-xs bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-md font-medium transition-colors">Initiate Renewal</button>
+                  </div>
+                  <div className="p-4 rounded-xl border shadow-sm border-rose-200 bg-rose-50">
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="font-bold text-rose-900">PMFBY (Crop Insurance)</div>
+                      <Badge variant="error" className="bg-red-100 text-red-700 border-red-200">Not Enrolled</Badge>
+                    </div>
+                    <div className="text-sm text-rose-800">High risk due to non-enrollment for current Rabi season.</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     );
@@ -579,7 +617,7 @@ export default function CEOFarmersContent() {
               placeholder="Search by name..."
               value={nameQuery}
               onChange={(e) => { setNameQuery(e.target.value); setCurrentPage(1); }}
-              className="h-9 w-48 rounded-md border border-slate-200 bg-white pl-9 pr-4 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+              className="h-9 w-48 rounded-md border border-slate-200 bg-white pl-9 pr-4 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
             />
           </div>
           <div className="relative">
@@ -589,7 +627,7 @@ export default function CEOFarmersContent() {
               placeholder="Search by mobile..."
               value={mobileQuery}
               onChange={(e) => { setMobileQuery(e.target.value); setCurrentPage(1); }}
-              className="h-9 w-48 rounded-md border border-slate-200 bg-white pl-9 pr-4 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+              className="h-9 w-48 rounded-md border border-slate-200 bg-white pl-9 pr-4 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
             />
           </div>
           <button
@@ -612,7 +650,7 @@ export default function CEOFarmersContent() {
           </button>
           <button
             onClick={() => setIsAddFarmerOpen(true)}
-            className="inline-flex items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-[var(--brand)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--brand-light)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:ring-offset-2"
           >
             <Plus className="h-4 w-4" />
             Add Farmer
@@ -629,7 +667,7 @@ export default function CEOFarmersContent() {
           <select
             value={statusFilter}
             onChange={(e) => { setStatusFilter(e.target.value as 'All' | 'Active' | 'Dormant' | 'Inactive'); setCurrentPage(1); }}
-            className="h-8 rounded-md border border-slate-200 bg-white px-2 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+            className="h-8 rounded-md border border-slate-200 bg-white px-2 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
           >
             <option value="All">All Status</option>
             <option value="Active">Active ({farmers.filter(f => f.status === 'Active').length})</option>
@@ -646,7 +684,7 @@ export default function CEOFarmersContent() {
           <select
             value={cropFilter}
             onChange={(e) => { setCropFilter(e.target.value); setCurrentPage(1); }}
-            className="h-8 rounded-md border border-slate-200 bg-white px-2 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+            className="h-8 rounded-md border border-slate-200 bg-white px-2 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
           >
             <option value="All">All Crops</option>
             {uniqueCrops.map(crop => (
@@ -663,7 +701,7 @@ export default function CEOFarmersContent() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as 'name' | 'mobile' | 'joinedDate')}
-            className="h-8 rounded-md border border-slate-200 bg-white px-2 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+            className="h-8 rounded-md border border-slate-200 bg-white px-2 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
           >
             <option value="name">Name</option>
             <option value="mobile">Mobile</option>
@@ -710,7 +748,7 @@ export default function CEOFarmersContent() {
                           {farmer.name.charAt(0)}
                         </div>
                         <div>
-                          <div className="font-medium text-slate-900 group-hover:text-emerald-700 transition-colors">{farmer.name}</div>
+                          <div className="font-medium text-slate-900 group-hover:text-[var(--brand)] transition-colors">{farmer.name}</div>
                           <div className="text-xs text-slate-500">FPO-SKD-{farmer.id.padStart(4, '0')} · {farmer.mobile}</div>
                         </div>
                       </div>
@@ -720,8 +758,8 @@ export default function CEOFarmersContent() {
                     <td className="px-6 py-4 text-slate-600">{new Date(farmer.joinedDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
                     <td className="px-6 py-4 text-slate-600">{farmer.landArea}</td>
                     <td className="px-6 py-4 text-slate-600">{farmer.primaryCrop}</td>
-                    <td className={`px-6 py-4 font-medium ${farmer.shareCapital.includes('partial') ? 'text-amber-600' : 'text-emerald-600'}`}>{farmer.shareCapital}</td>
-                    <td className={`px-6 py-4 font-medium ${farmer.outstanding === '₹0' ? 'text-emerald-600' : 'text-red-600'}`}>{farmer.outstanding}</td>
+                    <td className={`px-6 py-4 font-medium ${farmer.shareCapital.includes('partial') ? 'text-amber-600' : 'text-[var(--brand)]'}`}>{farmer.shareCapital}</td>
+                    <td className={`px-6 py-4 font-medium ${farmer.outstanding === '₹0' ? 'text-[var(--brand)]' : 'text-red-600'}`}>{farmer.outstanding}</td>
                     <td className="px-6 py-4">
                       <Badge variant={farmer.status === 'Active' ? 'success' : farmer.status === 'Dormant' ? 'warning' : 'danger'}>
                         {farmer.status}
@@ -733,7 +771,7 @@ export default function CEOFarmersContent() {
                           e.stopPropagation();
                           setSelectedFarmer(farmer);
                         }}
-                        className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 hover:bg-emerald-100 transition-colors"
+                        className="inline-flex items-center gap-1 rounded-md bg-[var(--brand-wash)] px-3 py-1.5 text-xs font-medium text-[var(--brand)] hover:bg-[var(--brand-pale)] transition-colors"
                       >
                         View Profile <ChevronRight className="h-3 w-3" />
                       </button>
@@ -788,7 +826,7 @@ export default function CEOFarmersContent() {
                 key={pageNum}
                 onClick={() => setCurrentPage(pageNum)}
                 className={`rounded-md border px-3 py-1 font-medium ${currentPage === pageNum
-                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                  ? 'bg-[var(--brand-wash)] text-[var(--brand)] border-[var(--brand-muted)]'
                   : 'border-slate-200 hover:bg-slate-50 text-slate-600'
                   }`}
               >
@@ -828,7 +866,7 @@ export default function CEOFarmersContent() {
                   type="text"
                   value={newFarmer.name}
                   onChange={(e) => setNewFarmer({ ...newFarmer, name: e.target.value })}
-                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
                   placeholder="e.g. Rajesh Kumar"
                 />
               </div>
@@ -839,7 +877,7 @@ export default function CEOFarmersContent() {
                   type="text"
                   value={newFarmer.mobile}
                   onChange={(e) => setNewFarmer({ ...newFarmer, mobile: e.target.value })}
-                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
                   placeholder="e.g. 9876543210"
                 />
               </div>
@@ -850,7 +888,7 @@ export default function CEOFarmersContent() {
                   type="text"
                   value={newFarmer.village}
                   onChange={(e) => setNewFarmer({ ...newFarmer, village: e.target.value })}
-                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
                   placeholder="e.g. Rampur"
                 />
               </div>
@@ -861,7 +899,7 @@ export default function CEOFarmersContent() {
                   type="text"
                   value={newFarmer.cluster}
                   onChange={(e) => setNewFarmer({ ...newFarmer, cluster: e.target.value })}
-                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
                   placeholder="e.g. Sikandrabad"
                 />
               </div>
@@ -872,7 +910,7 @@ export default function CEOFarmersContent() {
                   type="text"
                   value={newFarmer.moderator}
                   onChange={(e) => setNewFarmer({ ...newFarmer, moderator: e.target.value })}
-                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
                   placeholder="e.g. Suresh Kumar"
                 />
               </div>
@@ -884,7 +922,7 @@ export default function CEOFarmersContent() {
                   step="0.1"
                   value={newFarmer.landArea}
                   onChange={(e) => setNewFarmer({ ...newFarmer, landArea: parseFloat(e.target.value) || 0 })}
-                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
                   placeholder="0.0"
                 />
               </div>
@@ -895,7 +933,7 @@ export default function CEOFarmersContent() {
                   type="text"
                   value={newFarmer.primaryCrop}
                   onChange={(e) => setNewFarmer({ ...newFarmer, primaryCrop: e.target.value })}
-                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
                   placeholder="e.g. Wheat"
                 />
               </div>
@@ -906,7 +944,7 @@ export default function CEOFarmersContent() {
                   type="text"
                   value={newFarmer.shareCapital}
                   onChange={(e) => setNewFarmer({ ...newFarmer, shareCapital: e.target.value })}
-                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
                   placeholder="e.g. ₹1,000"
                 />
               </div>
@@ -917,7 +955,7 @@ export default function CEOFarmersContent() {
                   type="text"
                   value={newFarmer.outstanding}
                   onChange={(e) => setNewFarmer({ ...newFarmer, outstanding: e.target.value })}
-                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
                   placeholder="e.g. ₹0"
                 />
               </div>
@@ -927,7 +965,7 @@ export default function CEOFarmersContent() {
                 <select
                   value={newFarmer.status}
                   onChange={(e) => setNewFarmer({ ...newFarmer, status: e.target.value as any })}
-                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
                 >
                   <option value="Active">Active</option>
                   <option value="Dormant">Dormant</option>
@@ -939,7 +977,7 @@ export default function CEOFarmersContent() {
                 <label className="text-sm font-medium text-slate-700">Avatar Color</label>
                 <div className="flex gap-3">
                   {[
-                    'bg-emerald-100 text-emerald-700',
+                    'bg-[var(--brand-pale)] text-[var(--brand)]',
                     'bg-blue-100 text-blue-700',
                     'bg-purple-100 text-purple-700',
                     'bg-amber-100 text-amber-700',
@@ -969,7 +1007,7 @@ export default function CEOFarmersContent() {
               <button
                 onClick={() => setIsConfirmSaveOpen(true)}
                 disabled={!newFarmer.name || !newFarmer.mobile}
-                className="px-6 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-md shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="px-6 py-2 text-sm font-medium text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-md shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 Save Farmer
               </button>
@@ -979,7 +1017,7 @@ export default function CEOFarmersContent() {
             {isConfirmSaveOpen && (
               <div className="absolute inset-0 z-50 bg-white/90 backdrop-blur-sm flex items-center justify-center p-6 animate-in fade-in duration-200">
                 <div className="bg-white border border-slate-200 rounded-xl shadow-lg p-6 max-w-sm w-full text-center space-y-4 animate-in zoom-in-95 duration-200">
-                  <div className="h-12 w-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
+                  <div className="h-12 w-12 bg-[var(--brand-pale)] text-[var(--brand)] rounded-full flex items-center justify-center mx-auto">
                     <Check className="h-6 w-6" />
                   </div>
                   <div>
@@ -995,7 +1033,7 @@ export default function CEOFarmersContent() {
                     </button>
                     <button
                       onClick={handleAddFarmer}
-                      className="px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-md shadow-sm transition-colors"
+                      className="px-4 py-2 text-sm font-medium text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-md shadow-sm transition-colors"
                     >
                       Confirm
                     </button>

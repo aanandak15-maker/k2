@@ -111,7 +111,7 @@ export default function AdminInventoryContent() {
                     </button>
                     <button
                         onClick={() => setIsReceiptModalOpen(true)}
-                        className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Plus size={16} /> Goods Receipt
                     </button>
@@ -153,7 +153,7 @@ export default function AdminInventoryContent() {
                         <input
                             type="text"
                             placeholder="Search SKU or name..."
-                            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -195,7 +195,7 @@ export default function AdminInventoryContent() {
                                         <td className="px-6 py-4">
                                             <button
                                                 onClick={() => openEditModal(item)}
-                                                className="text-slate-400 hover:text-emerald-600 transition-colors"
+                                                className="text-slate-400 hover:text-[var(--brand)] transition-colors"
                                                 title="Edit Stock"
                                             >
                                                 <Edit2 size={16} />
@@ -316,7 +316,7 @@ export default function AdminInventoryContent() {
 
                             <div className="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-6">
                                 <button type="button" onClick={() => setIsReceiptModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-lg border border-slate-200">Cancel</button>
-                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm">Save Receipt</button>
+                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg shadow-sm">Save Receipt</button>
                             </div>
                         </form>
                     </div>
@@ -352,7 +352,7 @@ export default function AdminInventoryContent() {
 
                             <div className="pt-2 flex justify-end gap-3">
                                 <button type="button" onClick={() => setIsEditModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-lg border border-slate-200">Cancel</button>
-                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm">Update</button>
+                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg shadow-sm">Update</button>
                             </div>
                         </form>
                     </div>

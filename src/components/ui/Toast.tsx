@@ -3,14 +3,14 @@ import { CheckCircle2, XCircle, Info, AlertTriangle, X } from 'lucide-react';
 import { useToast, ToastMessage } from '../../hooks/useToast';
 
 const icons = {
-    success: <CheckCircle2 size={18} className="text-emerald-500" />,
+    success: <CheckCircle2 size={18} className="text-[var(--brand)]" />,
     error: <XCircle size={18} className="text-red-500" />,
     info: <Info size={18} className="text-blue-500" />,
     warning: <AlertTriangle size={18} className="text-amber-500" />
 };
 
 const bgColors = {
-    success: 'bg-emerald-50 border-emerald-200',
+    success: 'bg-[var(--brand-wash)] border-[var(--brand-muted)]',
     error: 'bg-red-50 border-red-200',
     info: 'bg-blue-50 border-blue-200',
     warning: 'bg-amber-50 border-amber-200'

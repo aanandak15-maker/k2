@@ -5,6 +5,7 @@ import CEODashboard from './components/CEODashboard';
 import ModeratorApp from './components/ModeratorApp';
 import PlatformAdmin from './components/PlatformAdmin';
 import AdminDashboard from './components/AdminDashboard';
+import LandingPage from './components/landing/LandingPage';
 
 import { ToastProvider } from './hooks/useToast';
 import { ToastContainer } from './components/ui/Toast';
@@ -22,12 +23,17 @@ export default function App() {
   };
 
   const renderContent = () => {
-    if (!currentRole) return <SplashScreen onEnterApp={handleEnterApp} />;
+    if (!currentRole) return (
+      <div className="landing-theme">
+        <LandingPage onLogin={() => setCurrentRole('login')} />
+      </div>
+    );
+    if (currentRole === 'login') return <SplashScreen onEnterApp={handleEnterApp} onHome={handleHome} />;
     if (currentRole === 'ceo') return <CEODashboard onHome={handleHome} />;
     if (currentRole === 'moderator') return <ModeratorApp onHome={handleHome} />;
     if (currentRole === 'platform') return <PlatformAdmin onHome={handleHome} />;
     if (currentRole === 'admin') return <AdminDashboard onHome={handleHome} />;
-    return <SplashScreen onEnterApp={handleEnterApp} />;
+    return <SplashScreen onEnterApp={handleEnterApp} onHome={handleHome} />;
   };
 
   return (

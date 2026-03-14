@@ -69,7 +69,7 @@ export default function AdminSupplierContent() {
                 <div className="flex gap-3">
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Plus size={16} /> Add Supplier
                     </button>
@@ -86,7 +86,7 @@ export default function AdminSupplierContent() {
                 <Card>
                     <CardContent className="p-5">
                         <div className="text-slate-500 text-sm font-medium mb-1">Active Accounts</div>
-                        <div className="text-2xl font-bold text-emerald-600">{activeSuppliers}</div>
+                        <div className="text-2xl font-bold text-[var(--brand)]">{activeSuppliers}</div>
                     </CardContent>
                 </Card>
                 <Card className="md:col-span-2 bg-red-50 border-red-100">
@@ -114,7 +114,7 @@ export default function AdminSupplierContent() {
                             <input
                                 type="text"
                                 placeholder="Search vendor name or category..."
-                                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -147,8 +147,8 @@ export default function AdminSupplierContent() {
                                         <td className="px-6 py-4">
                                             <div className="font-medium text-slate-700">{supplier.contactPerson}</div>
                                             <div className="flex items-center gap-3 mt-1">
-                                                <a href={`tel:${supplier.phone}`} className="text-slate-400 hover:text-emerald-600 hint--top" aria-label="Call"><Phone size={14} /></a>
-                                                <a href={`mailto:${supplier.email}`} className="text-slate-400 hover:text-emerald-600 hint--top" aria-label="Email"><Mail size={14} /></a>
+                                                <a href={`tel:${supplier.phone}`} className="text-slate-400 hover:text-[var(--brand)] hint--top" aria-label="Call"><Phone size={14} /></a>
+                                                <a href={`mailto:${supplier.email}`} className="text-slate-400 hover:text-[var(--brand)] hint--top" aria-label="Email"><Mail size={14} /></a>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 text-right">
@@ -277,7 +277,7 @@ export default function AdminSupplierContent() {
 
                             <div className="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-6">
                                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-lg border border-slate-200">Cancel</button>
-                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm">Save Supplier</button>
+                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg shadow-sm">Save Supplier</button>
                             </div>
                         </form>
                     </div>
@@ -309,7 +309,7 @@ export default function AdminSupplierContent() {
                                         setIsLedgerOpen(false);
                                         setIsPaymentOpen(true);
                                     }}
-                                    className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors"
+                                    className="bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors"
                                 >
                                     Make Payment
                                 </button>
@@ -333,7 +333,7 @@ export default function AdminSupplierContent() {
                                         <tr>
                                             <td className="px-4 py-3">2025-01-20</td>
                                             <td className="px-4 py-3"><Badge variant="success">Payment Made</Badge></td>
-                                            <td className="px-4 py-3 text-right font-medium text-emerald-600">₹30,000</td>
+                                            <td className="px-4 py-3 text-right font-medium text-[var(--brand)]">₹30,000</td>
                                         </tr>
                                         <tr>
                                             <td className="px-4 py-3">2024-12-10</td>
@@ -362,7 +362,7 @@ export default function AdminSupplierContent() {
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Select Supplier</label>
                                 <select
-                                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm transition-all focus:ring-2 focus:ring-emerald-500 outline-none"
+                                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm transition-all focus:ring-2 focus:ring-[var(--brand)] outline-none"
                                 >
                                     <option value="">-- Choose Supplier --</option>
                                     {state.suppliers.map(s => (
@@ -372,14 +372,14 @@ export default function AdminSupplierContent() {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Amount to Pay (₹)</label>
-                                <input type="number" min="1" className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm transition-all focus:ring-2 focus:ring-emerald-500 outline-none" />
+                                <input type="number" min="1" className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm transition-all focus:ring-2 focus:ring-[var(--brand)] outline-none" />
                             </div>
                             <button
                                 onClick={() => {
                                     toast({ message: 'Payment processed and recorded successfully.', variant: 'success' });
                                     setIsPaymentOpen(false);
                                 }}
-                                className="w-full bg-emerald-600 text-white p-2.5 rounded-lg font-semibold hover:bg-emerald-700 transition-colors mt-4"
+                                className="w-full bg-[var(--brand)] text-white p-2.5 rounded-lg font-semibold hover:bg-[var(--brand-light)] transition-colors mt-4"
                             >
                                 Process Payment
                             </button>

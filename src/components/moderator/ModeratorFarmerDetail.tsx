@@ -24,7 +24,7 @@ export function ModeratorFarmerDetail({
     if (!farmer) return (
         <div className="flex flex-col items-center justify-center h-full p-4 mt-10">
             <p className="text-slate-500">Farmer not found.</p>
-            <button onClick={onBack} className="mt-4 text-emerald-600 font-medium">Go Back</button>
+            <button onClick={onBack} className="mt-4 text-[var(--brand)] font-medium">Go Back</button>
         </div>
     );
 
@@ -40,7 +40,7 @@ export function ModeratorFarmerDetail({
                     <div className="text-xs text-slate-500 flex items-center gap-1">
                         <span className="font-mono">{farmer.id}</span>
                         <span>•</span>
-                        <span className="text-emerald-600 font-medium">{farmer.status}</span>
+                        <span className="text-[var(--brand)] font-medium">{farmer.status}</span>
                     </div>
                 </div>
             </div>
@@ -50,13 +50,13 @@ export function ModeratorFarmerDetail({
                 <Card className="border-0 shadow-sm">
                     <CardContent className="p-4">
                         <div className="flex items-start gap-4">
-                            <div className="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-xl font-bold border-2 border-emerald-200 shrink-0">
+                            <div className="w-16 h-16 bg-[var(--brand-pale)] text-[var(--brand)] rounded-full flex items-center justify-center text-xl font-bold border-2 border-[var(--brand-muted)] shrink-0">
                                 {farmer.name.split(' ').map(n => n[0]).join('')}
                             </div>
                             <div className="flex-1 min-w-0 space-y-2">
                                 <div className="flex items-center gap-2 text-sm text-slate-600">
                                     <Phone size={14} className="text-slate-400" />
-                                    <a href={`tel:${farmer.phone}`} className="text-emerald-600 hover:underline">{farmer.phone}</a>
+                                    <a href={`tel:${farmer.phone}`} className="text-[var(--brand)] hover:underline">{farmer.phone}</a>
                                 </div>
                                 <div className="flex items-start gap-2 text-sm text-slate-600">
                                     <MapPin size={14} className="text-slate-400 mt-0.5 shrink-0" />
@@ -64,7 +64,7 @@ export function ModeratorFarmerDetail({
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 mt-2">
-                                <button onClick={() => toast({ message: 'Opening navigation to farmer...', variant: 'info' })} className="flex-1 bg-emerald-50 text-emerald-700 py-1.5 rounded text-xs font-semibold hover:bg-emerald-100 flex items-center justify-center gap-1">
+                                <button onClick={() => toast({ message: 'Opening navigation to farmer...', variant: 'info' })} className="flex-1 bg-[var(--brand-wash)] text-[var(--brand)] py-1.5 rounded text-xs font-semibold hover:bg-[var(--brand-pale)] flex items-center justify-center gap-1">
                                     <Navigation size={12} /> Navigate
                                 </button>
                                 <button onClick={() => toast({ message: `Calling ${farmer.phone}...`, variant: 'info' })} className="flex-1 border border-slate-200 text-slate-700 py-1.5 rounded text-xs font-semibold hover:bg-slate-50 flex items-center justify-center gap-1">
@@ -86,7 +86,7 @@ export function ModeratorFarmerDetail({
                             </div>
                             <div className="text-center">
                                 <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Dues</div>
-                                <div className={`font-bold text-sm mt-0.5 ${farmer.outstandingDues > 0 ? 'text-red-600' : 'text-emerald-600'}`}>
+                                <div className={`font-bold text-sm mt-0.5 ${farmer.outstandingDues > 0 ? 'text-red-600' : 'text-[var(--brand)]'}`}>
                                     ₹{farmer.outstandingDues}
                                 </div>
                             </div>
@@ -104,7 +104,7 @@ export function ModeratorFarmerDetail({
                         ].map((tab) => (
                             <button
                                 key={tab.id}
-                                className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-md transition-all ${activeTab === tab.id ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500'
+                                className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-md transition-all ${activeTab === tab.id ? 'bg-white text-[var(--brand)] shadow-sm' : 'text-slate-500'
                                     }`}
                                 onClick={() => setActiveTab(tab.id as any)}
                             >
@@ -152,7 +152,7 @@ export function ModeratorFarmerDetail({
                                     <div className="text-xs text-slate-500 font-medium">Total Outstanding</div>
                                     <div className="text-lg font-bold text-red-600">₹{farmer.outstandingDues.toLocaleString()}</div>
                                 </div>
-                                <button onClick={onCollectPayment} className="bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm flex items-center gap-1">
+                                <button onClick={onCollectPayment} className="bg-[var(--brand)] text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm flex items-center gap-1">
                                     <IndianRupee size={14} /> Collect
                                 </button>
                             </div>
@@ -169,7 +169,7 @@ export function ModeratorFarmerDetail({
                                         <div className="font-semibold text-sm text-slate-800">{txn.desc}</div>
                                         <div className="text-xs text-slate-500">{txn.date} • {txn.id}</div>
                                     </div>
-                                    <div className={`font-bold ${txn.type === 'cr' ? 'text-emerald-600' : 'text-slate-800'}`}>
+                                    <div className={`font-bold ${txn.type === 'cr' ? 'text-[var(--brand)]' : 'text-slate-800'}`}>
                                         {txn.type === 'cr' ? '+' : '-'}₹{Math.abs(txn.amt)}
                                     </div>
                                 </div>
@@ -181,14 +181,14 @@ export function ModeratorFarmerDetail({
                 {
                     activeTab === 'visits' && (
                         <div className="space-y-3 animate-in fade-in duration-300">
-                            <button onClick={onLogVisit} className="w-full bg-emerald-50 border border-emerald-200 border-dashed text-emerald-700 text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-emerald-100 transition-colors">
+                            <button onClick={onLogVisit} className="w-full bg-[var(--brand-wash)] border border-[var(--brand-muted)] border-dashed text-[var(--brand)] text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-[var(--brand-pale)] transition-colors">
                                 <Plus size={18} /> Log New Visit
                             </button>
 
                             {/* Mock Visit History */}
                             <div className="relative pl-4 border-l-2 border-slate-200 ml-2 mt-6 space-y-6">
                                 <div className="relative">
-                                    <div className="absolute -left-[23px] top-1 w-4 h-4 rounded-full bg-emerald-500 border-4 border-slate-50"></div>
+                                    <div className="absolute -left-[23px] top-1 w-4 h-4 rounded-full bg-[var(--brand)] border-4 border-slate-50"></div>
                                     <div className="bg-white p-3 rounded-lg border border-slate-100 shadow-sm">
                                         <div className="flex justify-between items-start mb-1">
                                             <span className="font-bold text-sm text-slate-800">Crop Inspection</span>
@@ -210,7 +210,7 @@ export function ModeratorFarmerDetail({
                                             <span className="text-xs text-slate-500">25 Jan 2025</span>
                                         </div>
                                         <p className="text-xs text-slate-600 line-clamp-1">Collected ₹2000 cash for outstanding dues.</p>
-                                        <div className="mt-2 text-[10px] font-medium text-emerald-600">
+                                        <div className="mt-2 text-[10px] font-medium text-[var(--brand)]">
                                             <IndianRupee size={10} className="inline mr-1" /> Receipt generated
                                         </div>
                                     </div>

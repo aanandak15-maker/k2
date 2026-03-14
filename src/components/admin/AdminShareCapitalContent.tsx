@@ -67,7 +67,7 @@ export default function AdminShareCapitalContent() {
                     </button>
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Plus size={16} /> Record Payment
                     </button>
@@ -81,12 +81,12 @@ export default function AdminShareCapitalContent() {
                         <div className="text-2xl font-bold text-slate-900">₹5,00,000</div>
                     </CardContent>
                 </Card>
-                <Card className="bg-emerald-50 border-emerald-100">
+                <Card className="bg-[var(--brand-wash)] border-[var(--brand-pale)]">
                     <CardContent className="p-5">
-                        <div className="text-emerald-700 text-sm font-medium mb-1 flex items-center gap-1">
-                            Paid-Up Capital <ArrowUpRight size={14} className="text-emerald-500" />
+                        <div className="text-[var(--brand)] text-sm font-medium mb-1 flex items-center gap-1">
+                            Paid-Up Capital <ArrowUpRight size={14} className="text-[var(--brand)]" />
                         </div>
-                        <div className="text-2xl font-bold text-emerald-800">₹{totalPaidUp.toLocaleString()}</div>
+                        <div className="text-2xl font-bold text-[var(--brand-light)]">₹{totalPaidUp.toLocaleString()}</div>
                     </CardContent>
                 </Card>
                 <Card className="bg-red-50 border-red-100">
@@ -115,7 +115,7 @@ export default function AdminShareCapitalContent() {
                             <input
                                 type="text"
                                 placeholder="Search member name or ID..."
-                                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -156,7 +156,7 @@ export default function AdminShareCapitalContent() {
                                                 <div className="font-medium text-slate-600">₹{subscribed.toLocaleString()}</div>
                                             </td>
                                             <td className="px-6 py-4 text-right">
-                                                <div className="font-bold text-emerald-700">₹{paid.toLocaleString()}</div>
+                                                <div className="font-bold text-[var(--brand)]">₹{paid.toLocaleString()}</div>
                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 <div className={`font-bold ${arrears > 0 ? 'text-red-600' : 'text-slate-400'}`}>
@@ -175,7 +175,7 @@ export default function AdminShareCapitalContent() {
                                                             setPaymentData(prev => ({ ...prev, farmerId: member.id, amount: arrears }));
                                                             setIsModalOpen(true);
                                                         }}
-                                                        className="text-xs font-semibold text-emerald-600 hover:text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded"
+                                                        className="text-xs font-semibold text-[var(--brand)] hover:text-[var(--brand-light)] bg-[var(--brand-wash)] px-3 py-1.5 rounded"
                                                     >
                                                         Collect
                                                     </button>
@@ -273,7 +273,7 @@ export default function AdminShareCapitalContent() {
 
                             <div className="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-6">
                                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-lg border border-slate-200">Cancel</button>
-                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm">Save Record</button>
+                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg shadow-sm">Save Record</button>
                             </div>
                         </form>
                     </div>

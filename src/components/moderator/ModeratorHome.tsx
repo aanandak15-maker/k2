@@ -20,7 +20,7 @@ export default function ModeratorHome({
     return (
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
             {/* Header Profile Section */}
-            <div className="bg-emerald-600 -mx-4 -mt-4 px-4 pt-10 pb-6 text-white rounded-b-2xl shadow-md relative overflow-hidden">
+            <div className="bg-[var(--brand)] -mx-4 -mt-4 px-4 pt-10 pb-6 text-white rounded-b-2xl shadow-md relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
                 <div className="flex items-center gap-4 relative z-10">
                     <div className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white/40 text-lg font-bold">
@@ -42,7 +42,7 @@ export default function ModeratorHome({
                 </div>
                 <input
                     type="text"
-                    className="block w-full pl-10 pr-3 py-3 border-0 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 sm:text-sm"
+                    className="block w-full pl-10 pr-3 py-3 border-0 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[var(--brand)] sm:text-sm"
                     placeholder="Search farmer by name or phone..."
                     onFocus={onViewFarmers}
                 />
@@ -70,7 +70,7 @@ export default function ModeratorHome({
                     <Card className="border-0 shadow-sm ring-1 ring-slate-100 bg-gradient-to-br from-white to-slate-50" onClick={onViewFarmers}>
                         <CardContent className="p-3">
                             <div className="flex justify-between items-start mb-2">
-                                <div className="p-1.5 bg-emerald-100 text-emerald-600 rounded-lg">
+                                <div className="p-1.5 bg-[var(--brand-pale)] text-[var(--brand)] rounded-lg">
                                     <Users size={18} />
                                 </div>
                             </div>

@@ -10,7 +10,7 @@ export const Card: React.FC<CardProps> = ({ className, ...props }) => {
   return (
     <div
       className={cn(
-        "bg-white rounded-xl border border-slate-200 shadow-sm transition-all duration-200",
+        "bg-white rounded-xl border border-slate-200 transition-all duration-200",
         className
       )}
       {...props}
@@ -41,6 +41,20 @@ export const CardTitle: React.FC<CardTitleProps> = ({ className, ...props }) => 
   return (
     <h3
       className={cn("font-semibold leading-none tracking-tight text-slate-900", className)}
+      {...props}
+    />
+  );
+};
+
+interface CardDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {
+  children?: React.ReactNode;
+  className?: string;
+}
+
+export const CardDescription: React.FC<CardDescriptionProps> = ({ className, ...props }) => {
+  return (
+    <p
+      className={cn("text-sm text-slate-500", className)}
       {...props}
     />
   );

@@ -38,7 +38,7 @@ export default function AdminSettingsContent() {
                 <div className="flex gap-3">
                     <button
                         onClick={handleSave}
-                        className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Save size={16} /> Save Changes
                     </button>
@@ -57,7 +57,7 @@ export default function AdminSettingsContent() {
                                     <label className="text-sm font-medium text-slate-700">Organization Name</label>
                                     <input
                                         type="text"
-                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-[var(--brand)] focus:border-[var(--brand)] sm:text-sm"
                                         value={settings.orgName}
                                         onChange={(e) => setSettings({ ...settings, orgName: e.target.value })}
                                     />
@@ -66,7 +66,7 @@ export default function AdminSettingsContent() {
                                     <label className="text-sm font-medium text-slate-700">CIN / Registration No.</label>
                                     <input
                                         type="text"
-                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-[var(--brand)] focus:border-[var(--brand)] sm:text-sm"
                                         value={settings.cin}
                                         onChange={(e) => setSettings({ ...settings, cin: e.target.value })}
                                     />
@@ -76,7 +76,7 @@ export default function AdminSettingsContent() {
                                 <div className="space-y-1.5">
                                     <label className="text-sm font-medium text-slate-700">Registered Address</label>
                                     <textarea
-                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm h-full"
+                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-[var(--brand)] focus:border-[var(--brand)] sm:text-sm h-full"
                                         rows={4}
                                         value={settings.address}
                                         onChange={(e) => setSettings({ ...settings, address: e.target.value })}
@@ -87,7 +87,7 @@ export default function AdminSettingsContent() {
                                         <label className="text-sm font-medium text-slate-700">Contact Email</label>
                                         <input
                                             type="email"
-                                            className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                            className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-[var(--brand)] focus:border-[var(--brand)] sm:text-sm"
                                             value={settings.email}
                                             onChange={(e) => setSettings({ ...settings, email: e.target.value })}
                                         />
@@ -96,7 +96,7 @@ export default function AdminSettingsContent() {
                                         <label className="text-sm font-medium text-slate-700">Support Phone</label>
                                         <input
                                             type="tel"
-                                            className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                            className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-[var(--brand)] focus:border-[var(--brand)] sm:text-sm"
                                             value={settings.phone}
                                             onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
                                         />
@@ -115,7 +115,7 @@ export default function AdminSettingsContent() {
                                 <div className="space-y-1.5">
                                     <label className="text-sm font-medium text-slate-700">Financial Year Start</label>
                                     <select
-                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-[var(--brand)] focus:border-[var(--brand)] sm:text-sm"
                                         value={settings.fyStart}
                                         onChange={(e) => setSettings({ ...settings, fyStart: e.target.value })}
                                     >
@@ -126,7 +126,7 @@ export default function AdminSettingsContent() {
                                 <div className="space-y-1.5">
                                     <label className="text-sm font-medium text-slate-700">Base Currency</label>
                                     <select
-                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-[var(--brand)] focus:border-[var(--brand)] sm:text-sm"
                                         value={settings.currency}
                                         onChange={(e) => setSettings({ ...settings, currency: e.target.value })}
                                     >
@@ -138,7 +138,7 @@ export default function AdminSettingsContent() {
                                     <label className="text-sm font-medium text-slate-700">Share Face Value</label>
                                     <input
                                         type="number"
-                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-[var(--brand)] focus:border-[var(--brand)] sm:text-sm"
                                         value={settings.shareValue}
                                         onChange={(e) => setSettings({ ...settings, shareValue: parseInt(e.target.value) || 0 })}
                                     />
@@ -147,7 +147,7 @@ export default function AdminSettingsContent() {
                                     <label className="text-sm font-medium text-slate-700">Default Credit Period (Days)</label>
                                     <input
                                         type="number"
-                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                        className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-[var(--brand)] focus:border-[var(--brand)] sm:text-sm"
                                         value={settings.creditPeriod}
                                         onChange={(e) => setSettings({ ...settings, creditPeriod: parseInt(e.target.value) || 0 })}
                                     />
@@ -177,7 +177,7 @@ export default function AdminSettingsContent() {
                                         checked={settings.smsAlerts}
                                         onChange={(e) => setSettings({ ...settings, smsAlerts: e.target.checked })}
                                     />
-                                    <label htmlFor="toggle-sms" className={`toggle-label block overflow-hidden h-5 rounded-full cursor-pointer transition-colors ${settings.smsAlerts ? 'bg-emerald-500' : 'bg-slate-300'}`}></label>
+                                    <label htmlFor="toggle-sms" className={`toggle-label block overflow-hidden h-5 rounded-full cursor-pointer transition-colors ${settings.smsAlerts ? 'bg-[var(--brand)]' : 'bg-slate-300'}`}></label>
                                 </div>
                             </div>
                             <div className="flex items-center justify-between mt-4 pb-2 border-t border-slate-100 pt-4">
@@ -194,7 +194,7 @@ export default function AdminSettingsContent() {
                                         checked={settings.emailReports}
                                         onChange={(e) => setSettings({ ...settings, emailReports: e.target.checked })}
                                     />
-                                    <label htmlFor="toggle-email" className={`toggle-label block overflow-hidden h-5 rounded-full cursor-pointer transition-colors ${settings.emailReports ? 'bg-emerald-500' : 'bg-slate-300'}`}></label>
+                                    <label htmlFor="toggle-email" className={`toggle-label block overflow-hidden h-5 rounded-full cursor-pointer transition-colors ${settings.emailReports ? 'bg-[var(--brand)]' : 'bg-slate-300'}`}></label>
                                 </div>
                             </div>
                         </CardContent>

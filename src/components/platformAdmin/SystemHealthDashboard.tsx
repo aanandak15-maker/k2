@@ -30,8 +30,8 @@ export default function SystemHealthDashboard() {
                         <div className="text-sm font-medium text-slate-500 mb-1">{metric.label}</div>
                         <div className="flex items-end justify-between">
                             <div className="text-3xl font-bold text-slate-900">{metric.value}</div>
-                            <div className={`flex items-center text-xs font-semibold px-2 py-1 rounded-full ${metric.change.startsWith('+') && metric.status === 'success' ? 'text-emerald-700 bg-emerald-50' :
-                                metric.change.startsWith('-') && metric.status === 'success' ? 'text-emerald-700 bg-emerald-50' :
+                            <div className={`flex items-center text-xs font-semibold px-2 py-1 rounded-full ${metric.change.startsWith('+') && metric.status === 'success' ? 'text-[var(--brand)] bg-[var(--brand-wash)]' :
+                                metric.change.startsWith('-') && metric.status === 'success' ? 'text-[var(--brand)] bg-[var(--brand-wash)]' :
                                     'text-slate-600 bg-slate-100'
                                 }`}>
                                 {metric.change.startsWith('+') ? <ArrowUpRight size={14} className="mr-0.5" /> : <ArrowDownRight size={14} className="mr-0.5" />}
@@ -41,7 +41,7 @@ export default function SystemHealthDashboard() {
                         <div className="mt-4 text-xs text-slate-400 flex justify-between items-center border-t border-slate-100 pt-3">
                             <span>Target: {metric.target}</span>
                             <span className="flex items-center gap-1">
-                                <span className="w-2 h-2 rounded-full bg-emerald-500"></span> On Track
+                                <span className="w-2 h-2 rounded-full bg-[var(--brand)]"></span> On Track
                             </span>
                         </div>
                     </div>
@@ -55,7 +55,7 @@ export default function SystemHealthDashboard() {
                             <Server size={18} className="text-indigo-500" />
                             Service Status Map
                         </h3>
-                        <span className="text-xs font-medium bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                        <span className="text-xs font-medium bg-[var(--brand-pale)] text-[var(--brand-light)] px-2.5 py-1 rounded-full flex items-center gap-1.5">
                             <CheckCircle2 size={14} /> All Systems Operational (Mostly)
                         </span>
                     </div>
@@ -80,7 +80,7 @@ export default function SystemHealthDashboard() {
                                         </td>
                                         <td className="px-6 py-4">
                                             {service.status === 'Operational' ? (
-                                                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md">
+                                                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--brand)] bg-[var(--brand-wash)] px-2 py-1 rounded-md">
                                                     <CheckCircle2 size={14} /> Operational
                                                 </span>
                                             ) : (

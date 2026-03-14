@@ -34,7 +34,7 @@ export default function PlatformSettings() {
                     </button>
                     <button
                         onClick={() => toast({ message: 'Settings saved successfully', variant: 'success' })}
-                        className="flex items-center gap-2 px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium text-sm shadow-sm shadow-emerald-600/20"
+                        className="flex items-center gap-2 px-6 py-2 bg-[var(--brand)] text-white rounded-lg hover:bg-[var(--brand-light)] transition-colors font-medium text-sm shadow-sm shadow-emerald-600/20"
                     >
                         <Save size={16} /> Save Settings
                     </button>
@@ -49,11 +49,11 @@ export default function PlatformSettings() {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-left ${activeTab === tab.id
-                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-sm'
+                                ? 'bg-[var(--brand-wash)] text-[var(--brand)] border border-[var(--brand-muted)] shadow-sm'
                                 : 'text-slate-600 hover:bg-slate-50 border border-transparent'
                                 }`}
                         >
-                            <tab.icon size={18} className={activeTab === tab.id ? 'text-emerald-600' : 'text-slate-400'} />
+                            <tab.icon size={18} className={activeTab === tab.id ? 'text-[var(--brand)]' : 'text-slate-400'} />
                             {tab.label}
                         </button>
                     ))}
@@ -73,11 +73,11 @@ export default function PlatformSettings() {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div>
                                             <label className="block text-sm font-medium text-slate-700 mb-1.5">Platform Base URL</label>
-                                            <input type="url" defaultValue="https://app.k2fpo.com" className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm" />
+                                            <input type="url" defaultValue="https://app.k2fpo.com" className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] text-sm" />
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-slate-700 mb-1.5">Support Email Address</label>
-                                            <input type="email" defaultValue="support@k2fpo.com" className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm" />
+                                            <input type="email" defaultValue="support@k2fpo.com" className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] text-sm" />
                                         </div>
                                     </div>
 
@@ -97,7 +97,7 @@ export default function PlatformSettings() {
                                                     </div>
                                                     <label className="relative inline-flex items-center cursor-pointer">
                                                         <input type="checkbox" className="sr-only peer" defaultChecked={feature.status} />
-                                                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                                                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--brand)]"></div>
                                                     </label>
                                                 </div>
                                             ))}
@@ -117,7 +117,7 @@ export default function PlatformSettings() {
                                     <div className="max-w-md space-y-6">
                                         <div>
                                             <h4 className="font-semibold text-sm text-slate-800 mb-2">Password Policy</h4>
-                                            <select className="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-emerald-500">
+                                            <select className="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-[var(--brand)]">
                                                 <option>Standard (8 chars, 1 number)</option>
                                                 <option>Strict (12 chars, mixed case, symbols)</option>
                                                 <option>Custom</option>
@@ -128,7 +128,7 @@ export default function PlatformSettings() {
                                                 <span>Multi-Factor Authentication (MFA)</span>
                                                 <Badge variant="warning" className="text-[10px]">Recommended</Badge>
                                             </h4>
-                                            <select className="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-emerald-500">
+                                            <select className="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-[var(--brand)]">
                                                 <option>Optional for all users</option>
                                                 <option>Mandatory for Platform Admins and CEOs</option>
                                                 <option>Mandatory for all users</option>

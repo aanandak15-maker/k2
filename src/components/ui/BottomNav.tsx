@@ -17,10 +17,10 @@ export function BottomNav({ activeTab, onTabChange, items }: BottomNavProps) {
                     <button
                         key={item.id}
                         onClick={() => onTabChange(item.id)}
-                        className={`flex flex-col items-center justify-center w-full py-1 rounded-lg transition-colors ${isActive ? 'text-emerald-600' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+                        className={`flex flex-col items-center justify-center w-full py-1 rounded-lg transition-colors ${isActive ? 'text-[var(--brand)]' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
                             }`}
                     >
-                        <div className={`p-1.5 rounded-full mb-0.5 transition-colors ${isActive ? 'bg-emerald-50' : ''}`}>
+                        <div className={`p-1.5 rounded-full mb-0.5 transition-colors ${isActive ? 'bg-[var(--brand-wash)]' : ''}`}>
                             <Icon size={20} className={isActive ? 'fill-emerald-600/20' : ''} />
                         </div>
                         <span className={`text-[10px] font-medium leading-none ${isActive ? 'font-semibold' : ''}`}>

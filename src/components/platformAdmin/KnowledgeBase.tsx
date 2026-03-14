@@ -79,13 +79,13 @@ export default function KnowledgeBase() {
                                     <button
                                         key={idx}
                                         onClick={() => setActiveCategory(cat)}
-                                        className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-colors ${isActive ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-slate-600 hover:bg-slate-50'}`}
+                                        className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-colors ${isActive ? 'bg-[var(--brand-wash)] text-[var(--brand)] font-semibold' : 'text-slate-600 hover:bg-slate-50'}`}
                                     >
                                         <span className="flex items-center gap-2">
-                                            <BookOpen size={14} className={isActive ? 'text-emerald-600' : 'text-slate-400'} />
+                                            <BookOpen size={14} className={isActive ? 'text-[var(--brand)]' : 'text-slate-400'} />
                                             {cat}
                                         </span>
-                                        <span className={`text-[10px] py-0.5 px-2 rounded-full ${isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
+                                        <span className={`text-[10px] py-0.5 px-2 rounded-full ${isActive ? 'bg-[var(--brand-pale)] text-[var(--brand)]' : 'bg-slate-100 text-slate-500'}`}>
                                             {idx === 0 ? articles.length : articles.filter(a => a.category === cat).length}
                                         </span>
                                     </button>
@@ -107,13 +107,13 @@ export default function KnowledgeBase() {
                                         placeholder="Search articles, guides, and FAQs..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-slate-50"
+                                        className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)] bg-slate-50"
                                     />
                                 </div>
                             </div>
                             <button
                                 onClick={() => { setEditingArticle(null); setIsEditorOpen(true); }}
-                                className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-sm font-semibold shadow-sm"
+                                className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-[var(--brand)] text-white rounded-lg hover:bg-[var(--brand-light)] transition-colors text-sm font-semibold shadow-sm"
                             >
                                 <Plus size={16} /> New Article
                             </button>
@@ -122,9 +122,9 @@ export default function KnowledgeBase() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {filteredArticles.slice(0, showCount).map((article) => (
-                            <div key={article.id} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-emerald-200 transition-colors group">
+                            <div key={article.id} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-[var(--brand-muted)] transition-colors group">
                                 <div className="flex justify-between items-start mb-2">
-                                    <h3 className="font-bold text-slate-900 text-base group-hover:text-emerald-700 transition-colors cursor-pointer">
+                                    <h3 className="font-bold text-slate-900 text-base group-hover:text-[var(--brand)] transition-colors cursor-pointer">
                                         {article.title}
                                     </h3>
                                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -156,7 +156,7 @@ export default function KnowledgeBase() {
                                         <Eye size={14} className="text-slate-400" />
                                         <span>{article.views.toLocaleString()}</span>
                                     </div>
-                                    <div className="flex items-center gap-1.5 text-emerald-600" title="Helpful Votes">
+                                    <div className="flex items-center gap-1.5 text-[var(--brand)]" title="Helpful Votes">
                                         <ThumbsUp size={14} />
                                         <span>{article.helpful}%</span>
                                     </div>
@@ -173,7 +173,7 @@ export default function KnowledgeBase() {
                         <div className="text-center pt-4">
                             <button
                                 onClick={() => setShowCount(c => c + 3)}
-                                className="text-sm font-semibold text-emerald-600 hover:text-emerald-700 px-4 py-2 hover:bg-emerald-50 rounded-lg transition-colors"
+                                className="text-sm font-semibold text-[var(--brand)] hover:text-[var(--brand)] px-4 py-2 hover:bg-[var(--brand-wash)] rounded-lg transition-colors"
                             >
                                 Load More Articles
                             </button>
@@ -197,7 +197,7 @@ export default function KnowledgeBase() {
                             name="title"
                             required
                             defaultValue={editingArticle?.title}
-                            className="w-full border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            className="w-full border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]"
                             placeholder="e.g. Setting up Farmer Profiles"
                         />
                     </div>
@@ -207,7 +207,7 @@ export default function KnowledgeBase() {
                             <select
                                 id="article-category"
                                 name="category"
-                                className="w-full border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                className="w-full border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]"
                                 defaultValue={editingArticle?.category}
                             >
                                 {categories.filter(c => c !== 'All Articles').map((c, i) => (
@@ -220,7 +220,7 @@ export default function KnowledgeBase() {
                             <select
                                 id="article-status"
                                 name="status"
-                                className="w-full border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                className="w-full border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)]"
                                 defaultValue={editingArticle?.status}
                             >
                                 <option>Published</option>
@@ -236,13 +236,13 @@ export default function KnowledgeBase() {
                             rows={10}
                             required
                             defaultValue={editingArticle?.content}
-                            className="w-full border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none font-mono"
+                            className="w-full border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)] resize-none font-mono"
                             placeholder="Write article content in Markdown format..."
                         />
                     </div>
                     <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 mt-6">
                         <button type="button" onClick={() => setIsEditorOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">Cancel</button>
-                        <button type="submit" className="px-5 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors shadow-sm">Save Article</button>
+                        <button type="submit" className="px-5 py-2 text-sm font-medium text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg transition-colors shadow-sm">Save Article</button>
                     </div>
                 </form>
             </Modal>

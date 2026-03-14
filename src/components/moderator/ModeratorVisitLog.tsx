@@ -25,7 +25,7 @@ export function ModeratorVisitLog({ farmerId, farmerName, onBack }: { farmerId: 
     if (isSuccess) {
         return (
             <div className="h-full flex flex-col items-center justify-center p-6 animate-in zoom-in duration-300">
-                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
+                <div className="w-16 h-16 bg-[var(--brand-pale)] text-[var(--brand)] rounded-full flex items-center justify-center mb-4">
                     <Check size={32} />
                 </div>
                 <h2 className="text-xl font-bold text-slate-800 mb-2">Visit Logged</h2>
@@ -54,7 +54,7 @@ export function ModeratorVisitLog({ farmerId, farmerName, onBack }: { farmerId: 
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Visit Purpose</label>
                                 <select
-                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                     value={purpose}
                                     onChange={(e) => setPurpose(e.target.value)}
                                 >
@@ -70,7 +70,7 @@ export function ModeratorVisitLog({ farmerId, farmerName, onBack }: { farmerId: 
                                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Crop Condition</label>
                                 <div className="flex gap-2">
                                     {['Excellent', 'Good', 'Fair', 'Poor'].map(cond => (
-                                        <button type="button" key={cond} onClick={() => { setCropCondition(cond); toast({ message: `Crop condition set to ${cond}`, variant: 'info' }); }} className={`flex-1 py-2 bg-slate-50 border rounded-lg text-xs font-medium transition-colors ${cropCondition === cond ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}>
+                                        <button type="button" key={cond} onClick={() => { setCropCondition(cond); toast({ message: `Crop condition set to ${cond}`, variant: 'info' }); }} className={`flex-1 py-2 bg-slate-50 border rounded-lg text-xs font-medium transition-colors ${cropCondition === cond ? 'bg-[var(--brand-wash)] text-[var(--brand)] border-emerald-300' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}>
                                             {cond}
                                         </button>
                                     ))}
@@ -80,7 +80,7 @@ export function ModeratorVisitLog({ farmerId, farmerName, onBack }: { farmerId: 
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Visit Notes</label>
                                 <textarea
-                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                     rows={4}
                                     placeholder="Record observations, farmer requests..."
                                     value={notes}
@@ -104,7 +104,7 @@ export function ModeratorVisitLog({ farmerId, farmerName, onBack }: { farmerId: 
                     <button
                         type="submit"
                         disabled={isSubmitting || !notes}
-                        className="w-full bg-emerald-600 text-white font-bold py-3.5 rounded-xl shadow-sm shadow-emerald-600/20 active:scale-[0.98] transition-all disabled:opacity-70 disabled:active:scale-100"
+                        className="w-full bg-[var(--brand)] text-white font-bold py-3.5 rounded-xl shadow-sm shadow-emerald-600/20 active:scale-[0.98] transition-all disabled:opacity-70 disabled:active:scale-100"
                     >
                         {isSubmitting ? 'Saving...' : 'Save Visit Record'}
                     </button>

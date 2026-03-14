@@ -114,26 +114,26 @@ export default function CEOOperationsContent() {
                     <td className="px-6 py-4 font-medium text-slate-900">Wheat HD-2967</td>
                     <td className="px-6 py-4 text-slate-600">4,200 qtl</td>
                     <td className="px-6 py-4 text-slate-600">3,000 qtl</td>
-                    <td className="px-6 py-4 text-emerald-600 font-medium">₹2,350/qtl</td>
+                    <td className="px-6 py-4 text-[var(--brand)] font-medium">₹2,350/qtl</td>
                     <td className="px-6 py-4"><Badge variant="success">On Track</Badge></td>
                   </tr>
                   <tr className="hover:bg-slate-50/50 transition-colors">
                     <td className="px-6 py-4 font-medium text-slate-900">Mustard Pusa Bold</td>
                     <td className="px-6 py-4 text-slate-600">1,800 qtl</td>
                     <td className="px-6 py-4 text-slate-600">1,200 qtl</td>
-                    <td className="px-6 py-4 text-emerald-600 font-medium">₹5,100/qtl</td>
+                    <td className="px-6 py-4 text-[var(--brand)] font-medium">₹5,100/qtl</td>
                     <td className="px-6 py-4"><Badge variant="success">On Track</Badge></td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div className="p-6 pt-2">
-              <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4">
+              <div className="rounded-lg border border-[var(--brand-muted)] bg-[var(--brand-wash)] p-4">
                 <div className="flex items-start gap-3">
-                  <CheckCircle className="h-5 w-5 text-emerald-600 mt-0.5" />
+                  <CheckCircle className="h-5 w-5 text-[var(--brand)] mt-0.5" />
                   <div>
                     <div className="text-sm font-semibold text-emerald-900">Buyer Contract: Agri Corp Ltd — ₹2,400/qtl for 2,000 qtl Wheat</div>
-                    <div className="text-xs text-emerald-700 mt-1">Delivery: Mar 25–Apr 5 · Advance received: ₹2,00,000</div>
+                    <div className="text-xs text-[var(--brand)] mt-1">Delivery: Mar 25–Apr 5 · Advance received: ₹2,00,000</div>
                   </div>
                 </div>
               </div>

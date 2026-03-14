@@ -14,6 +14,9 @@ import AdminBillingContent from './admin/AdminBillingContent';
 import AdminBankingContent from './admin/AdminBankingContent';
 import AdminDocumentsContent from './admin/AdminDocumentsContent';
 import AdminSettingsContent from './admin/AdminSettingsContent';
+import AdminClusterContent from './admin/AdminClusterContent';
+import AdminCropContent from './admin/AdminCropContent';
+import AdminDataPrivacyContent from './admin/AdminDataPrivacyContent';
 
 interface AdminDashboardProps {
   onHome: () => void;
@@ -37,6 +40,8 @@ export default function AdminDashboard({ onHome }: AdminDashboardProps) {
       headerProps={headerProps}
     >
       {activeSection === 'dashboard' && <AdminDashboardContent />}
+      {activeSection === 'clusters' && <AdminClusterContent />}
+      {activeSection === 'crops' && <AdminCropContent />}
       {activeSection === 'input-sales' && <AdminInputSalesContent />}
       {activeSection === 'suppliers' && <AdminSupplierContent />}
       {activeSection === 'procurement' && <AdminProcurementContent />}
@@ -49,6 +54,7 @@ export default function AdminDashboard({ onHome }: AdminDashboardProps) {
       {activeSection === 'share-capital' && <AdminShareCapitalContent />}
       {activeSection === 'staff' && <AdminStaffContent />}
       {activeSection === 'settings' && <AdminSettingsContent />}
+      {activeSection === 'data-privacy' && <AdminDataPrivacyContent />}
     </DashboardLayout>
   );
 }

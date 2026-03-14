@@ -82,7 +82,7 @@ export default function SupportTickets() {
             render: (t: any) => (
                 <button
                     onClick={() => setSelectedTicket(t)}
-                    className="text-emerald-600 text-xs font-semibold hover:underline"
+                    className="text-[var(--brand)] text-xs font-semibold hover:underline"
                 >
                     View Detail
                 </button>
@@ -132,7 +132,7 @@ export default function SupportTickets() {
 
                 <Card className="border-l-4 border-l-emerald-500 shadow-sm border-y-0 border-r-0 rounded-r-xl">
                     <CardContent className="p-4 flex items-center gap-4">
-                        <div className="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
+                        <div className="p-3 bg-[var(--brand-wash)] text-[var(--brand)] rounded-lg">
                             <CheckCircle2 size={24} />
                         </div>
                         <div>
@@ -153,13 +153,13 @@ export default function SupportTickets() {
                                 placeholder="Search tickets or FPOs..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                                className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)] bg-white"
                             />
                         </div>
                         <div className="relative">
                             <button
                                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                                className={`flex items-center gap-2 px-3 py-2 border rounded-lg transition-colors shadow-sm shrink-0 text-sm font-medium ${isFilterOpen ? 'bg-slate-50 border-emerald-500 text-emerald-700' : 'border-slate-200 hover:bg-slate-50 text-slate-600 bg-white'}`}
+                                className={`flex items-center gap-2 px-3 py-2 border rounded-lg transition-colors shadow-sm shrink-0 text-sm font-medium ${isFilterOpen ? 'bg-slate-50 border-[var(--brand)] text-[var(--brand)]' : 'border-slate-200 hover:bg-slate-50 text-slate-600 bg-white'}`}
                             >
                                 <Filter size={16} /> Filters
                             </button>
@@ -171,7 +171,7 @@ export default function SupportTickets() {
                                         <div>
                                             <label className="text-xs font-medium text-slate-500 mb-1 block">Status</label>
                                             <select
-                                                className="w-full text-sm border-slate-200 rounded-md focus:ring-emerald-500"
+                                                className="w-full text-sm border-slate-200 rounded-md focus:ring-[var(--brand)]"
                                                 value={statusFilter}
                                                 onChange={(e) => setStatusFilter(e.target.value)}
                                             >
@@ -185,7 +185,7 @@ export default function SupportTickets() {
                                         <div>
                                             <label className="text-xs font-medium text-slate-500 mb-1 block">Priority</label>
                                             <select
-                                                className="w-full text-sm border-slate-200 rounded-md focus:ring-emerald-500"
+                                                className="w-full text-sm border-slate-200 rounded-md focus:ring-[var(--brand)]"
                                                 value={priorityFilter}
                                                 onChange={(e) => setPriorityFilter(e.target.value)}
                                             >
@@ -244,13 +244,13 @@ export default function SupportTickets() {
                             <label className="block text-sm font-medium text-slate-700 mb-2">Reply to FPO</label>
                             <textarea
                                 rows={4}
-                                className="w-full border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none mb-3"
+                                className="w-full border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-[var(--brand)] focus:border-[var(--brand)] resize-none mb-3"
                                 placeholder="Type your response here..."
                                 required
                             />
                             <div className="flex justify-end gap-3">
                                 <button type="button" onClick={() => setSelectedTicket(null)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">Cancel</button>
-                                <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors shadow-sm">Send Reply</button>
+                                <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg transition-colors shadow-sm">Send Reply</button>
                             </div>
                         </form>
                     </div>

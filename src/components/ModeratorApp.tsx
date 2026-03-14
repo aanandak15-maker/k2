@@ -32,7 +32,7 @@ export default function ModeratorApp({ onHome }: ModeratorAppProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans selection:bg-emerald-100 selection:text-emerald-900 flex justify-center">
+    <div className="min-h-screen bg-slate-50 font-sans selection:bg-[var(--brand-pale)] selection:text-[var(--brand)] flex justify-center">
       {/* 
         Mobile constraint container. This forces the app to look like a mobile 
         app even on desktop browsers, maintaining the spec's intent.
@@ -52,7 +52,7 @@ export default function ModeratorApp({ onHome }: ModeratorAppProps) {
         )}
 
         {/* Status bar spacer for PWA/Mobile feel */}
-        {activeView === 'main' && activeTab === 'home' && <div className="h-6 bg-emerald-600"></div>}
+        {activeView === 'main' && activeTab === 'home' && <div className="h-6 bg-[var(--brand)]"></div>}
 
         {/* Main Scrollable Content */}
         <div className={`flex-1 overflow-y-auto ${activeView === 'main' && activeTab === 'home' ? 'px-4' : 'px-4 py-4'} ${activeView !== 'main' ? 'p-0' : ''}`}>

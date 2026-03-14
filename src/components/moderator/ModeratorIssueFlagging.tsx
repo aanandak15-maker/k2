@@ -60,7 +60,7 @@ export function ModeratorIssueFlagging({ farmerName, onBack }: { farmerName: str
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Issue Type</label>
                                 <select
-                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                     value={issueType}
                                     onChange={(e) => setIssueType(e.target.value)}
                                 >
@@ -77,7 +77,7 @@ export function ModeratorIssueFlagging({ farmerName, onBack }: { farmerName: str
                                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Severity</label>
                                 <div className="flex gap-2">
                                     {['Low', 'Medium', 'High', 'Critical'].map(level => {
-                                        let colorClass = "focus:ring-emerald-500/20 focus:border-emerald-500 focus:bg-emerald-50 focus:text-emerald-700";
+                                        let colorClass = "focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] focus:bg-[var(--brand-wash)] focus:text-[var(--brand)]";
                                         if (level === 'High') colorClass = "focus:ring-orange-500/20 focus:border-orange-500 focus:bg-orange-50 focus:text-orange-700";
                                         if (level === 'Critical') colorClass = "focus:ring-red-500/20 focus:border-red-500 focus:bg-red-50 focus:text-red-700";
 
@@ -89,7 +89,7 @@ export function ModeratorIssueFlagging({ farmerName, onBack }: { farmerName: str
                                                 className={`flex-1 py-2 bg-slate-50 border rounded-lg text-xs font-medium transition-colors ${severity === level
                                                     ? level === 'High' ? 'bg-orange-50 border-orange-500 text-orange-700' :
                                                         level === 'Critical' ? 'bg-red-50 border-red-500 text-red-700' :
-                                                            'bg-emerald-50 border-emerald-500 text-emerald-700'
+                                                            'bg-[var(--brand-wash)] border-[var(--brand)] text-[var(--brand)]'
                                                     : 'border-slate-200 text-slate-600 hover:bg-slate-100'
                                                     }`}
                                             >
@@ -103,7 +103,7 @@ export function ModeratorIssueFlagging({ farmerName, onBack }: { farmerName: str
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Description</label>
                                 <textarea
-                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                     rows={4}
                                     placeholder="Provide specific details about the issue..."
                                     value={description}

@@ -74,7 +74,7 @@ export default function AdminDocumentsContent() {
                 <div className="flex gap-3">
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Plus size={16} /> Upload Document
                     </button>
@@ -110,7 +110,7 @@ export default function AdminDocumentsContent() {
                             <div className="text-slate-500 text-sm font-medium mb-1">Governance</div>
                             <div className="text-2xl font-bold text-slate-900">{governanceCount}</div>
                         </div>
-                        <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">
+                        <div className="w-10 h-10 bg-[var(--brand-pale)] rounded-full flex items-center justify-center text-[var(--brand)]">
                             <FolderOpen size={20} />
                         </div>
                     </CardContent>
@@ -137,7 +137,7 @@ export default function AdminDocumentsContent() {
                             <input
                                 type="text"
                                 placeholder="Search documents by name or category..."
-                                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -188,7 +188,7 @@ export default function AdminDocumentsContent() {
                                             <div className="flex items-center justify-center gap-2">
                                                 <button
                                                     onClick={() => toast({ message: `Downloading ${doc.name}...`, variant: 'info' })}
-                                                    className="w-8 h-8 rounded-full bg-slate-50 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 flex items-center justify-center transition-colors"
+                                                    className="w-8 h-8 rounded-full bg-slate-50 text-slate-500 hover:text-[var(--brand)] hover:bg-[var(--brand-wash)] flex items-center justify-center transition-colors"
                                                 >
                                                     <Download size={16} />
                                                 </button>
@@ -225,7 +225,7 @@ export default function AdminDocumentsContent() {
 
                         <form onSubmit={handleUpload} className="p-6 space-y-4">
                             <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center text-center bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer">
-                                <UploadCloud className="text-emerald-500 mb-2" size={32} />
+                                <UploadCloud className="text-[var(--brand)] mb-2" size={32} />
                                 <div className="text-sm font-medium text-slate-700">Click to browse or drag file here</div>
                                 <div className="text-xs text-slate-500 mt-1">PDF, JPG, PNG up to 10MB</div>
                             </div>
@@ -271,7 +271,7 @@ export default function AdminDocumentsContent() {
 
                             <div className="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-6">
                                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-lg border border-slate-200">Cancel</button>
-                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm">Save Document</button>
+                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg shadow-sm">Save Document</button>
                             </div>
                         </form>
                     </div>

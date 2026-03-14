@@ -135,7 +135,7 @@ export default function AdminInputSalesContent() {
                     </button>
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Plus size={16} /> New Order
                     </button>
@@ -147,7 +147,7 @@ export default function AdminInputSalesContent() {
                     <CardContent className="p-6">
                         <div className="text-sm font-medium text-slate-500 mb-1">Total Sales Value</div>
                         <div className="text-2xl font-bold text-slate-900">₹{state.orders.reduce((sum, o) => sum + o.totalAmount, 0).toLocaleString()}</div>
-                        <div className="text-xs text-emerald-600 mt-1 font-medium flex items-center gap-1">Live from {state.orders.length} orders</div>
+                        <div className="text-xs text-[var(--brand)] mt-1 font-medium flex items-center gap-1">Live from {state.orders.length} orders</div>
                     </CardContent>
                 </Card>
                 <Card>
@@ -175,7 +175,7 @@ export default function AdminInputSalesContent() {
                             <input
                                 type="text"
                                 placeholder="Search orders..."
-                                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -220,7 +220,7 @@ export default function AdminInputSalesContent() {
                                     <button
                                         type="button"
                                         onClick={addOrderItemField}
-                                        className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1"
+                                        className="text-xs font-semibold text-[var(--brand)] hover:text-[var(--brand)] flex items-center gap-1"
                                     >
                                         <Plus size={14} /> Add Item
                                     </button>
@@ -298,7 +298,7 @@ export default function AdminInputSalesContent() {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-5 py-2.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm shadow-emerald-600/20 transition-colors"
+                                    className="px-5 py-2.5 text-sm font-bold text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg shadow-sm shadow-emerald-600/20 transition-colors"
                                 >
                                     Create Order
                                 </button>

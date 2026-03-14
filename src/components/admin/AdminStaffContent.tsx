@@ -58,7 +58,7 @@ export default function AdminStaffContent() {
                 <div className="flex gap-3">
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--brand)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--brand-light)] transition-colors shadow-sm"
                     >
                         <Plus size={16} /> Add Staff
                     </button>
@@ -73,7 +73,7 @@ export default function AdminStaffContent() {
                             <div className="text-xs text-slate-500">Total Staff</div>
                         </div>
                         <div className="text-center px-4">
-                            <div className="text-2xl font-bold text-emerald-600">{state.staff.filter(s => s.role === 'Moderator').length}</div>
+                            <div className="text-2xl font-bold text-[var(--brand)]">{state.staff.filter(s => s.role === 'Moderator').length}</div>
                             <div className="text-xs text-slate-500">Moderators</div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@ export default function AdminStaffContent() {
                         <input
                             type="text"
                             placeholder="Search personnel..."
-                            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -116,7 +116,7 @@ export default function AdminStaffContent() {
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             <span className={`inline-flex items-center justify-center font-bold px-2 py-1 rounded-md text-xs ${member.tasksAssigned === 0 ? 'bg-slate-100 text-slate-600' :
-                                                (member.tasksCompleted / member.tasksAssigned) >= 0.8 ? 'bg-emerald-100 text-emerald-800' :
+                                                (member.tasksCompleted / member.tasksAssigned) >= 0.8 ? 'bg-[var(--brand-pale)] text-[var(--brand-light)]' :
                                                     (member.tasksCompleted / member.tasksAssigned) >= 0.5 ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800'
                                                 }`}>
                                                 {member.tasksAssigned > 0 ? `${Math.round((member.tasksCompleted / member.tasksAssigned) * 100)}%` : 'N/A'}
@@ -223,7 +223,7 @@ export default function AdminStaffContent() {
 
                             <div className="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-6">
                                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-lg border border-slate-200">Cancel</button>
-                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm">Save Profile</button>
+                                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-[var(--brand)] hover:bg-[var(--brand-light)] rounded-lg shadow-sm">Save Profile</button>
                             </div>
                         </form>
                     </div>
