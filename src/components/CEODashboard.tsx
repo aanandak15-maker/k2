@@ -29,7 +29,7 @@ export default function CEODashboard({ onHome }: CEODashboardProps) {
   return (
     <DashboardLayout
       sidebarContent={<CEOSidebar activeSection={activeSection} setActiveSection={setActiveSection} />}
-      headerProps={headerProps}
+      headerProps={{ ...headerProps, onLogout: onHome }}
     >
       {activeSection === 'dashboard' && <CEODashboardContent setActiveSection={setActiveSection} />}
       {activeSection === 'farmers' && <CEOFarmersContent />}

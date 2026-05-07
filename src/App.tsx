@@ -10,30 +10,31 @@ import LandingPage from './components/landing/LandingPage';
 import { ToastProvider } from './hooks/useToast';
 import { ToastContainer } from './components/ui/Toast';
 import { AdminProvider } from './store/AdminStore';
+import { erpComplianceBridge } from './lib/erpComplianceBridge';
+
+// Initialize bridge
+(window as any).erpComplianceBridge = erpComplianceBridge;
 
 export default function App() {
-  const [currentRole, setCurrentRole] = useState<string | null>(null);
+  const [currentRole, setCurrentRole] = useState<string | null>('ceo');
 
   const handleEnterApp = (role: string) => {
     setCurrentRole(role);
   };
 
   const handleHome = () => {
-    setCurrentRole(null);
+    setCurrentRole('selector');
   };
 
   const renderContent = () => {
-    if (!currentRole) return (
-      <div className="landing-theme">
-        <LandingPage onLogin={() => setCurrentRole('login')} />
-      </div>
-    );
-    if (currentRole === 'login') return <SplashScreen onEnterApp={handleEnterApp} onHome={handleHome} />;
+    if (currentRole === 'selector') return <SplashScreen onEnterApp={handleEnterApp} onHome={() => setCurrentRole('ceo')} />;
     if (currentRole === 'ceo') return <CEODashboard onHome={handleHome} />;
     if (currentRole === 'moderator') return <ModeratorApp onHome={handleHome} />;
     if (currentRole === 'platform') return <PlatformAdmin onHome={handleHome} />;
     if (currentRole === 'admin') return <AdminDashboard onHome={handleHome} />;
-    return <SplashScreen onEnterApp={handleEnterApp} onHome={handleHome} />;
+    if (currentRole === 'farmer') return <FarmerApp onHome={handleHome} />;
+    
+    return <CEODashboard onHome={handleHome} />;
   };
 
   return (

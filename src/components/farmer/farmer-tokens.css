@@ -1,0 +1,85 @@
+/* 
+  K2 Farmer App - Vedic Harvest Design System
+  FAO-compliant tokens for low-literacy agricultural interfaces
+*/
+
+:root {
+  /* Core Tonal Palette */
+  --farmer-surface: #fcf9f2;
+  --farmer-surface-container-low: #f6f3ec;
+  --farmer-surface-container-highest: #e5e2db;
+  --farmer-surface-container-lowest: #ffffff;
+  
+  /* Semantic Colors */
+  --farmer-primary: #00652c;
+  --farmer-primary-container: #15803d;
+  --farmer-primary-fixed: #95f8a7;
+  
+  --farmer-secondary: #934b19;
+  --farmer-secondary-container: #ffa26a;
+  
+  --farmer-tertiary: #ae1216;
+  --farmer-tertiary-container: #d2302b;
+  
+  --farmer-error: #ba1a1a;
+  --farmer-error-container: #ffdad6;
+  
+  /* Typography Colors */
+  --farmer-on-surface: #1c1c18;
+  --farmer-on-surface-variant: #3f493f;
+  --farmer-on-primary: #ffffff;
+  
+  /* Depth & Borders */
+  --farmer-outline-variant: #becabc;
+}
+
+/* Base App Container */
+.farmer-app {
+  background-color: var(--farmer-surface);
+  color: var(--farmer-on-surface);
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  min-height: 100vh;
+  padding-bottom: 80px; /* Space for bottom nav */
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(190, 202, 188, 0.2);
+}
+
+.glass-card-dark {
+  background-color: rgba(0, 101, 44, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(149, 248, 167, 0.2);
+  color: white;
+}
+
+/* Gradients */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--farmer-primary) 0%, var(--farmer-primary-container) 100%);
+}
+
+.bg-gradient-amber {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+}
+
+.bg-gradient-teal {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+}
+
+.bg-gradient-pink {
+  background: linear-gradient(135deg, #db2777 0%, #be185d 100%);
+}
+
+/* Hide scrollbar for horizontal scrolling elements */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

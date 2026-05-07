@@ -11,22 +11,28 @@ interface HeaderProps {
     avatar?: string;
     role?: string;
   };
+  onLogout?: () => void;
   className?: string;
 }
 
-export function Header({ title, subtitle, user, className }: HeaderProps) {
+export function Header({ title, subtitle, user, onLogout, className }: HeaderProps) {
   const { toast } = useToast();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isSeasonOpen, setIsSeasonOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [activeSeason, setActiveSeason] = useState('Kharif 2024');
   const [language, setLanguage] = useState<'EN' | 'HI'>('EN');
 
   const seasonRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (seasonRef.current && !seasonRef.current.contains(event.target as Node)) {
         setIsSeasonOpen(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -170,16 +176,39 @@ export function Header({ title, subtitle, user, className }: HeaderProps) {
 
         <div className="h-8 w-px bg-slate-200 mx-1" />
 
-        <button onClick={() => toast({ message: 'Profile settings coming in v2', variant: 'info' })} className="flex items-center gap-2 rounded-full py-1 pl-1 pr-3 hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-200">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--brand-pale)] text-[var(--brand)] font-medium text-sm border border-[var(--brand-muted)]">
-            {user?.name.charAt(0) || 'U'}
-          </div>
-          <div className="hidden md:block text-left">
-            <p className="text-sm font-medium text-slate-700 leading-none">{user?.name}</p>
-            <p className="text-xs text-slate-500 mt-0.5">{user?.role}</p>
-          </div>
-          <ChevronDown className="h-4 w-4 text-slate-400" />
-        </button>
+        <div className="relative" ref={profileRef}>
+          <button 
+            onClick={() => setIsProfileOpen(!isProfileOpen)} 
+            className="flex items-center gap-2 rounded-full py-1 pl-1 pr-3 hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-200"
+          >
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--brand-pale)] text-[var(--brand)] font-medium text-sm border border-[var(--brand-muted)]">
+              {user?.name.charAt(0) || 'U'}
+            </div>
+            <div className="hidden md:block text-left">
+              <p className="text-sm font-medium text-slate-700 leading-none">{user?.name}</p>
+              <p className="text-xs text-slate-500 mt-0.5">{user?.role}</p>
+            </div>
+            <ChevronDown className="h-4 w-4 text-slate-400" />
+          </button>
+
+          {isProfileOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-slate-200 py-1 z-50 animate-in fade-in slide-in-from-top-2">
+              <div className="px-4 py-2 border-b border-slate-100">
+                <p className="text-sm font-medium text-slate-900">{user?.name}</p>
+                <p className="text-xs text-slate-500">{user?.role}</p>
+              </div>
+              <button
+                onClick={() => {
+                  setIsProfileOpen(false);
+                  onLogout?.();
+                }}
+                className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2"
+              >
+                Switch Role
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

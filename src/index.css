@@ -12,6 +12,15 @@
   --brand-pale: #D9E8D5;
   --brand-wash: #F0F5EF;
   --bg-app: #F4F4F4;
+  
+  /* Compliance OS Colors */
+  --comp-bg: #F4F4F4;
+  --comp-surface: #ffffff;
+  --comp-border: #e5e7eb;
+  --risk-critical: #ef4444;
+  --risk-high: #f97316;
+  --risk-medium: #eab308;
+  --risk-low: #22c55e;
 }
 
 /* 
@@ -290,4 +299,37 @@ table.data-table tr:hover td {
 ::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 3px;
+}
+
+/* Compliance OS Specific Styles */
+.compliance-theme {
+  --bg-app: var(--comp-bg);
+  background-color: var(--comp-bg);
+  color: #111827;
+}
+
+.compliance-theme .mobile-frame {
+  background-color: var(--comp-bg);
+}
+
+.compliance-theme .topbar {
+  background: var(--comp-surface);
+  border-bottom-color: var(--comp-border);
+  color: #111827;
+}
+
+.comp-card {
+  background: var(--comp-surface);
+  border: 1px solid var(--comp-border);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.comp-text-primary { color: #111827; }
+.comp-text-secondary { color: #4b5563; }
+.comp-text-muted { color: #6b7280; }
+
+.comp-gauge-circle {
+  transition: stroke-dasharray 1s ease-out;
 }

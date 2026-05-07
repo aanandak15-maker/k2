@@ -29,7 +29,7 @@ export default function AdminStaffContent() {
     const handleAddStaff = (e: React.FormEvent) => {
         e.preventDefault();
 
-        const staffMember: Staff = {
+        const staffMember: any = {
             id: `EMP-${String(state.staff.length + 1).padStart(3, '0')}`,
             name: newStaff.name,
             role: newStaff.role,

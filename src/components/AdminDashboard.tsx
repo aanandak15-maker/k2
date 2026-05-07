@@ -37,7 +37,7 @@ export default function AdminDashboard({ onHome }: AdminDashboardProps) {
   return (
     <DashboardLayout
       sidebarContent={<AdminSidebar activeSection={activeSection} setActiveSection={setActiveSection} />}
-      headerProps={headerProps}
+      headerProps={{ ...headerProps, onLogout: onHome }}
     >
       {activeSection === 'dashboard' && <AdminDashboardContent />}
       {activeSection === 'clusters' && <AdminClusterContent />}
